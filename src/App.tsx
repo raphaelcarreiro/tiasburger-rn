@@ -1,12 +1,14 @@
 import 'react-native-gesture-handler';
 import React, { useState, useEffect } from 'react';
-import { View, StatusBar, StyleSheet, Text } from 'react-native';
+import { View, StatusBar, StyleSheet } from 'react-native';
 import Routes from './routes/Routes';
 import api from './services/api';
 import { useDispatch } from 'react-redux';
 import { moneyFormat } from './helpers/numberFormat';
 import { setRestaurant } from './store/modules/restaurant/actions';
 import InitialLoading from './components/loading/InitialLoading';
+import ThemeProvider, { createTheme } from './hooks/theme';
+import { useSelector } from './store/selector';
 
 const styles = StyleSheet.create({
   container: {
@@ -17,8 +19,9 @@ const styles = StyleSheet.create({
 
 const App: React.FC = () => {
   const [initialLoading, setInitialLoading] = useState(true);
-  const [theme, setTheme] =
+  const [theme, setTheme] = useState(createTheme());
   const dispatch = useDispatch();
+  const restaurant = useSelector(state => state.restaurant);
 
   useEffect(() => {
     api
@@ -45,9 +48,15 @@ const App: React.FC = () => {
       });
   }, []);
 
+  useEffect(() => {
+    if (restaurant) {
+      setTheme(createTheme(restaurant.primary_color, restaurant.secondary_color));
+    }
+  }, [restaurant]);
+
   return (
-    <>
-      <StatusBar barStyle="dark-content" backgroundColor="#fafafa" />
+    <ThemeProvider theme={theme}>
+      <StatusBar barStyle="default" backgroundColor={theme.primary} />
       {initialLoading ? (
         <InitialLoading />
       ) : (
@@ -55,7 +64,7 @@ const App: React.FC = () => {
           <Routes />
         </View>
       )}
-    </>
+    </ThemeProvider>
   );
 };
 

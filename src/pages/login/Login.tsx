@@ -3,6 +3,7 @@ import { Container } from './styles';
 import { Image, StyleSheet, Text } from 'react-native';
 import { useSelector } from '../../store/selector';
 import Title from '../../components/bases/Title';
+import Button from '../../components/bases/button/Button';
 
 const styles = StyleSheet.create({
   image: {
@@ -22,6 +23,9 @@ const Login: React.FC = () => {
           <Title size={24}>
             <Text>Como deseja continuar?</Text>
           </Title>
+          <Button color="primary">
+            <Text>Entrar com e-mail ou telefone</Text>
+          </Button>
         </>
       )}
     </Container>

@@ -1,29 +1,35 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Theme, createTheme } from '../../theme';
+import React, { useContext } from 'react';
+
+export interface ThemeData {
+  primary: string;
+  secondary: string;
+  [key: string]: string;
+}
 
 interface ThemeProviderContextData {
-  theme: Theme;
+  theme: ThemeData;
 }
 
 interface ThemeProviderProps {
-  theme?: Theme;
+  theme: ThemeData;
 }
 
-const ThemeProviderContext = React.createContext({} as ThemeProviderContextData);
+const ThemeProviderContext = React.createContext<ThemeProviderContextData>({} as ThemeProviderContextData);
 
-export function useTheme() {
+export function useTheme(): ThemeProviderContextData {
   const context = useContext(ThemeProviderContext);
   return context;
 }
 
+export function createTheme(primary = '#fff', secondary = '#333'): ThemeData {
+  return {
+    primary,
+    secondary,
+  };
+}
+
 const ThemeProvider: React.FC<ThemeProviderProps> = ({ children, theme }) => {
-  const [defaultTheme, setDefaultTheme] = useState<Theme>(createTheme());
-
-  useEffect(() => {
-    if (theme) setDefaultTheme(theme);
-  }, [theme]);
-
-  return <ThemeProviderContext.Provider value={{ theme: defaultTheme }}>{children}</ThemeProviderContext.Provider>;
+  return <ThemeProviderContext.Provider value={{ theme }}>{children}</ThemeProviderContext.Provider>;
 };
 
 export default ThemeProvider;
