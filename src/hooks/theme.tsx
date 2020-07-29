@@ -1,35 +1,37 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext, useCallback } from 'react';
+import { ThemeProvider } from '../styled-components';
+import { DefaultTheme } from 'styled-components/native';
 
-export interface ThemeData {
-  primary: string;
-  secondary: string;
-  [key: string]: string;
-}
-
-interface ThemeProviderContextData {
-  theme: ThemeData;
-}
-
-interface ThemeProviderProps {
-  theme: ThemeData;
-}
-
-const ThemeProviderContext = React.createContext<ThemeProviderContextData>({} as ThemeProviderContextData);
-
-export function useTheme(): ThemeProviderContextData {
-  const context = useContext(ThemeProviderContext);
-  return context;
-}
-
-export function createTheme(primary = '#fff', secondary = '#333'): ThemeData {
+export function createTheme(primary: string, secondary: string): DefaultTheme {
   return {
     primary,
     secondary,
   };
 }
 
-const ThemeProvider: React.FC<ThemeProviderProps> = ({ children, theme }) => {
-  return <ThemeProviderContext.Provider value={{ theme }}>{children}</ThemeProviderContext.Provider>;
+interface ThemeContextData {
+  handleSetTheme(primary: string, secondary: string): void;
+}
+
+const ThemeContext = React.createContext({} as ThemeContextData);
+
+export function useThemeContext(): ThemeContextData {
+  const context = useContext(ThemeContext);
+  return context;
+}
+
+const Theme: React.FC = ({ children }) => {
+  const [theme, setTheme] = useState<DefaultTheme>(createTheme('red', 'green'));
+
+  const handleSetTheme = useCallback((primary, secondary) => {
+    setTheme(createTheme(primary, secondary));
+  }, []);
+
+  return (
+    <ThemeProvider theme={theme}>
+      <ThemeContext.Provider value={{ handleSetTheme }}>{children}</ThemeContext.Provider>
+    </ThemeProvider>
+  );
 };
 
-export default ThemeProvider;
+export default Theme;

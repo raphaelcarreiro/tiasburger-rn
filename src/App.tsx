@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { moneyFormat } from './helpers/numberFormat';
 import { setRestaurant } from './store/modules/restaurant/actions';
 import InitialLoading from './components/loading/InitialLoading';
-import ThemeProvider, { createTheme } from './hooks/theme';
+import { useThemeContext } from './hooks/theme';
 import { useSelector } from './store/selector';
 
 const styles = StyleSheet.create({
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 
 const App: React.FC = () => {
   const [initialLoading, setInitialLoading] = useState(true);
-  const [theme, setTheme] = useState(createTheme());
+  const { handleSetTheme } = useThemeContext();
   const dispatch = useDispatch();
   const restaurant = useSelector(state => state.restaurant);
 
@@ -50,13 +50,13 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (restaurant) {
-      setTheme(createTheme(restaurant.primary_color, restaurant.secondary_color));
+      handleSetTheme(restaurant.primary_color, restaurant.secondary_color);
     }
   }, [restaurant]);
 
   return (
-    <ThemeProvider theme={theme}>
-      <StatusBar barStyle="default" backgroundColor={theme.primary} />
+    <>
+      <StatusBar barStyle="default" />
       {initialLoading ? (
         <InitialLoading />
       ) : (
@@ -64,7 +64,7 @@ const App: React.FC = () => {
           <Routes />
         </View>
       )}
-    </ThemeProvider>
+    </>
   );
 };
 

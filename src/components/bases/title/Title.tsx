@@ -1,10 +1,10 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { Text } from './styles';
 
 interface TitleProps {
   bold?: boolean;
   size?: number;
-  children: ReactNode;
+  children: string | string[];
 }
 
 const Title: React.FC<TitleProps> = ({ children, bold = false, size = 14 }) => {
