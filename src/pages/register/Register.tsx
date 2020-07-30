@@ -1,8 +1,6 @@
 import React, { useState, useReducer } from 'react';
 import { Container } from './styles';
-import { useSelector } from '../../store/selector';
-import { Image, StyleSheet, ScrollView, View } from 'react-native';
-import Text from '../../components/bases/typography/Text';
+import { StyleSheet, ScrollView, View } from 'react-native';
 import Button from '../../components/bases/button/Button';
 import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
@@ -44,7 +42,6 @@ const Register: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [created, setCreated] = useState(false);
   const [user, contextDispatch] = useReducer(userReducer, userInitialState);
-  const restaurant = useSelector(state => state.restaurant);
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { handleOpen } = useMessage();
@@ -85,8 +82,6 @@ const Register: React.FC = () => {
       .then(() => {
         setLoading(true);
 
-        console.log(user);
-
         api
           .post('/users', user)
           .then(response => {
@@ -114,31 +109,26 @@ const Register: React.FC = () => {
   }
 
   return (
-    <ScrollView>
+    <>
       {loading && <Loading />}
-      {restaurant && (
-        <Container>
-          <Image source={{ uri: restaurant.image.imageUrl }} style={styles.image} />
-          <Text size={22} bold gutterBottom>
-            Criar conta
-          </Text>
-          <Text>É rapidinho, complete os 5 campos abaixo</Text>
-          {!created ? (
+      {created ? (
+        <RegisterSucess />
+      ) : (
+        <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ flex: 1 }}>
+          <Container>
             <RegisterForm user={user} handleChange={handleChange} validation={validation} />
-          ) : (
-            <RegisterSucess />
-          )}
-          <View style={styles.actions}>
-            <Button variant="text" onPress={() => navigation.navigate('Login')}>
-              Voltar
-            </Button>
-            <Button color="primary" onPress={handleSubmit}>
-              Pronto!
-            </Button>
-          </View>
-        </Container>
+            <View style={styles.actions}>
+              <Button variant="text" onPress={() => navigation.navigate('Login')}>
+                Voltar
+              </Button>
+              <Button color="primary" onPress={handleSubmit}>
+                Pronto!
+              </Button>
+            </View>
+          </Container>
+        </ScrollView>
       )}
-    </ScrollView>
+    </>
   );
 };
 

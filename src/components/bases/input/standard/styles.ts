@@ -9,7 +9,7 @@ interface InputProps {
 }
 
 export const Container = styled.View`
-  margin-top: 16px;
+  margin-top: 8px;
   margin-bottom: 8px;
   justify-content: flex-start;
   position: relative;
@@ -17,7 +17,7 @@ export const Container = styled.View`
 
 export const Input = styled.TextInput`
   flex: 1;
-  padding: 5px 0px;
+  padding: 0px;
   font-size: 16px;
   font-family: 'sans-serif-light';
 `;

@@ -28,8 +28,8 @@ const PasswordStep: React.FC<PasswordStepProps> = ({ password, setPassword, name
         value={password}
         onChange={text => setPassword(text.nativeEvent.text)}
         returnKeyType="send"
-        secureTextEntry={!passwordVisibility}
         autoCorrect={false}
+        secureTextEntry={!passwordVisibility}
         Icon={
           !passwordVisibility ? (
             <Icon name="visibility" size={26} onPress={handleVisibility} />
