@@ -13,6 +13,7 @@
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/native": "^5.7.2",
     "@react-navigation/stack": "^5.8.0",
+    "@types/react-native-vector-icons": "^6.4.5",
     "axios": "^0.19.2",
     "react": "16.13.1",
     "react-native": "0.63.0",
@@ -23,7 +24,8 @@
     "react-native-vector-icons": "^7.0.0",
     "react-redux": "^7.2.1",
     "redux": "^4.0.5",
-    "styled-components": "^5.1.1"
+    "styled-components": "^5.1.1",
+    "yup": "^0.29.2"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
@@ -34,6 +36,7 @@
     "@types/react-redux": "^7.1.9",
     "@types/react-test-renderer": "^16.9.2",
     "@types/styled-components": "^5.1.1",
+    "@types/yup": "^0.29.3",
     "@typescript-eslint/eslint-plugin": "^3.7.1",
     "@typescript-eslint/parser": "^3.7.1",
     "babel-jest": "^25.1.0",

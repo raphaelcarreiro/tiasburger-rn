@@ -5,13 +5,16 @@ import { store } from './store';
 import { NavigationContainer } from '@react-navigation/native';
 import App from './App';
 import Theme from './hooks/theme';
+import MessageProvider from './hooks/message';
 
 const Index: React.FC = () => {
   return (
     <NavigationContainer>
       <Provider store={store}>
         <Theme>
-          <App />
+          <MessageProvider>
+            <App />
+          </MessageProvider>
         </Theme>
       </Provider>
     </NavigationContainer>

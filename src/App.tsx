@@ -9,6 +9,7 @@ import { setRestaurant } from './store/modules/restaurant/actions';
 import InitialLoading from './components/loading/InitialLoading';
 import { useThemeContext } from './hooks/theme';
 import { useSelector } from './store/selector';
+import { useTheme } from 'styled-components';
 
 const styles = StyleSheet.create({
   container: {
@@ -22,6 +23,7 @@ const App: React.FC = () => {
   const { handleSetTheme } = useThemeContext();
   const dispatch = useDispatch();
   const restaurant = useSelector(state => state.restaurant);
+  const theme = useTheme();
 
   useEffect(() => {
     api
@@ -46,17 +48,17 @@ const App: React.FC = () => {
       .catch(err => {
         console.log(err);
       });
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (restaurant) {
       handleSetTheme(restaurant.primary_color, restaurant.secondary_color);
     }
-  }, [restaurant]);
+  }, [restaurant, handleSetTheme]);
 
   return (
     <>
-      <StatusBar barStyle="default" />
+      <StatusBar barStyle="default" backgroundColor={theme.primary} />
       {initialLoading ? (
         <InitialLoading />
       ) : (

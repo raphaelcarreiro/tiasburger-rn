@@ -1,30 +1,20 @@
-import React, { useState, useCallback } from 'react';
-import { Input as StyledInput, Container } from './styles';
+import React, { ReactElement } from 'react';
 import { TextInputProps } from 'react-native';
+import Outlined from './outlined/InputOutlined';
+import Standard from './standard/InputStandard';
 
 interface InputProps extends TextInputProps {
-  fullWidth: boolean;
+  fullWidth?: boolean;
+  Icon?: ReactElement;
+  error?: boolean;
+  required?: boolean;
+  helperText?: string;
+  variant?: 'standard' | 'outlined';
+  label?: string;
 }
 
-const TextInput: React.FC<InputProps> = ({ fullWidth, value, ...rest }) => {
-  const [isFocused, setIsFocused] = useState(false);
-  const [isFilled, setIsFilled] = useState(false);
-
-  const handleInputFocus = useCallback(() => {
-    setIsFocused(true);
-  }, []);
-
-  const handleInputBlur = useCallback(() => {
-    setIsFocused(false);
-
-    setIsFilled(!!value);
-  }, []);
-
-  return (
-    <Container fullWidth={fullWidth} isFocused={isFocused}>
-      <StyledInput {...rest} onFocus={handleInputFocus} onBlur={handleInputBlur} />
-    </Container>
-  );
+const TextInput: React.FC<InputProps> = ({ variant = 'outlined', ...rest }) => {
+  return <>{variant === 'outlined' ? <Outlined {...rest} /> : <Standard {...rest} />}</>;
 };
 
 export default TextInput;

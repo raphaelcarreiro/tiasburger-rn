@@ -2,7 +2,7 @@ import React from 'react';
 import { Container } from './styles';
 import { Image, StyleSheet, View, ScrollView } from 'react-native';
 import { useSelector } from '../../store/selector';
-import Title from '../../components/bases/title/Title';
+import Title from '../../components/bases/typography/Text';
 import Button from '../../components/bases/button/Button';
 import { useNavigation } from '@react-navigation/native';
 
@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
 const Login: React.FC = () => {
   const restaurant = useSelector(state => state.restaurant);
   const navigation = useNavigation();
+
   return (
     <ScrollView contentContainerStyle={{ flex: 1 }} keyboardShouldPersistTaps="handled">
       <Container>
@@ -43,7 +44,7 @@ const Login: React.FC = () => {
               </Button>
             </View>
             <View style={styles.signUp}>
-              <Button color="primary" fullWidth onPress={() => {}}>
+              <Button color="primary" fullWidth onPress={() => navigation.navigate('Register')}>
                 Criar conta
               </Button>
             </View>
