@@ -1,4 +1,4 @@
-import React, { useState, useCallback, ReactElement, useEffect } from 'react';
+import React, { useState, useCallback, ReactElement, useEffect, forwardRef } from 'react';
 import { Input as StyledInput, Container, IconContainer, HelperText, InputContainer, TextLabel } from './styles';
 import { TextInputProps } from 'react-native';
 
@@ -11,17 +11,14 @@ interface InputProps extends TextInputProps {
   label?: string;
 }
 
-const InputStandard: React.FC<InputProps> = ({
-  fullWidth,
-  value,
-  placeholder,
-  required,
-  Icon,
-  error,
-  helperText,
-  label,
-  ...rest
-}) => {
+interface InputRef {
+  focus(): void;
+}
+
+const InputStandard: React.ForwardRefRenderFunction<InputRef, InputProps> = (
+  { fullWidth, value, placeholder, required, Icon, error, helperText, label, ...rest },
+  ref,
+) => {
   const [isFocused, setIsFocused] = useState(false);
   const [placeholderFocused, setPlaceholderFocused] = useState<string | undefined>('');
 
@@ -45,6 +42,7 @@ const InputStandard: React.FC<InputProps> = ({
       {isFocused && label && <TextLabel>{label}</TextLabel>}
       <InputContainer fullWidth={fullWidth} isFocused={isFocused} error={error} helperText={!!helperText}>
         <StyledInput
+          ref={ref}
           value={value}
           placeholder={isFocused ? placeholder : placeholderFocused}
           {...rest}
@@ -58,4 +56,4 @@ const InputStandard: React.FC<InputProps> = ({
   );
 };
 
-export default InputStandard;
+export default forwardRef(InputStandard);

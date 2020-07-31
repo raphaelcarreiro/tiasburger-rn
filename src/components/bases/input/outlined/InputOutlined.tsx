@@ -1,4 +1,4 @@
-import React, { useState, useCallback, ReactElement } from 'react';
+import React, { useState, useCallback, ReactElement, forwardRef } from 'react';
 import { Input as StyledInput, Container, IconContainer, HelperText, InputContainer } from './styles';
 import { TextInputProps } from 'react-native';
 
@@ -10,16 +10,14 @@ interface InputProps extends TextInputProps {
   helperText?: string;
 }
 
-const InputOutlined: React.FC<InputProps> = ({
-  fullWidth,
-  value,
-  placeholder,
-  required,
-  Icon,
-  error,
-  helperText,
-  ...rest
-}) => {
+interface InputRef {
+  focus(): void;
+}
+
+const InputOutlined: React.ForwardRefRenderFunction<InputRef, InputProps> = (
+  { fullWidth, value, placeholder, required, Icon, error, helperText, ...rest },
+  ref,
+) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
 
@@ -37,6 +35,7 @@ const InputOutlined: React.FC<InputProps> = ({
     <Container>
       <InputContainer fullWidth={fullWidth} isFocused={isFocused} error={error} helperText={!!helperText}>
         <StyledInput
+          ref={ref}
           value={value}
           placeholder={required ? `${placeholder} *` : placeholder}
           {...rest}
@@ -50,4 +49,4 @@ const InputOutlined: React.FC<InputProps> = ({
   );
 };
 
-export default InputOutlined;
+export default forwardRef(InputOutlined);

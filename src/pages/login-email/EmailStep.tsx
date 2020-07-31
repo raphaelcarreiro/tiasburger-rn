@@ -6,9 +6,10 @@ interface EmailStepProps {
   email: string;
   setEmail(value: string): void;
   validation?: string;
+  handleValidation(): void;
 }
 
-const EmailStep: React.FC<EmailStepProps> = ({ email, setEmail, validation }) => {
+const EmailStep: React.FC<EmailStepProps> = ({ email, setEmail, validation, handleValidation }) => {
   return (
     <>
       <Title size={16}>Informe seu e-mail ou telefone</Title>
@@ -19,11 +20,13 @@ const EmailStep: React.FC<EmailStepProps> = ({ email, setEmail, validation }) =>
         fullWidth
         value={email}
         onChange={text => setEmail(text.nativeEvent.text)}
-        autoCompleteType="password"
         autoFocus
         keyboardType="email-address"
         returnKeyType="send"
         helperText={validation}
+        autoCompleteType="email"
+        onSubmitEditing={handleValidation}
+        autoCapitalize="none"
       />
     </>
   );

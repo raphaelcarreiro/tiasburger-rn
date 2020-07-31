@@ -23,6 +23,9 @@ const styles = StyleSheet.create({
   signUp: {
     marginTop: 20,
   },
+  goBack: {
+    marginTop: 20,
+  },
 });
 
 const Login: React.FC = () => {
@@ -39,13 +42,18 @@ const Login: React.FC = () => {
               <Title size={24}>Como deseja continuar?</Title>
             </View>
             <View style={styles.sigInActions}>
-              <Button color="primary" fullWidth onPress={() => navigation.navigate('LoginEmail')}>
+              <Button color="primary" fullWidth onPress={() => navigation.navigate('Login', { screen: 'LoginEmail' })}>
                 Entrar com e-mail ou telefone
               </Button>
             </View>
             <View style={styles.signUp}>
-              <Button color="primary" fullWidth onPress={() => navigation.navigate('Register')}>
+              <Button color="primary" fullWidth onPress={() => navigation.navigate('Login', { screen: 'Register' })}>
                 Criar conta
+              </Button>
+            </View>
+            <View style={styles.goBack}>
+              <Button variant="text" fullWidth color="primary" onPress={() => navigation.goBack()}>
+                Voltar
               </Button>
             </View>
           </>

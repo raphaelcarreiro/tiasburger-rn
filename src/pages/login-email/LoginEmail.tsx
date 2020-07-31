@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 import { setUser } from '../../store/modules/user/actions';
 import * as yup from 'yup';
 import { useMessage } from '../../hooks/message';
+import { useAuth } from '../../hooks/auth';
 
 const styles = StyleSheet.create({
   image: {
@@ -41,6 +42,7 @@ const LoginEmail: React.FC = () => {
   const [validation, setValidation] = useState({} as Validation);
   const dispatch = useDispatch();
   const message = useMessage();
+  const auth = useAuth();
 
   function handleValidation() {
     switch (step) {
@@ -89,18 +91,14 @@ const LoginEmail: React.FC = () => {
   function handleNextClick() {
     setLoading(true);
 
-    api
-      .get(`/user/show/${email}`)
+    auth
+      .checkEmail(email)
       .then(response => {
-        setName(response.data.name);
+        setName(response.name);
         setStep('password');
       })
       .catch(err => {
-        if (err.response) {
-          if (err.response.status === 401) {
-            message.handleOpen('E-mail não encontrado');
-          }
-        } else console.log(err.message);
+        message.handleOpen(err.message);
       })
       .finally(() => {
         setLoading(false);
@@ -109,17 +107,10 @@ const LoginEmail: React.FC = () => {
 
   function handleLogin() {
     setLoading(true);
-    api
-      .post('/login', { email, password })
-      .then(response => {
-        dispatch(setUser(response.data.user));
-      })
+    auth
+      .login(email, password)
       .catch(err => {
-        if (err.response) {
-          if (err.response.status === 401) {
-            message.handleOpen('Usuário ou senha inválidos');
-          }
-        } else console.log(err.message);
+        message.handleOpen(err.message);
       })
       .finally(() => {
         setLoading(false);
@@ -138,9 +129,20 @@ const LoginEmail: React.FC = () => {
           <Image source={{ uri: restaurant?.image.imageUrl }} style={styles.image} />
           <Title size={24}>Login</Title>
           {step === 'email' ? (
-            <EmailStep email={email} setEmail={setEmail} validation={validation.email} />
+            <EmailStep
+              email={email}
+              setEmail={setEmail}
+              validation={validation.email}
+              handleValidation={handleValidation}
+            />
           ) : (
-            <PasswordStep password={password} setPassword={setPassword} name={name} validation={validation.password} />
+            <PasswordStep
+              password={password}
+              setPassword={setPassword}
+              name={name}
+              validation={validation.password}
+              handleValidation={handleValidation}
+            />
           )}
         </Content>
         <View style={styles.actions}>

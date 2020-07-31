@@ -48,10 +48,11 @@ const Register: React.FC = () => {
 
   function handleChange(index: string, value: string): void {
     contextDispatch(userChange(index, value));
+    setValidation({});
   }
 
   function handleSubmit() {
-    setValidation({});
+    // setValidation({});
 
     const schema = yup.object().shape({
       passwordConfirm: yup
@@ -101,7 +102,10 @@ const Register: React.FC = () => {
             }
           });
       })
-      .catch(err => {
+      .catch((err: yup.ValidationError) => {
+        if (err instanceof yup.ValidationError) {
+          console.log(err);
+        }
         setValidation({
           [err.path]: err.message,
         });
@@ -109,26 +113,21 @@ const Register: React.FC = () => {
   }
 
   return (
-    <>
+    <ScrollView>
       {loading && <Loading />}
       {created ? (
         <RegisterSucess />
       ) : (
-        <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ flex: 1 }}>
-          <Container>
-            <RegisterForm user={user} handleChange={handleChange} validation={validation} />
-            <View style={styles.actions}>
-              <Button variant="text" onPress={() => navigation.navigate('Login')}>
-                Voltar
-              </Button>
-              <Button color="primary" onPress={handleSubmit}>
-                Pronto!
-              </Button>
-            </View>
-          </Container>
-        </ScrollView>
+        <Container>
+          <RegisterForm user={user} handleChange={handleChange} validation={validation} handleSubmit={handleSubmit} />
+          <View style={styles.actions}>
+            <Button color="primary" onPress={handleSubmit}>
+              Pronto!
+            </Button>
+          </View>
+        </Container>
       )}
-    </>
+    </ScrollView>
   );
 };
 

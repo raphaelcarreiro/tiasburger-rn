@@ -8,9 +8,10 @@ interface PasswordStepProps {
   setPassword(value: string): void;
   name: string;
   validation?: string;
+  handleValidation(): void;
 }
 
-const PasswordStep: React.FC<PasswordStepProps> = ({ password, setPassword, name, validation }) => {
+const PasswordStep: React.FC<PasswordStepProps> = ({ password, setPassword, name, validation, handleValidation }) => {
   const [passwordVisibility, setPasswordVisibility] = useState(false);
 
   function handleVisibility() {
@@ -21,6 +22,7 @@ const PasswordStep: React.FC<PasswordStepProps> = ({ password, setPassword, name
     <>
       <Title size={16}>Olá {name}!</Title>
       <TextInput
+        autoFocus
         error={!!validation}
         helperText={validation}
         placeholder="Sua senha"
@@ -28,7 +30,7 @@ const PasswordStep: React.FC<PasswordStepProps> = ({ password, setPassword, name
         value={password}
         onChange={text => setPassword(text.nativeEvent.text)}
         returnKeyType="send"
-        autoCorrect={false}
+        onSubmitEditing={handleValidation}
         secureTextEntry={!passwordVisibility}
         Icon={
           !passwordVisibility ? (

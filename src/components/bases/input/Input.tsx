@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, forwardRef } from 'react';
 import { TextInputProps } from 'react-native';
 import Outlined from './outlined/InputOutlined';
 import Standard from './standard/InputStandard';
@@ -13,8 +13,12 @@ interface InputProps extends TextInputProps {
   label?: string;
 }
 
-const TextInput: React.FC<InputProps> = ({ variant = 'outlined', ...rest }) => {
-  return <>{variant === 'outlined' ? <Outlined {...rest} /> : <Standard {...rest} />}</>;
+interface InputRef {
+  focus(): void;
+}
+
+const TextInput: React.ForwardRefRenderFunction<InputRef, InputProps> = ({ variant = 'outlined', ...rest }, ref) => {
+  return <>{variant === 'outlined' ? <Outlined {...rest} ref={ref} /> : <Standard {...rest} ref={ref} />}</>;
 };
 
-export default TextInput;
+export default forwardRef(TextInput);

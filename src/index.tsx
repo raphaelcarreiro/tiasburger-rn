@@ -6,18 +6,19 @@ import { NavigationContainer } from '@react-navigation/native';
 import App from './App';
 import Theme from './hooks/theme';
 import MessageProvider from './hooks/message';
+import AuthProvider from './hooks/auth';
 
 const Index: React.FC = () => {
   return (
-    <NavigationContainer>
-      <Provider store={store}>
-        <Theme>
-          <MessageProvider>
+    <Provider store={store}>
+      <Theme>
+        <MessageProvider>
+          <AuthProvider>
             <App />
-          </MessageProvider>
-        </Theme>
-      </Provider>
-    </NavigationContainer>
+          </AuthProvider>
+        </MessageProvider>
+      </Theme>
+    </Provider>
   );
 };
 

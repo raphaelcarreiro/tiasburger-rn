@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { UserState } from '../../context-api/user/reducer';
 import Input from '../../components/bases/input/Input';
 import { UserValidation } from './Register';
 import Text from '../../components/bases/typography/Text';
-import { Image, StyleSheet } from 'react-native';
+import { Image, StyleSheet, TextInput } from 'react-native';
 import { useSelector } from '../../store/selector';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -19,12 +19,17 @@ interface RegisterFormProps {
   user: UserState;
   handleChange(index: string, value: string): void;
   validation: UserValidation;
+  handleSubmit(): void;
 }
 
-const RegisterForm: React.FC<RegisterFormProps> = ({ user, handleChange, validation }) => {
+const RegisterForm: React.FC<RegisterFormProps> = ({ user, handleChange, validation, handleSubmit }) => {
   const restaurant = useSelector(state => state.restaurant);
   const [passVis, setPassVis] = useState(false);
   const [confirmPassVis, setConfirmPassVis] = useState(false);
+  const phoneRef = useRef<TextInput>(null);
+  const emailRef = useRef<TextInput>(null);
+  const passwordRef = useRef<TextInput>(null);
+  const confirmPasswordRef = useRef<TextInput>(null);
 
   function handleVisibility(field: string): void {
     if (field === 'password') setPassVis(!passVis);
@@ -46,12 +51,15 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ user, handleChange, validat
         placeholder="Digite seu nome"
         label="Nome"
         variant="standard"
-        autoFocus
         value={user.name}
         onChange={event => handleChange('name', event.nativeEvent.text)}
         autoCompleteType="name"
+        returnKeyType="next"
+        onSubmitEditing={() => phoneRef.current?.focus()}
+        autoFocus
       />
       <Input
+        ref={phoneRef}
         keyboardType="number-pad"
         error={!!validation.phone}
         helperText={validation.phone}
@@ -62,8 +70,11 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ user, handleChange, validat
         value={user.phone}
         onChange={event => handleChange('phone', event.nativeEvent.text)}
         autoCompleteType="tel"
+        returnKeyType="next"
+        onSubmitEditing={() => emailRef.current?.focus()}
       />
       <Input
+        ref={emailRef}
         error={!!validation.email}
         helperText={validation.email}
         fullWidth
@@ -75,8 +86,11 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ user, handleChange, validat
         keyboardType="email-address"
         autoCompleteType="email"
         autoCapitalize="none"
+        returnKeyType="next"
+        onSubmitEditing={() => passwordRef.current?.focus()}
       />
       <Input
+        ref={passwordRef}
         error={!!validation.password}
         helperText={validation.password}
         fullWidth
@@ -86,7 +100,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ user, handleChange, validat
         value={user.password}
         onChange={event => handleChange('password', event.nativeEvent.text)}
         secureTextEntry={!passVis}
-        autoCorrect={false}
+        textContentType="newPassword"
         Icon={
           !passVis ? (
             <Icon name="visibility" size={26} onPress={() => handleVisibility('password')} color="#666" />
@@ -94,8 +108,11 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ user, handleChange, validat
             <Icon name="visibility-off" size={26} onPress={() => handleVisibility('password')} color="#666" />
           )
         }
+        returnKeyType="next"
+        onSubmitEditing={() => confirmPasswordRef.current?.focus()}
       />
       <Input
+        ref={confirmPasswordRef}
         error={!!validation.passwordConfirm}
         helperText={validation.passwordConfirm}
         fullWidth
@@ -105,6 +122,9 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ user, handleChange, validat
         value={user.passwordConfirm}
         onChange={event => handleChange('passwordConfirm', event.nativeEvent.text)}
         secureTextEntry={!confirmPassVis}
+        returnKeyType="send"
+        onSubmitEditing={handleSubmit}
+        textContentType="newPassword"
         Icon={
           !confirmPassVis ? (
             <Icon name="visibility" size={26} onPress={() => handleVisibility('confirmPassword')} color="#666" />
