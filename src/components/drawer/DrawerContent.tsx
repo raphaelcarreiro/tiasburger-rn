@@ -1,17 +1,105 @@
 import React from 'react';
 import { DrawerContentScrollView, DrawerItem, DrawerContentComponentProps } from '@react-navigation/drawer';
-import { View, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { useTheme } from 'styled-components';
-import { DrawerHeader, DrawerHeaderText } from './styles';
+import { DrawerHeader, DrawerHeaderText, RestaurantStatus } from './styles';
+import { useSelector } from '../../store/selector';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { Avatar } from 'react-native-paper';
+import { useAuth } from '../../hooks/auth';
 
-const Drawer: React.FC<DrawerContentComponentProps> = ({ navigation }) => {
+const styles = StyleSheet.create({
+  label: {
+    color: '#fff',
+    fontSize: 17,
+    fontFamily: 'sans-serif-light',
+  },
+});
+
+const Drawer: React.FC<DrawerContentComponentProps> = props => {
   const theme = useTheme();
+  const restaurant = useSelector(state => state.restaurant);
+  const user = useSelector(state => state.user);
+  const { logout } = useAuth();
+  const { navigation } = props;
+
+  function handleLogout(): void {
+    logout().catch(err => {
+      console.log(err);
+    });
+  }
 
   return (
-    <DrawerContentScrollView>
+    <DrawerContentScrollView {...props} style={{ backgroundColor: theme.secondary }}>
       <DrawerHeader>
-        <DrawerHeaderText>Custom drawer</DrawerHeaderText>
+        <DrawerHeaderText>{restaurant ? restaurant.name : 'Carregando'}</DrawerHeaderText>
+        <RestaurantStatus status={restaurant ? restaurant.is_open : false} />
       </DrawerHeader>
+      <DrawerItem
+        icon={props => <Icon color="#fff" size={props.size} name="home" />}
+        label="Início"
+        labelStyle={styles.label}
+        onPress={() => navigation.navigate('Home')}
+      />
+      <DrawerItem
+        icon={props => <Icon color="#fff" size={props.size} name="local-offer" />}
+        label="Ofertas"
+        labelStyle={styles.label}
+        onPress={() => navigation.navigate('Offers')}
+      />
+      <DrawerItem
+        icon={props => <Icon color="#fff" size={props.size} name="menu" />}
+        label="Cardápio"
+        labelStyle={styles.label}
+        onPress={() => navigation.navigate('Menu')}
+      />
+      <DrawerItem
+        icon={props => <Icon color="#fff" size={props.size} name="shopping-cart" />}
+        label="Carrinho"
+        labelStyle={styles.label}
+        onPress={() => navigation.navigate('Cart')}
+      />
+      <DrawerItem
+        icon={props => <Icon color="#fff" size={props.size} name="contact-phone" />}
+        label="Contato"
+        labelStyle={styles.label}
+        onPress={() => navigation.navigate('Contact')}
+      />
+      {user ? (
+        <>
+          <DrawerItem
+            icon={() =>
+              user.image ? (
+                <Avatar.Image size={24} source={{ uri: user.image.imageUrl }} />
+              ) : (
+                <Avatar.Icon size={24} icon="person" />
+              )
+            }
+            label={user.name}
+            labelStyle={styles.label}
+            onPress={() => navigation.navigate('Account')}
+          />
+          <DrawerItem
+            icon={props => <Icon color="#fff" size={props.size} name="assignment" />}
+            label="Meus pedidos"
+            labelStyle={styles.label}
+            onPress={() => navigation.navigate('Orders')}
+          />
+          <DrawerItem
+            icon={props => <Icon color="#fff" size={props.size} name="exit-to-app" />}
+            label="Sair"
+            labelStyle={styles.label}
+            onPress={handleLogout}
+          />
+        </>
+      ) : (
+        <DrawerItem
+          icon={props => <Icon size={props.size} color="#fff" name="fullscreen-exit" />}
+          label="Entrar"
+          labelStyle={styles.label}
+          onPress={() => navigation.navigate('Login')}
+        />
+      )}
     </DrawerContentScrollView>
   );
 };

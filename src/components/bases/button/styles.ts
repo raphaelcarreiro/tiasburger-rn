@@ -31,7 +31,7 @@ export const Button = styled(RectButton)<ButtonProps>`
 `;
 
 export const ButtonText = styled.Text<ButtonProps>`
-  color: #fff;
+  color: ${props => props.theme.contrast};
   text-transform: uppercase;
   font-size: 14px;
 

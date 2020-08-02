@@ -4,13 +4,10 @@
  * @param maximumFractionDigits
  * @returns {string}
  */
-function numberFormat(
-  value: string | number,
-  maximumFractionDigits = 2,
-): string {
+function numberFormat(value: string | number | null, maximumFractionDigits = 2): string {
   if (typeof value === 'string' && value !== '') value = parseFloat(value);
 
-  value = value === '' ? 0 : value;
+  value = !value ? 0 : value;
 
   return value.toLocaleString('pt-BR', {
     maximumFractionDigits: maximumFractionDigits,
@@ -23,10 +20,7 @@ function numberFormat(
  * @param maximumFractionDigits
  * @returns {string}
  */
-function moneyFormat(
-  value: string | number,
-  maximumFractionDigits = 2,
-): string {
+function moneyFormat(value: string | number | null, maximumFractionDigits = 2): string {
   if (typeof value === 'string' && value !== '') value = parseFloat(value);
 
   value = !value ? 0 : value;
@@ -44,10 +38,7 @@ function moneyFormat(
  * @param maximumFractionDigits
  * @returns {string}
  */
-function percentFormat(
-  value: string | number,
-  maximumFractionDigits = 2,
-): string {
+function percentFormat(value: string | number | null, maximumFractionDigits = 2): string {
   if (typeof value === 'string') value = parseFloat(value);
 
   value = !value ? 0 : value;

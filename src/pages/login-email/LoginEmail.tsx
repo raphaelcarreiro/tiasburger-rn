@@ -6,13 +6,13 @@ import Title from '../../components/bases/typography/Text';
 import Button from '../../components/bases/button/Button';
 import EmailStep from './EmailStep';
 import PasswordStep from './PasswordStep';
-import api from '../../services/api';
+
 import Loading from '../../components/loading/Loading';
-import { useDispatch } from 'react-redux';
-import { setUser } from '../../store/modules/user/actions';
 import * as yup from 'yup';
 import { useMessage } from '../../hooks/message';
 import { useAuth } from '../../hooks/auth';
+import { useNavigation } from '@react-navigation/native';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const styles = StyleSheet.create({
   image: {
@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
     height: 70,
   },
   actions: {
+    marginTop: 30,
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     width: '100%',
@@ -40,9 +41,9 @@ const LoginEmail: React.FC = () => {
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
   const [validation, setValidation] = useState({} as Validation);
-  const dispatch = useDispatch();
   const message = useMessage();
   const auth = useAuth();
+  const navigation = useNavigation();
 
   function handleValidation() {
     switch (step) {
@@ -74,8 +75,8 @@ const LoginEmail: React.FC = () => {
         schema
           .validate({ password })
           .then(() => {
-            handleLogin();
             setValidation({});
+            handleLogin();
           })
           .catch(err => {
             setValidation({
@@ -109,20 +110,17 @@ const LoginEmail: React.FC = () => {
     setLoading(true);
     auth
       .login(email, password)
-      .catch(err => {
-        message.handleOpen(err.message);
+      .then(() => {
+        navigation.navigate('Home');
       })
-      .finally(() => {
+      .catch(err => {
         setLoading(false);
+        message.handleOpen(err.message);
       });
   }
 
-  function handleBackClick() {
-    setStep('email');
-  }
-
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }} enabled>
+    <ScrollView contentContainerStyle={{ flex: 1 }}>
       {loading && <Loading />}
       <Container>
         <Content>
@@ -146,23 +144,12 @@ const LoginEmail: React.FC = () => {
           )}
         </Content>
         <View style={styles.actions}>
-          {step === 'email' ? (
-            <Button color="primary" onPress={handleValidation}>
-              Próximo
-            </Button>
-          ) : (
-            <>
-              <Button color="primary" onPress={handleBackClick} variant="text">
-                Voltar
-              </Button>
-              <Button color="primary" onPress={handleValidation}>
-                Entrar
-              </Button>
-            </>
-          )}
+          <Button color="primary" onPress={handleValidation}>
+            Próximo
+          </Button>
         </View>
       </Container>
-    </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 

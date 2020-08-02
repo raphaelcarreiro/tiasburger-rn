@@ -4,6 +4,7 @@ import * as styledComponents from 'styled-components/native';
 interface ThemeInterface extends styledComponents.DefaultTheme {
   primary: string;
   secondary: string;
+  contrast: string;
 }
 
 const {

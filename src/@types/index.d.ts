@@ -6,6 +6,7 @@ declare module 'styled-components' {
   export interface DefaultTheme {
     primary: string;
     secondary: string;
+    contrast: string;
     [key: string]: string;
   }
 }

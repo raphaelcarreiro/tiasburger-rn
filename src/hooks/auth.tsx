@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setUser } from '../store/modules/user/actions';
+import { setUser, removeUser } from '../store/modules/user/actions';
 import api from '../services/api';
 import storage from '@react-native-community/async-storage';
 import jwt from 'jwt-decode';
@@ -58,6 +58,15 @@ const AuthProvider: React.FC = ({ children }) => {
                 : null,
             };
             setData(payload);
+
+            api
+              .get(`/users/${payload.id}`)
+              .then(response => {
+                dispatch(setUser(response.data));
+              })
+              .catch(err => {
+                if (err.response) console.log(err.response.data.error);
+              });
           }
         } catch (e) {
           console.log(e);
@@ -65,6 +74,34 @@ const AuthProvider: React.FC = ({ children }) => {
     }
 
     loadFromStorage();
+  }, [dispatch]);
+
+  const verifyToken = useCallback(async (): Promise<Payload | null> => {
+    let payload: Payload | null = null;
+
+    const token = await storage.getItem('token');
+
+    if (token) {
+      try {
+        const decoded: any = jwt(token);
+
+        if (decoded)
+          payload = {
+            name: decoded.name,
+            id: decoded.sub,
+            email: decoded.email,
+            image: decoded.imageUrl
+              ? {
+                  imageUrl: decoded.imageUrl,
+                }
+              : null,
+          };
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    return payload;
   }, []);
 
   const login = useCallback(
@@ -109,40 +146,14 @@ const AuthProvider: React.FC = ({ children }) => {
         .post('/logout')
         .then(async () => {
           await storage.removeItem('token');
+          setData(null);
+          dispatch(removeUser());
           resolve(true);
         })
         .catch(err => {
           reject(new Error(err));
         });
     });
-  }, []);
-
-  const verifyToken = useCallback(async (): Promise<Payload | null> => {
-    let payload: Payload | null = null;
-
-    const token = await storage.getItem('token');
-
-    if (token) {
-      try {
-        const decoded: any = jwt(token);
-
-        if (decoded)
-          payload = {
-            name: decoded.name,
-            id: decoded.sub,
-            email: decoded.email,
-            image: decoded.imageUrl
-              ? {
-                  imageUrl: decoded.imageUrl,
-                }
-              : null,
-          };
-      } catch (e) {
-        console.log(e);
-      }
-    }
-
-    return payload;
   }, []);
 
   return (

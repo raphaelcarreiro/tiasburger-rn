@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 
 const App: React.FC = () => {
   const [initialLoading, setInitialLoading] = useState(true);
-  const { handleSetTheme } = useThemeContext();
+  const { handleSetTheme, handleSetPaperTheme } = useThemeContext();
   const dispatch = useDispatch();
   const restaurant = useSelector(state => state.restaurant);
   const theme = useTheme();
@@ -53,8 +53,9 @@ const App: React.FC = () => {
   useEffect(() => {
     if (restaurant) {
       handleSetTheme(restaurant.primary_color, restaurant.secondary_color);
+      handleSetPaperTheme(restaurant.primary_color, restaurant.secondary_color);
     }
-  }, [restaurant, handleSetTheme]);
+  }, [restaurant, handleSetTheme, handleSetPaperTheme]);
 
   return (
     <>
