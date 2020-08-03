@@ -5,6 +5,7 @@ export const Container = styled.View`
   padding: 15px;
   justify-content: space-around;
   align-items: center;
+  background-color: #fff;
 `;
 
 export const Content = styled.View`

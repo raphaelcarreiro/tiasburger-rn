@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Appbar as PaperAppBar } from 'react-native-paper';
 import { useNavigation, DrawerActions } from '@react-navigation/native';
 import { StyleSheet, View } from 'react-native';
@@ -16,9 +16,12 @@ interface AppBarProps {
   title: string;
   subtitle?: string;
   hideShadow?: boolean;
+  actions?: ReactElement;
+  backAction?: () => void;
+  showBackAction?: boolean;
 }
 
-const AppBar: React.FC<AppBarProps> = ({ title, subtitle, hideShadow }) => {
+const AppBar: React.FC<AppBarProps> = ({ title, subtitle, hideShadow, actions, backAction, showBackAction }) => {
   const navigation = useNavigation();
 
   function handleToggle() {
@@ -28,8 +31,13 @@ const AppBar: React.FC<AppBarProps> = ({ title, subtitle, hideShadow }) => {
   return (
     <View style={styles.container}>
       <PaperAppBar style={{ elevation: hideShadow ? 0 : 2 }}>
-        <PaperAppBar.Action icon="menu" onPress={handleToggle} />
+        {showBackAction && backAction ? (
+          <PaperAppBar.BackAction onPress={backAction} />
+        ) : (
+          <PaperAppBar.Action icon="menu" onPress={handleToggle} />
+        )}
         <PaperAppBar.Content title={title} subtitle={subtitle && subtitle} />
+        {actions && actions}
       </PaperAppBar>
     </View>
   );

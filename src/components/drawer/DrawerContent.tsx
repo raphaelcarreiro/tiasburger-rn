@@ -5,13 +5,14 @@ import { useTheme } from 'styled-components';
 import { DrawerHeader, DrawerHeaderText, RestaurantStatus } from './styles';
 import { useSelector } from '../../store/selector';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import McIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Avatar } from 'react-native-paper';
 import { useAuth } from '../../hooks/auth';
 
 const styles = StyleSheet.create({
   label: {
     color: '#fff',
-    fontSize: 17,
+    fontSize: 16,
     fontFamily: 'sans-serif-light',
   },
 });
@@ -39,6 +40,7 @@ const Drawer: React.FC<DrawerContentComponentProps> = props => {
         icon={props => <Icon color="#fff" size={props.size} name="home" />}
         label="Início"
         labelStyle={styles.label}
+        style={{ marginVertical: 0 }}
         onPress={() => navigation.navigate('Home')}
       />
       <DrawerItem
@@ -48,7 +50,7 @@ const Drawer: React.FC<DrawerContentComponentProps> = props => {
         onPress={() => navigation.navigate('Offers')}
       />
       <DrawerItem
-        icon={props => <Icon color="#fff" size={props.size} name="menu" />}
+        icon={props => <McIcon color="#fff" size={props.size} name="book" />}
         label="Cardápio"
         labelStyle={styles.label}
         onPress={() => navigation.navigate('Menu')}
@@ -68,6 +70,12 @@ const Drawer: React.FC<DrawerContentComponentProps> = props => {
       {user ? (
         <>
           <DrawerItem
+            icon={props => <Icon color="#fff" size={props.size} name="assignment" />}
+            label="Meus pedidos"
+            labelStyle={styles.label}
+            onPress={() => navigation.navigate('Orders')}
+          />
+          <DrawerItem
             icon={() =>
               user.image ? (
                 <Avatar.Image size={24} source={{ uri: user.image.imageUrl }} />
@@ -80,13 +88,7 @@ const Drawer: React.FC<DrawerContentComponentProps> = props => {
             onPress={() => navigation.navigate('Account')}
           />
           <DrawerItem
-            icon={props => <Icon color="#fff" size={props.size} name="assignment" />}
-            label="Meus pedidos"
-            labelStyle={styles.label}
-            onPress={() => navigation.navigate('Orders')}
-          />
-          <DrawerItem
-            icon={props => <Icon color="#fff" size={props.size} name="exit-to-app" />}
+            icon={props => <McIcon color="#fff" size={props.size} name="application-export" />}
             label="Sair"
             labelStyle={styles.label}
             onPress={handleLogout}
@@ -94,7 +96,7 @@ const Drawer: React.FC<DrawerContentComponentProps> = props => {
         </>
       ) : (
         <DrawerItem
-          icon={props => <Icon size={props.size} color="#fff" name="fullscreen-exit" />}
+          icon={props => <McIcon size={props.size} color="#fff" name="application-import" />}
           label="Entrar"
           labelStyle={styles.label}
           onPress={() => navigation.navigate('Login')}

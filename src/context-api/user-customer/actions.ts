@@ -1,7 +1,7 @@
 import { UserActionTypes, USER_CHANGE, IMAGE_DELETE, SET_USER } from './types';
 import { UserState } from './reducer';
 
-export function userChange(index: string, value: string): UserActionTypes {
+export function userChange(index: string, value: string | boolean | number | null): UserActionTypes {
   return {
     type: USER_CHANGE,
     index,

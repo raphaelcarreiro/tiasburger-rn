@@ -1,11 +1,13 @@
-import React, { useReducer, useEffect } from 'react';
-import { StyleSheet, View, Image } from 'react-native';
+import React from 'react';
 import { TextInput } from 'react-native-paper';
-import userReducer, { INITIAL_STATE as userCustomerInitialState } from '../../../context-api/user-customer/reducer';
-import { setUser as setUserCustomer } from '../../../context-api/user-customer/actions';
-import { useSelector } from '../../../store/selector';
-import { ImageContainer } from './styles';
+import { StyleSheet, Image } from 'react-native';
+import { userChange } from '../../../context-api/user-customer/actions';
 import { ScrollView } from 'react-native-gesture-handler';
+import { ImageContainer, ImageWrapper } from './styles';
+import { useAccount } from '../Account';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import MCIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useTheme } from 'styled-components';
 
 const styles = StyleSheet.create({
   container: {
@@ -21,32 +23,41 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  icon: {
+    height: 26,
+    width: 26,
+    borderRadius: 15,
+    backgroundColor: '#fff',
+  },
 });
 
 const AccountForm: React.FC = () => {
-  const [userCustomer, contextDispatch] = useReducer(userReducer, userCustomerInitialState);
-  const user = useSelector(state => state.user);
+  const { userCustomer, dispatch } = useAccount();
+  const theme = useTheme();
 
-  useEffect(() => {
-    if (!user) return;
-    contextDispatch(
-      setUserCustomer({
-        name: user.name,
-        email: user.email,
-        phone: user.phone,
-        cpf: user.customer.cpf,
-        image: user.image,
-        isImageSelected: false,
-      }),
-    );
-  }, [contextDispatch, user]);
+  function handleImageSelect(): void {
+    if (userCustomer.image) dispatch(userChange('isImageSelected', !userCustomer.isImageSelected));
+  }
+
+  function handleChange(index: string, value: any) {
+    dispatch(userChange(index, value));
+  }
 
   return (
     <ScrollView style={styles.container}>
-      {user && (
+      {userCustomer && (
         <>
-          <ImageContainer>
-            {user.image && <Image style={styles.image} source={{ uri: user.image.imageUrl }} />}
+          <ImageContainer onPress={handleImageSelect}>
+            {userCustomer.isImageSelected && (
+              <ImageWrapper>
+                <MCIcons name="check-circle" style={styles.icon} color={theme.primary} size={26} />
+              </ImageWrapper>
+            )}
+            {userCustomer.image ? (
+              <Image style={styles.image} source={{ uri: userCustomer.image.imageUrl }} />
+            ) : (
+              <Icon name="add-a-photo" size={30} color={theme.primary} />
+            )}
           </ImageContainer>
           <TextInput
             style={styles.input}
@@ -68,6 +79,7 @@ const AccountForm: React.FC = () => {
             mode="flat"
             value={userCustomer.name}
             theme={{ colors: { text: '#222' } }}
+            onChange={text => handleChange('name', text.nativeEvent.text)}
           />
           <TextInput
             style={styles.input}
@@ -79,6 +91,7 @@ const AccountForm: React.FC = () => {
             mode="flat"
             value={userCustomer.phone}
             theme={{ colors: { text: '#222' } }}
+            onChange={text => handleChange('phone', text.nativeEvent.text)}
           />
           <TextInput
             style={styles.input}
@@ -87,8 +100,9 @@ const AccountForm: React.FC = () => {
             keyboardType="numeric"
             autoCorrect={false}
             mode="flat"
-            value={userCustomer.cpf}
+            value={userCustomer.cpf ? userCustomer.cpf : ''}
             theme={{ colors: { text: '#222' } }}
+            onChange={text => handleChange('cpf', text.nativeEvent.text)}
           />
         </>
       )}

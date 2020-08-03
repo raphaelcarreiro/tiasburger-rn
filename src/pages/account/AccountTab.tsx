@@ -1,7 +1,6 @@
 import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { useTheme } from 'styled-components';
-import { Text } from 'react-native';
 import AccountForm from './form/AccountForm';
 import AccountAddresses from './address/AccountAddresses';
 const Tab = createMaterialTopTabNavigator();
@@ -12,7 +11,7 @@ const AccountTab: React.FC = () => {
     <>
       <Tab.Navigator
         style={{
-          top: 56,
+          marginTop: 56,
         }}
         tabBarOptions={{
           indicatorStyle: {
@@ -26,7 +25,7 @@ const AccountTab: React.FC = () => {
         }}
       >
         <Tab.Screen name="Dados" component={AccountForm} />
-        <Tab.Screen name="Settings" component={AccountAddresses} />
+        <Tab.Screen name="Endereços" component={AccountAddresses} />
       </Tab.Navigator>
     </>
   );

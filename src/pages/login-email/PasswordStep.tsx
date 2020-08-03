@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Title from '../../components/bases/typography/Text';
 import TextInput from '../../components/bases/input/Input';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { TextInput as NativeTextInput } from 'react-native';
 
 interface PasswordStepProps {
   password: string;
@@ -13,15 +14,18 @@ interface PasswordStepProps {
 
 const PasswordStep: React.FC<PasswordStepProps> = ({ password, setPassword, name, validation, handleValidation }) => {
   const [passwordVisibility, setPasswordVisibility] = useState(false);
+  const inputRef = useRef<NativeTextInput>(null);
 
   function handleVisibility() {
-    setPasswordVisibility(oldVisibility => !oldVisibility);
+    setPasswordVisibility(!passwordVisibility);
+    inputRef.current?.focus();
   }
 
   return (
     <>
       <Title size={16}>Olá {name}!</Title>
       <TextInput
+        ref={inputRef}
         autoFocus
         error={!!validation}
         helperText={validation}
@@ -34,9 +38,9 @@ const PasswordStep: React.FC<PasswordStepProps> = ({ password, setPassword, name
         secureTextEntry={!passwordVisibility}
         Icon={
           !passwordVisibility ? (
-            <Icon name="visibility" size={26} onPress={handleVisibility} />
+            <Icon name="visibility" color="#666" size={26} onPress={handleVisibility} />
           ) : (
-            <Icon name="visibility-off" size={26} onPress={handleVisibility} />
+            <Icon name="visibility-off" color="#666" size={26} onPress={handleVisibility} />
           )
         }
       />

@@ -15,7 +15,7 @@ export const Button = styled(RectButton)<ButtonProps>`
   text-transform: uppercase;
   border-radius: 4px;
   background-color: ${({ color, theme }) => (color ? theme[color] : '#eee')};
-  height: 40px;
+  height: 42px;
 
   ${({ color, theme }) =>
     color &&

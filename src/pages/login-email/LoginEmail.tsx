@@ -120,36 +120,38 @@ const LoginEmail: React.FC = () => {
   }
 
   return (
-    <ScrollView contentContainerStyle={{ flex: 1 }}>
-      {loading && <Loading />}
-      <Container>
-        <Content>
-          <Image source={{ uri: restaurant?.image.imageUrl }} style={styles.image} />
-          <Title size={24}>Login</Title>
-          {step === 'email' ? (
-            <EmailStep
-              email={email}
-              setEmail={setEmail}
-              validation={validation.email}
-              handleValidation={handleValidation}
-            />
-          ) : (
-            <PasswordStep
-              password={password}
-              setPassword={setPassword}
-              name={name}
-              validation={validation.password}
-              handleValidation={handleValidation}
-            />
-          )}
-        </Content>
-        <View style={styles.actions}>
-          <Button color="primary" onPress={handleValidation}>
-            Próximo
-          </Button>
-        </View>
-      </Container>
-    </ScrollView>
+    <KeyboardAvoidingView style={{ flex: 1 }}>
+      <ScrollView contentContainerStyle={{ flex: 1, alignItems: 'center' }}>
+        {loading && <Loading />}
+        <Container>
+          <Content>
+            <Image source={{ uri: restaurant?.image.imageUrl }} style={styles.image} />
+            <Title size={24}>Login</Title>
+            {step === 'email' ? (
+              <EmailStep
+                email={email}
+                setEmail={setEmail}
+                validation={validation.email}
+                handleValidation={handleValidation}
+              />
+            ) : (
+              <PasswordStep
+                password={password}
+                setPassword={setPassword}
+                name={name}
+                validation={validation.password}
+                handleValidation={handleValidation}
+              />
+            )}
+          </Content>
+          <View style={styles.actions}>
+            <Button color="primary" onPress={handleValidation}>
+              Próximo
+            </Button>
+          </View>
+        </Container>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 

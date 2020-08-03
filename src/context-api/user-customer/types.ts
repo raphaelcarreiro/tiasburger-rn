@@ -7,7 +7,7 @@ export const SET_USER = 'SET_USER';
 interface UserChangeAction {
   type: typeof USER_CHANGE;
   index: string;
-  value: string;
+  value: string | boolean | number | null;
 }
 
 interface UserImageDeleteAction {

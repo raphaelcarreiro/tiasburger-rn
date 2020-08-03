@@ -1,5 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, FlatList } from 'react-native';
+import { useSelector } from '../../../store/selector';
+import AccountAddressesItem from './AccountAddressesItem';
 
 const styles = StyleSheet.create({
   container: {
@@ -10,9 +12,14 @@ const styles = StyleSheet.create({
 });
 
 const AccountAddresses: React.FC = () => {
+  const user = useSelector(state => state.user);
   return (
     <View style={styles.container}>
-      <Text>Account addresses</Text>
+      <FlatList
+        data={user?.customer.addresses}
+        keyExtractor={item => item.address}
+        renderItem={({ item }) => <AccountAddressesItem address={item} />}
+      />
     </View>
   );
 };
