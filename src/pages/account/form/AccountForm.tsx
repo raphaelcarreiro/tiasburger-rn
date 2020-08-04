@@ -1,10 +1,10 @@
 import React from 'react';
-import { TextInput } from 'react-native-paper';
+import Input from '../../../components/bases/input/Input';
 import { StyleSheet, Image } from 'react-native';
 import { userChange } from '../../../context-api/user-customer/actions';
 import { ScrollView } from 'react-native-gesture-handler';
 import { ImageContainer, ImageWrapper } from './styles';
-import { useAccount } from '../Account';
+import { useAccount } from '../context/account';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MCIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from 'styled-components';
@@ -59,49 +59,41 @@ const AccountForm: React.FC = () => {
               <Icon name="add-a-photo" size={30} color={theme.primary} />
             )}
           </ImageContainer>
-          <TextInput
-            style={styles.input}
+          <Input
             label="E-mail"
             placeholder="Digite seu email"
             keyboardType="email-address"
-            mode="flat"
-            disabled
+            variant="standard"
+            editable={false}
             value={userCustomer.email}
-            theme={{ colors: { text: '#222' } }}
           />
-          <TextInput
-            style={styles.input}
+          <Input
             label="Nome"
             placeholder="Digite seu nome completo"
             autoCapitalize="words"
             autoCorrect
             autoCompleteType="name"
-            mode="flat"
+            variant="standard"
             value={userCustomer.name}
-            theme={{ colors: { text: '#222' } }}
             onChange={text => handleChange('name', text.nativeEvent.text)}
           />
-          <TextInput
-            style={styles.input}
+          <Input
             label="Telefone"
             placeholder="Digite seu telefone"
             keyboardType="phone-pad"
             autoCompleteType="tel"
             autoCorrect={false}
-            mode="flat"
+            variant="standard"
             value={userCustomer.phone}
-            theme={{ colors: { text: '#222' } }}
             onChange={text => handleChange('phone', text.nativeEvent.text)}
           />
-          <TextInput
-            style={styles.input}
+          <Input
             label="CPF"
             placeholder="Digite seu CPF"
             keyboardType="numeric"
             autoCorrect={false}
-            mode="flat"
+            variant="standard"
             value={userCustomer.cpf ? userCustomer.cpf : ''}
-            theme={{ colors: { text: '#222' } }}
             onChange={text => handleChange('cpf', text.nativeEvent.text)}
           />
         </>

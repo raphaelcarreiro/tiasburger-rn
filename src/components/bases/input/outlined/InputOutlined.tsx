@@ -1,5 +1,5 @@
-import React, { useState, useCallback, ReactElement, forwardRef } from 'react';
-import { Input as StyledInput, Container, IconContainer, HelperText, InputContainer } from './styles';
+import React, { useState, useCallback, ReactElement, forwardRef, useEffect } from 'react';
+import { Input as StyledInput, Container, IconContainer, HelperText, InputContainer, TextLabel } from './styles';
 import { TextInputProps } from 'react-native';
 
 interface InputProps extends TextInputProps {
@@ -8,6 +8,7 @@ interface InputProps extends TextInputProps {
   error?: boolean;
   required?: boolean;
   helperText?: string;
+  label?: string;
 }
 
 interface InputRef {
@@ -15,11 +16,15 @@ interface InputRef {
 }
 
 const InputOutlined: React.ForwardRefRenderFunction<InputRef, InputProps> = (
-  { fullWidth, value, placeholder, required, Icon, error, helperText, ...rest },
+  { fullWidth, value, placeholder, required, Icon, error, helperText, label, ...rest },
   ref,
 ) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
+
+  useEffect(() => {
+    setIsFilled(!!value);
+  }, [value]);
 
   const handleInputFocus = useCallback(() => {
     setIsFocused(true);
@@ -33,6 +38,11 @@ const InputOutlined: React.ForwardRefRenderFunction<InputRef, InputProps> = (
 
   return (
     <Container>
+      {(isFocused || isFilled) && label && (
+        <TextLabel isFocused={isFocused} isFilled={isFilled}>
+          {label}
+        </TextLabel>
+      )}
       <InputContainer fullWidth={fullWidth} isFocused={isFocused} error={error} helperText={!!helperText}>
         <StyledInput
           ref={ref}

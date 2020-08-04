@@ -8,7 +8,7 @@ interface TypographyProps {
   gutterBottom?: boolean;
 }
 
-const Typography: React.FC<TypographyProps> = ({ children, bold = false, size = 14, gutterBottom }) => {
+const Typography: React.FC<TypographyProps> = ({ children, bold = false, size = 16, gutterBottom }) => {
   return (
     <StyledText bold={bold} size={size} gutterBottom>
       {children}

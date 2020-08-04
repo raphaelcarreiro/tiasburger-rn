@@ -1,7 +1,11 @@
 import React, { useState, useContext, useCallback } from 'react';
 import { ThemeProvider } from '../styled-components';
 import { DefaultTheme } from 'styled-components/native';
-import { ThemeProvider as PaperThemeProvider, DefaultTheme as DefaultPaperTheme } from 'react-native-paper';
+import {
+  ThemeProvider as PaperThemeProvider,
+  DefaultTheme as DefaultPaperTheme,
+  configureFonts,
+} from 'react-native-paper';
 import { Theme as PaperThemeData } from 'react-native-paper/src/types';
 import Color from 'color';
 
@@ -16,16 +20,34 @@ export function createTheme(primary: string, secondary: string): DefaultTheme {
 }
 
 export function createPaperTheme(primary: string, secondary: string): PaperThemeData {
-  const color = Color(primary);
-
   return {
     ...DefaultPaperTheme,
     colors: {
       ...DefaultPaperTheme.colors,
       primary: primary,
       accent: secondary,
-      text: color.isDark() ? '#fff' : '#000',
+      // text: color.isDark() ? '#fff' : '#000',
     },
+    fonts: configureFonts({
+      default: {
+        regular: {
+          fontFamily: 'sans-serif-light',
+          fontWeight: 'normal',
+        },
+        medium: {
+          fontFamily: 'sans-serif',
+          fontWeight: 'normal',
+        },
+        light: {
+          fontFamily: 'sans-serif-light',
+          fontWeight: 'normal',
+        },
+        thin: {
+          fontFamily: 'sans-serif-thin',
+          fontWeight: 'normal',
+        },
+      },
+    }),
   };
 }
 

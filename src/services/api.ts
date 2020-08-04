@@ -1,8 +1,8 @@
 import axios from 'axios';
 import storage from '@react-native-community/async-storage';
 
-const baseURL = 'https://api2.topnfe.com.br/api/client/';
-/// const baseURL = 'http://10.0.2.2:8000/api/client/';
+// const baseURL = 'https://api2.topnfe.com.br/api/client/';
+const baseURL = 'http://10.0.2.2:8000/api/client/';
 
 const api = axios.create({
   baseURL,

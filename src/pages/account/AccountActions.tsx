@@ -1,6 +1,6 @@
 import React from 'react';
 import { Appbar } from 'react-native-paper';
-import { useAccount } from './Account';
+import { useAccount } from './context/account';
 import { imageDelete } from '../../context-api/user-customer/actions';
 
 interface AccountActionsProps {

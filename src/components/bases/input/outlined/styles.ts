@@ -62,3 +62,21 @@ export const HelperText = styled.Text<InputProps>`
       color: red;
     `}
 `;
+
+export const TextLabel = styled.Text<InputProps>`
+  position: absolute;
+  font-size: 12px;
+  top: -7px;
+  left: 10px;
+  font-family: 'sans-serif-light';
+  color: #222;
+  background-color: #f3f3f3;
+  z-index: 10;
+  padding: 0 5px;
+
+  ${({ isFocused, theme }) =>
+    isFocused &&
+    css`
+      color: ${theme.primary};
+    `}
+`;

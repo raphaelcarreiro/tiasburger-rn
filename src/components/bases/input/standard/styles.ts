@@ -68,13 +68,13 @@ export const HelperText = styled.Text<InputProps>`
 export const TextLabel = styled.Text<InputProps>`
   position: absolute;
   font-size: 12px;
-  top: 0px;
+  top: 10px;
   font-family: 'sans-serif-light';
-  color: ${props => props.theme.primary};
+  color: #222;
 
-  ${({ isFocused }) =>
+  ${({ isFocused, theme }) =>
     isFocused &&
     css`
-      top: -24px !important;
+      color: ${theme.primary};
     `}
 `;

@@ -20,6 +20,7 @@ const InputStandard: React.ForwardRefRenderFunction<InputRef, InputProps> = (
   ref,
 ) => {
   const [isFocused, setIsFocused] = useState(false);
+  const [isFilled, setIsFilled] = useState(false);
   const [placeholderFocused, setPlaceholderFocused] = useState<string | undefined>('');
 
   useEffect(() => {
@@ -28,6 +29,10 @@ const InputStandard: React.ForwardRefRenderFunction<InputRef, InputProps> = (
     text = required ? `${text} *` : text;
     setPlaceholderFocused(text);
   }, [label, placeholder, required]);
+
+  useEffect(() => {
+    setIsFilled(!!value);
+  }, [value]);
 
   const handleInputFocus = useCallback(() => {
     setIsFocused(true);
@@ -39,7 +44,7 @@ const InputStandard: React.ForwardRefRenderFunction<InputRef, InputProps> = (
 
   return (
     <Container>
-      {isFocused && label && <TextLabel>{label}</TextLabel>}
+      {(isFocused || isFilled) && label && <TextLabel isFocused={isFocused}>{label}</TextLabel>}
       <InputContainer fullWidth={fullWidth} isFocused={isFocused} error={error} helperText={!!helperText}>
         <StyledInput
           ref={ref}
