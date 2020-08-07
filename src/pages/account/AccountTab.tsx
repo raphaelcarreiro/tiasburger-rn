@@ -2,7 +2,7 @@ import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { useTheme } from 'styled-components';
 import AccountForm from './form/AccountForm';
-import AccountAddresses from './address/AccountAddresses';
+import AccountAddresses from './address/Addresses';
 const Tab = createMaterialTopTabNavigator();
 
 const AccountTab: React.FC = () => {

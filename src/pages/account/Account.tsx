@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, useState } from 'react';
 import { Container } from './styles';
 import AppBar from '../../components/appbar/Appbar';
 import AccountTab from './AccountTab';
@@ -6,11 +6,22 @@ import AccountActions from './AccountActions';
 import userReducer, { INITIAL_STATE as userCustomerInitialState } from '../../context-api/user-customer/reducer';
 import { userChange, setUser as setUserCustomer } from '../../context-api/user-customer/actions';
 import { useSelector } from '../../store/selector';
-import { AccountContext } from './context/account';
+import { AccountContext, AccountValidation } from './context/account';
+import api from '../../services/api';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../store/modules/user/actions';
+import { useMessage } from '../../hooks/message';
+import * as yup from 'yup';
+import { cpfValidation } from '../../helpers/cpfValidation';
+import Loading from '../../components/loading/Loading';
 
 const Account: React.FC = () => {
   const [userCustomer, contextDispatch] = useReducer(userReducer, userCustomerInitialState);
+  const [validation, setValidation] = useState<AccountValidation>({} as AccountValidation);
   const user = useSelector(state => state.user);
+  const [saving, setSaving] = useState(false);
+  const dispatch = useDispatch();
+  const messaging = useMessage();
 
   useEffect(() => {
     if (!user) return;
@@ -26,8 +37,65 @@ const Account: React.FC = () => {
     );
   }, [contextDispatch, user]);
 
-  function handleSubmit(): void {
-    //
+  function handleValidation() {
+    setValidation({});
+
+    const schema = yup.object().shape({
+      cpf: yup
+        .string()
+        .transform((value, originalValue) => {
+          return originalValue ? originalValue.replace(/\D/g, '') : '';
+        })
+        .test('cpfValidation', 'CPF inválido', value => {
+          return cpfValidation(value);
+        })
+        .required('CPF é obrigatório'),
+      phone: yup
+        .string()
+        .transform((value, originalValue) => {
+          return originalValue ? originalValue.replace(/\D/g, '') : '';
+        })
+        .min(10, 'Telefone inválido')
+        .required('O telefone é obrigatório'),
+      name: yup.string().min(3, 'Nome inválido').required('O nome é obrigatório'),
+    });
+
+    schema
+      .validate(userCustomer)
+      .then(() => {
+        handleSubmit();
+      })
+      .catch((err: yup.ValidationError) => {
+        setValidation({
+          [err.path]: err.message,
+        });
+      });
+  }
+
+  function handleSubmit() {
+    const form = {
+      name: userCustomer.name,
+      phone: userCustomer.phone,
+      cpf: userCustomer.cpf,
+      image: userCustomer.image,
+      customer: {
+        cpf: userCustomer.cpf,
+      },
+    };
+
+    setSaving(true);
+    api
+      .put(`users/${user?.id}`, form)
+      .then(response => {
+        dispatch(setUser(response.data));
+        messaging.handleOpen('Salvo');
+      })
+      .catch(err => {
+        if (err.response) messaging.handleOpen(err.response.data.error);
+      })
+      .finally(() => {
+        setSaving(false);
+      });
   }
 
   function appBarGoBack() {
@@ -35,15 +103,18 @@ const Account: React.FC = () => {
   }
 
   return (
-    <AccountContext.Provider value={{ userCustomer, dispatch: contextDispatch }}>
+    <AccountContext.Provider
+      value={{ userCustomer, dispatch: contextDispatch, validation, handleValidation, setValidation: setValidation }}
+    >
       <AppBar
         hideShadow
         title={userCustomer.isImageSelected ? 'Foto' : 'Minha Conta'}
         backAction={appBarGoBack}
         showBackAction={userCustomer.isImageSelected}
-        actions={<AccountActions handleSubmit={handleSubmit} />}
+        actions={<AccountActions handleSubmit={handleValidation} />}
       />
       <Container>
+        {saving && <Loading />}
         <AccountTab />
       </Container>
     </AccountContext.Provider>

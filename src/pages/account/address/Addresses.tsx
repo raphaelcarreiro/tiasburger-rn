@@ -1,8 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import { StyleSheet, View, FlatList } from 'react-native';
 import { useSelector } from '../../../store/selector';
-import AccountAddressesItem from './AccountAddressesItem';
+import AccountAddressesItem from './AddressesItem';
 import AddressEdit from './edit/AddressEdit';
+import AddressNew from './new/AddressNew';
+import { ButtonNewAddress } from './styles';
+import Text from '../../../components/bases/typography/Text';
 
 const styles = StyleSheet.create({
   container: {
@@ -10,7 +13,6 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   list: {
-    flex: 1,
     width: '100%',
   },
 });
@@ -18,6 +20,7 @@ const styles = StyleSheet.create({
 const AccountAddresses: React.FC = () => {
   const user = useSelector(state => state.user);
   const [selectedIdAddress, setSelectedIdAddress] = useState<number | null>(null);
+  const [newAddress, setNewAddress] = useState(false);
 
   const selectedAddress = useMemo(() => {
     if (!user || !selectedIdAddress) return null;
@@ -35,10 +38,16 @@ const AccountAddresses: React.FC = () => {
   return (
     <View style={styles.container}>
       <AddressEdit open={!!selectedIdAddress} onExited={() => setSelectedIdAddress(null)} address={selectedAddress} />
+      <AddressNew open={newAddress} onExited={() => setNewAddress(false)} />
       <FlatList
+        ListFooterComponent={
+          <ButtonNewAddress onPress={() => setNewAddress(true)}>
+            <Text size={20}>Adicionar endereço</Text>
+          </ButtonNewAddress>
+        }
         style={styles.list}
         data={user?.customer.addresses}
-        keyExtractor={item => item.address}
+        keyExtractor={item => String(item.id)}
         renderItem={({ item }) => (
           <AccountAddressesItem address={item} handleSetSelectedIdAddress={handleSetSelectedIdAddress} />
         )}

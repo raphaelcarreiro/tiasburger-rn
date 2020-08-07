@@ -1,41 +1,38 @@
-import React, { useReducer, useEffect, useState } from 'react';
-import { Address } from '../../../../store/modules/user/reducer';
+import React, { useReducer, useState } from 'react';
 import Modal from '../../../../components/modal/Modal';
 import AddressForm from './AddressForm';
 import AddressFormActions from './AddressFormActions';
-import addressReducer, { setAddress, addressChange } from '../addressReducer';
+import addressReducer, { addressChange, setAddressViaCep } from '../addressReducer';
 import api from '../../../../services/api';
 import { useMessage } from '../../../../hooks/message';
 import { useDispatch } from 'react-redux';
-import { updateCustomerAddress } from '../../../../store/modules/user/actions';
+import { addCustomerAddress } from '../../../../store/modules/user/actions';
 import Loading from '../../../../components/loading/Loading';
 import * as yup from 'yup';
 import { useSelector } from '../../../../store/selector';
+import { ViaCepResponse } from 'src/services/postalCodeSearch';
+import { Address } from '../../../../store/modules/user/reducer';
 
 interface AddressEditProps {
-  address: Address | null;
   open: boolean;
   onExited(): void;
 }
 
 export interface AddressValidation {
+  cep?: string;
   address?: string;
   number?: string;
   complement?: string;
   district?: string;
 }
 
-const AddressEdit: React.FC<AddressEditProps> = ({ address, open, onExited }) => {
+const AddressNew: React.FC<AddressEditProps> = ({ open, onExited }) => {
   const [editedAddress, addressDispatch] = useReducer(addressReducer, {} as Address);
   const [saving, setSaving] = useState(false);
   const [validation, setValidation] = useState<AddressValidation>({} as AddressValidation);
   const restaurant = useSelector(state => state.restaurant);
   const message = useMessage();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (address) addressDispatch(setAddress(address));
-  }, [address]);
 
   function handleAddressChange(index: string, value: string): void {
     addressDispatch(addressChange(index, value));
@@ -68,10 +65,16 @@ const AddressEdit: React.FC<AddressEditProps> = ({ address, open, onExited }) =>
 
   function handleSubmit(): void {
     setSaving(true);
+
+    const data = {
+      ...editedAddress,
+      area_region_id: null,
+    };
+
     api
-      .put(`/customerAddresses/${editedAddress.id}`, editedAddress)
+      .post(`/customerAddresses`, data)
       .then(response => {
-        dispatch(updateCustomerAddress(response.data));
+        dispatch(addCustomerAddress(response.data));
         onExited();
       })
       .catch(err => {
@@ -82,6 +85,10 @@ const AddressEdit: React.FC<AddressEditProps> = ({ address, open, onExited }) =>
       });
   }
 
+  function handleSetAddress(address: ViaCepResponse): void {
+    addressDispatch(setAddressViaCep(address));
+  }
+
   function handleModalClose() {
     setValidation({} as AddressValidation);
     onExited();
@@ -89,7 +96,7 @@ const AddressEdit: React.FC<AddressEditProps> = ({ address, open, onExited }) =>
 
   return (
     <Modal
-      title="Alterar endereço"
+      title="Adicionar endereço"
       open={open}
       handleClose={handleModalClose}
       actions={<AddressFormActions saving={saving} handleSubmit={handleValidation} />}
@@ -100,9 +107,11 @@ const AddressEdit: React.FC<AddressEditProps> = ({ address, open, onExited }) =>
         handleAddressChange={handleAddressChange}
         validation={validation}
         handleValidation={handleValidation}
+        setValidation={setValidation}
+        handleSetAddress={handleSetAddress}
       />
     </Modal>
   );
 };
 
-export default AddressEdit;
+export default AddressNew;

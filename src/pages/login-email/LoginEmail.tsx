@@ -25,6 +25,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     width: '100%',
   },
+  scrollViewContent: {
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'space-between',
+  },
 });
 
 interface Validation {
@@ -120,10 +125,10 @@ const LoginEmail: React.FC = () => {
   }
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={{ flex: 1, alignItems: 'center' }}>
-        {loading && <Loading />}
-        <Container>
+    <>
+      {loading && <Loading />}
+      <Container>
+        <ScrollView contentContainerStyle={styles.scrollViewContent}>
           <Content>
             <Image source={{ uri: restaurant?.image.imageUrl }} style={styles.image} />
             <Title size={24}>Login</Title>
@@ -149,9 +154,9 @@ const LoginEmail: React.FC = () => {
               Próximo
             </Button>
           </View>
-        </Container>
-      </ScrollView>
-    </KeyboardAvoidingView>
+        </ScrollView>
+      </Container>
+    </>
   );
 };
 
