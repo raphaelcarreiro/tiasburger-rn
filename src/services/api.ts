@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { CancelTokenSource } from 'axios';
 import storage from '@react-native-community/async-storage';
 
 const baseURL = 'https://api2.topnfe.com.br/api/client/';
@@ -24,5 +24,11 @@ api.interceptors.request.use(
     return Promise.reject(err);
   },
 );
+
+export function getCancelTokenSource(): CancelTokenSource {
+  const CancelToken = axios.CancelToken;
+  const source = CancelToken.source();
+  return source;
+}
 
 export default api;

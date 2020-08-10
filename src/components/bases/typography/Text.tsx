@@ -1,16 +1,27 @@
 import React from 'react';
 import { StyledText } from './styles';
+import { TextProps } from 'react-native';
 
-interface TypographyProps {
+interface TypographyProps extends TextProps {
   bold?: boolean;
   size?: number;
   children: string | string[];
   gutterBottom?: boolean;
+  variant?: 'caption' | 'default';
+  color?: 'primary' | 'secondary';
 }
 
-const Typography: React.FC<TypographyProps> = ({ children, bold = false, size = 16, gutterBottom }) => {
+const Typography: React.FC<TypographyProps> = ({
+  children,
+  bold = false,
+  size = 16,
+  gutterBottom,
+  variant = 'default',
+  color,
+  style,
+}) => {
   return (
-    <StyledText bold={bold} size={size} gutterBottom>
+    <StyledText style={style} bold={bold} size={size} variant={variant} gutterBottom={gutterBottom} color={color}>
       {children}
     </StyledText>
   );

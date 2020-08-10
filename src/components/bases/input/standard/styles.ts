@@ -1,5 +1,5 @@
 // import styled, { css } from 'styled-components/native';
-import styled, { css } from '../../../../styled-components';
+import styled, { css } from 'styled-components/native';
 
 interface InputProps {
   fullWidth?: boolean;

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, Ref } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Address } from '../../../../store/modules/user/reducer';
 import Input from '../../../../components/bases/input/Input';
 import { AddressValidation } from './AddressEdit';

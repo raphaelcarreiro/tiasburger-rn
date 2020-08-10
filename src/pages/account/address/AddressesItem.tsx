@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import { Address } from '../../../store/modules/user/reducer';
 import Text from '../../../components/bases/typography/Text';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const styles = StyleSheet.create({
   listItem: {
@@ -26,13 +25,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
   },
-  icon: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    zIndex: 10,
-    padding: 10,
-  },
 });
 
 interface AccountAddressesItemProps {
@@ -55,7 +47,6 @@ const AccountAddressesItem: React.FC<AccountAddressesItemProps> = ({ address, ha
         <Text>
           {address.city}, {address.region}
         </Text>
-        <Icon name="more-vert" size={26} color="#666" style={styles.icon} />
       </TouchableOpacity>
     </>
   );

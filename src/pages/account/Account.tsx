@@ -14,6 +14,7 @@ import { useMessage } from '../../hooks/message';
 import * as yup from 'yup';
 import { cpfValidation } from '../../helpers/cpfValidation';
 import Loading from '../../components/loading/Loading';
+import { useNavigation } from '@react-navigation/native';
 
 const Account: React.FC = () => {
   const [userCustomer, contextDispatch] = useReducer(userReducer, userCustomerInitialState);
@@ -22,6 +23,11 @@ const Account: React.FC = () => {
   const [saving, setSaving] = useState(false);
   const dispatch = useDispatch();
   const messaging = useMessage();
+  const navigator = useNavigation();
+
+  useEffect(() => {
+    if (!user) navigator.navigate('Home');
+  }, [user, navigator]);
 
   useEffect(() => {
     if (!user) return;
@@ -113,8 +119,8 @@ const Account: React.FC = () => {
         showBackAction={userCustomer.isImageSelected}
         actions={<AccountActions handleSubmit={handleValidation} />}
       />
+      {saving && <Loading />}
       <Container>
-        {saving && <Loading />}
         <AccountTab />
       </Container>
     </AccountContext.Provider>

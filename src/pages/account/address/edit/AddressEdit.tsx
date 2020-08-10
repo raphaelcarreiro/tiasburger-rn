@@ -7,10 +7,11 @@ import addressReducer, { setAddress, addressChange } from '../addressReducer';
 import api from '../../../../services/api';
 import { useMessage } from '../../../../hooks/message';
 import { useDispatch } from 'react-redux';
-import { updateCustomerAddress } from '../../../../store/modules/user/actions';
+import { updateCustomerAddress, deleteCustomerAddress } from '../../../../store/modules/user/actions';
 import Loading from '../../../../components/loading/Loading';
 import * as yup from 'yup';
 import { useSelector } from '../../../../store/selector';
+import { Alert, ScrollView } from 'react-native';
 
 interface AddressEditProps {
   address: Address | null;
@@ -82,6 +83,34 @@ const AddressEdit: React.FC<AddressEditProps> = ({ address, open, onExited }) =>
       });
   }
 
+  function handleDelete() {
+    Alert.alert('Excluir', 'Você realmente deseja excluir esse endereço?', [
+      {
+        text: 'Cancelar',
+        style: 'cancel',
+      },
+      {
+        text: 'Confirmar',
+        style: 'default',
+        onPress: confirm,
+      },
+    ]);
+
+    function confirm() {
+      setSaving(true);
+
+      api
+        .delete(`/customerAddresses/${editedAddress.id}`)
+        .then(() => {
+          onExited();
+          dispatch(deleteCustomerAddress(editedAddress.id));
+        })
+        .finally(() => {
+          setSaving(false);
+        });
+    }
+  }
+
   function handleModalClose() {
     setValidation({} as AddressValidation);
     onExited();
@@ -92,15 +121,17 @@ const AddressEdit: React.FC<AddressEditProps> = ({ address, open, onExited }) =>
       title="Alterar endereço"
       open={open}
       handleClose={handleModalClose}
-      actions={<AddressFormActions saving={saving} handleSubmit={handleValidation} />}
+      actions={<AddressFormActions saving={saving} handleSubmit={handleValidation} handleDelete={handleDelete} />}
     >
       {saving && <Loading />}
-      <AddressForm
-        address={editedAddress}
-        handleAddressChange={handleAddressChange}
-        validation={validation}
-        handleValidation={handleValidation}
-      />
+      <ScrollView>
+        <AddressForm
+          address={editedAddress}
+          handleAddressChange={handleAddressChange}
+          validation={validation}
+          handleValidation={handleValidation}
+        />
+      </ScrollView>
     </Modal>
   );
 };

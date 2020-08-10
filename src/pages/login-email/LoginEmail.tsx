@@ -20,14 +20,13 @@ const styles = StyleSheet.create({
     height: 70,
   },
   actions: {
-    marginTop: 30,
+    marginTop: 80,
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     width: '100%',
   },
   scrollViewContent: {
     alignItems: 'center',
-    flex: 1,
     justifyContent: 'space-between',
   },
 });
@@ -151,7 +150,7 @@ const LoginEmail: React.FC = () => {
           </Content>
           <View style={styles.actions}>
             <Button color="primary" onPress={handleValidation}>
-              Próximo
+              {step === 'email' ? 'Próximo' : 'Entrar'}
             </Button>
           </View>
         </ScrollView>

@@ -5,6 +5,7 @@ interface ButtonProps {
   color?: 'primary' | 'secondary';
   fullWidth?: boolean;
   variant?: string;
+  disabled?: boolean;
 }
 
 export const Button = styled(RectButton)<ButtonProps>`
@@ -16,6 +17,12 @@ export const Button = styled(RectButton)<ButtonProps>`
   border-radius: 4px;
   background-color: ${({ color, theme }) => (color ? theme[color] : '#eee')};
   height: 42px;
+
+  ${props =>
+    props.disabled &&
+    css`
+      opacity: 0.5;
+    `}
 
   ${({ color, theme }) =>
     color &&

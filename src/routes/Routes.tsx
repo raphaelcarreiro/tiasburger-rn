@@ -8,8 +8,21 @@ import { useSelector } from '../store/selector';
 import Menu from '../pages/menu/Menu';
 import Offers from '../pages/offer/Offers';
 import Account from '../pages/account/Account';
+import Products from '../pages/products/Products';
 
-const Drawer = createDrawerNavigator();
+export type RootStackParamList = {
+  Home: undefined;
+  Offers: undefined;
+  Menu: undefined;
+  Products: { categoryName: string };
+  Cart: undefined;
+  Contact: undefined;
+  Login: undefined;
+  Orders: undefined;
+  Account: undefined;
+};
+
+const Drawer = createDrawerNavigator<RootStackParamList>();
 
 const Routes: React.FC = () => {
   const user = useSelector(state => state.user);
@@ -19,12 +32,12 @@ const Routes: React.FC = () => {
         <Drawer.Screen name="Home" component={Home} />
         <Drawer.Screen name="Offers" component={Offers} />
         <Drawer.Screen name="Menu" component={Menu} />
+        <Drawer.Screen name="Products" component={Products} />
         <Drawer.Screen name="Cart" component={Home} />
         <Drawer.Screen name="Contact" component={Home} />
         {!user && <Drawer.Screen name="Login" options={{ title: 'Entrar' }} component={SignRoutes} />}
         <Drawer.Screen name="Orders" component={Home} />
         <Drawer.Screen name="Account" component={Account} />
-        <Drawer.Screen name="Logoff" component={Home} />
       </Drawer.Navigator>
     </NavigationContainer>
   );

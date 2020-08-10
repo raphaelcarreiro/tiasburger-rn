@@ -8,7 +8,7 @@ interface RestaurantStatusData {
 export const DrawerHeader = styled.View`
   flex-direction: row;
   height: 60px;
-  background-color: ${props => props.theme.secondary};
+  background-color: ${props => props.theme.primary};
   justify-content: space-between;
   padding: 0 20px;
   align-items: center;

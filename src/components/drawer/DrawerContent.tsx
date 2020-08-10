@@ -1,13 +1,14 @@
 import React from 'react';
 import { DrawerContentScrollView, DrawerItem, DrawerContentComponentProps } from '@react-navigation/drawer';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View, Text, ScrollView } from 'react-native';
 import { useTheme } from 'styled-components';
 import { DrawerHeader, DrawerHeaderText, RestaurantStatus } from './styles';
 import { useSelector } from '../../store/selector';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import McIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Avatar } from 'react-native-paper';
+import { Avatar, Button } from 'react-native-paper';
 import { useAuth } from '../../hooks/auth';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const styles = StyleSheet.create({
   label: {
@@ -31,7 +32,7 @@ const Drawer: React.FC<DrawerContentComponentProps> = props => {
   }
 
   return (
-    <DrawerContentScrollView {...props} style={{ backgroundColor: theme.secondary }}>
+    <ScrollView {...props} style={{ backgroundColor: theme.secondary }}>
       <DrawerHeader>
         <DrawerHeaderText>{restaurant ? restaurant.name : 'Carregando'}</DrawerHeaderText>
         <RestaurantStatus status={restaurant ? restaurant.is_open : false} />
@@ -43,6 +44,13 @@ const Drawer: React.FC<DrawerContentComponentProps> = props => {
         style={{ marginVertical: 0 }}
         onPress={() => navigation.navigate('Home')}
       />
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Home')}
+        style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 15, marginBottom: 5, marginTop: 5 }}
+      >
+        <Icon color="#fff" size={26} name="home" />
+        <Text style={{ color: '#fff', fontSize: 16, marginLeft: 30 }}>Início</Text>
+      </TouchableOpacity>
       <DrawerItem
         icon={props => <Icon color="#fff" size={props.size} name="local-offer" />}
         label="Ofertas"
@@ -102,7 +110,7 @@ const Drawer: React.FC<DrawerContentComponentProps> = props => {
           onPress={() => navigation.navigate('Login')}
         />
       )}
-    </DrawerContentScrollView>
+    </ScrollView>
   );
 };
 

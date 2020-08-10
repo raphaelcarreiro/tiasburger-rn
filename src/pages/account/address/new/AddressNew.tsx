@@ -1,8 +1,8 @@
-import React, { useReducer, useState } from 'react';
+import React, { useReducer, useState, useEffect } from 'react';
 import Modal from '../../../../components/modal/Modal';
 import AddressForm from './AddressForm';
 import AddressFormActions from './AddressFormActions';
-import addressReducer, { addressChange, setAddressViaCep } from '../addressReducer';
+import addressReducer, { addressChange, setAddressViaCep, setAddress } from '../addressReducer';
 import api from '../../../../services/api';
 import { useMessage } from '../../../../hooks/message';
 import { useDispatch } from 'react-redux';
@@ -12,6 +12,7 @@ import * as yup from 'yup';
 import { useSelector } from '../../../../store/selector';
 import { ViaCepResponse } from 'src/services/postalCodeSearch';
 import { Address } from '../../../../store/modules/user/reducer';
+import { ScrollView } from 'react-native-gesture-handler';
 
 interface AddressEditProps {
   open: boolean;
@@ -33,6 +34,10 @@ const AddressNew: React.FC<AddressEditProps> = ({ open, onExited }) => {
   const restaurant = useSelector(state => state.restaurant);
   const message = useMessage();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    addressDispatch(setAddress({} as Address));
+  }, [open]);
 
   function handleAddressChange(index: string, value: string): void {
     addressDispatch(addressChange(index, value));
@@ -102,14 +107,16 @@ const AddressNew: React.FC<AddressEditProps> = ({ open, onExited }) => {
       actions={<AddressFormActions saving={saving} handleSubmit={handleValidation} />}
     >
       {saving && <Loading />}
-      <AddressForm
-        address={editedAddress}
-        handleAddressChange={handleAddressChange}
-        validation={validation}
-        handleValidation={handleValidation}
-        setValidation={setValidation}
-        handleSetAddress={handleSetAddress}
-      />
+      <ScrollView>
+        <AddressForm
+          address={editedAddress}
+          handleAddressChange={handleAddressChange}
+          validation={validation}
+          handleValidation={handleValidation}
+          setValidation={setValidation}
+          handleSetAddress={handleSetAddress}
+        />
+      </ScrollView>
     </Modal>
   );
 };
