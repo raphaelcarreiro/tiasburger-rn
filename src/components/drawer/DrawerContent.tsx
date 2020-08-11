@@ -1,14 +1,14 @@
 import React from 'react';
-import { DrawerContentScrollView, DrawerItem, DrawerContentComponentProps } from '@react-navigation/drawer';
-import { StyleSheet, View, Text, ScrollView } from 'react-native';
+import { DrawerItem, DrawerContentComponentProps } from '@react-navigation/drawer';
+import { StyleSheet, ScrollView, View } from 'react-native';
 import { useTheme } from 'styled-components';
-import { DrawerHeader, DrawerHeaderText, RestaurantStatus } from './styles';
+import { DrawerHeader, DrawerHeaderText } from './styles';
 import { useSelector } from '../../store/selector';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import McIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Avatar, Button } from 'react-native-paper';
+import { Avatar } from 'react-native-paper';
 import { useAuth } from '../../hooks/auth';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import Item from './DrawerItem';
 
 const styles = StyleSheet.create({
   label: {
@@ -16,7 +16,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'sans-serif-light',
   },
+  items: {
+    marginTop: 8,
+  },
 });
+
+const SIZE_ICON = 28;
 
 const Drawer: React.FC<DrawerContentComponentProps> = props => {
   const theme = useTheme();
@@ -35,81 +40,67 @@ const Drawer: React.FC<DrawerContentComponentProps> = props => {
     <ScrollView {...props} style={{ backgroundColor: theme.secondary }}>
       <DrawerHeader>
         <DrawerHeaderText>{restaurant ? restaurant.name : 'Carregando'}</DrawerHeaderText>
-        <RestaurantStatus status={restaurant ? restaurant.is_open : false} />
+        {/* <RestaurantStatus status={restaurant ? restaurant.is_open : false} /> */}
       </DrawerHeader>
-      <DrawerItem
-        icon={props => <Icon color="#fff" size={props.size} name="home" />}
-        label="Início"
-        labelStyle={styles.label}
-        style={{ marginVertical: 0 }}
-        onPress={() => navigation.navigate('Home')}
-      />
-      <TouchableOpacity
-        onPress={() => navigation.navigate('Home')}
-        style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 15, marginBottom: 5, marginTop: 5 }}
-      >
-        <Icon color="#fff" size={26} name="home" />
-        <Text style={{ color: '#fff', fontSize: 16, marginLeft: 30 }}>Início</Text>
-      </TouchableOpacity>
-      <DrawerItem
-        icon={props => <Icon color="#fff" size={props.size} name="local-offer" />}
-        label="Ofertas"
-        labelStyle={styles.label}
-        onPress={() => navigation.navigate('Offers')}
-      />
-      <DrawerItem
-        icon={props => <McIcon color="#fff" size={props.size} name="book" />}
-        label="Cardápio"
-        labelStyle={styles.label}
-        onPress={() => navigation.navigate('Menu')}
-      />
-      <DrawerItem
-        icon={props => <Icon color="#fff" size={props.size} name="shopping-cart" />}
-        label="Carrinho"
-        labelStyle={styles.label}
-        onPress={() => navigation.navigate('Cart')}
-      />
-      <DrawerItem
-        icon={props => <Icon color="#fff" size={props.size} name="contact-phone" />}
-        label="Contato"
-        labelStyle={styles.label}
-        onPress={() => navigation.navigate('Contact')}
-      />
-      {user ? (
-        <>
-          <DrawerItem
-            icon={props => <Icon color="#fff" size={props.size} name="assignment" />}
-            label="Meus pedidos"
-            labelStyle={styles.label}
-            onPress={() => navigation.navigate('Orders')}
-          />
-          <DrawerItem
-            icon={() =>
-              user.image ? (
-                <Avatar.Image size={24} source={{ uri: user.image.imageUrl }} />
-              ) : (
-                <Avatar.Icon size={24} icon="person" />
-              )
-            }
-            label={user.name}
-            labelStyle={styles.label}
-            onPress={() => navigation.navigate('Account')}
-          />
-          <DrawerItem
-            icon={props => <McIcon color="#fff" size={props.size} name="application-export" />}
-            label="Sair"
-            labelStyle={styles.label}
-            onPress={handleLogout}
-          />
-        </>
-      ) : (
-        <DrawerItem
-          icon={props => <McIcon size={props.size} color="#fff" name="application-import" />}
-          label="Entrar"
-          labelStyle={styles.label}
-          onPress={() => navigation.navigate('Login')}
+      <View style={styles.items}>
+        <Item
+          label="Início"
+          Icon={<Icon name="home" color={theme.contrast} size={SIZE_ICON} />}
+          onPress={() => navigation.navigate('Home')}
         />
-      )}
+        <Item
+          Icon={<Icon color={theme.contrast} size={SIZE_ICON} name="local-offer" />}
+          label="Ofertas"
+          onPress={() => navigation.navigate('Offers')}
+        />
+        <Item
+          Icon={<Icon color={theme.contrast} size={SIZE_ICON} name="book" />}
+          label="Cardápio"
+          onPress={() => navigation.navigate('Menu')}
+        />
+        <Item
+          Icon={<Icon color={theme.contrast} size={SIZE_ICON} name="shopping-cart" />}
+          label="Carrinho"
+          onPress={() => navigation.navigate('Cart')}
+        />
+        <Item
+          Icon={<Icon color={theme.contrast} size={SIZE_ICON} name="contact-phone" />}
+          label="Contato"
+          onPress={() => navigation.navigate('Contact')}
+        />
+        {user ? (
+          <>
+            <Item
+              Icon={<Icon color={theme.contrast} size={SIZE_ICON} name="assignment" />}
+              label="Meus pedidos"
+              onPress={() => navigation.navigate('Orders')}
+            />
+
+            <Item
+              Icon={
+                user.image ? (
+                  <Avatar.Image size={38} source={{ uri: user.image.imageUrl }} />
+                ) : (
+                  <Avatar.Icon size={24} icon="person" />
+                )
+              }
+              label={user.name}
+              onPress={() => navigation.navigate('Account')}
+            />
+            <Item
+              Icon={<McIcon color={theme.contrast} size={SIZE_ICON} name="application-export" />}
+              label="Sair"
+              onPress={handleLogout}
+            />
+          </>
+        ) : (
+          <Item
+            Icon={<McIcon size={SIZE_ICON} color={theme.contrast} name="application-import" />}
+            label="Entrar"
+            onPress={() => navigation.navigate('Login')}
+          />
+        )}
+      </View>
     </ScrollView>
   );
 };

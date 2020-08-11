@@ -5,6 +5,7 @@ export const Container = styled.SafeAreaView`
   padding: 0 15px;
   align-items: center;
   background-color: #fff;
+  position: relative;
 `;
 
 export const Content = styled.View`

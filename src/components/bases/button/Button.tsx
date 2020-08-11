@@ -1,9 +1,8 @@
 import React from 'react';
 import { Button as StyledButton, ButtonText } from './styles';
-import { RectButtonProperties } from 'react-native-gesture-handler';
+import { TouchableOpacityProps } from 'react-native';
 
-interface ButtonProps extends RectButtonProperties {
-  children: string;
+interface ButtonProps extends TouchableOpacityProps {
   color?: 'primary' | 'secondary';
   fullWidth?: boolean;
   variant?: 'text' | 'contained';

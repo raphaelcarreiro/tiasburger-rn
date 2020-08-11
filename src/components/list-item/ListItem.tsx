@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
     borderRadius: 4,
     minHeight: 120,
-    ...Platform.select({
+    /* ...Platform.select({
       ios: {
         shadowColor: '#000',
         shadowRadius: 2,
@@ -19,7 +19,9 @@ const styles = StyleSheet.create({
       android: {
         elevation: 1,
       },
-    }),
+    }), */
+    borderWidth: 1,
+    borderColor: '#eee',
   },
 });
 

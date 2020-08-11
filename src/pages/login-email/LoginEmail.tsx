@@ -6,7 +6,6 @@ import Title from '../../components/bases/typography/Text';
 import Button from '../../components/bases/button/Button';
 import EmailStep from './EmailStep';
 import PasswordStep from './PasswordStep';
-
 import Loading from '../../components/loading/Loading';
 import * as yup from 'yup';
 import { useMessage } from '../../hooks/message';
@@ -27,14 +26,14 @@ const styles = StyleSheet.create({
   },
   scrollViewContent: {
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
+    flex: 1,
   },
 });
 
 interface Validation {
   email?: string;
   password?: string;
-  [key: string]: any;
 }
 
 const LoginEmail: React.FC = () => {
@@ -50,6 +49,7 @@ const LoginEmail: React.FC = () => {
   const navigation = useNavigation();
 
   function handleValidation() {
+    setValidation({});
     switch (step) {
       case 'email': {
         const schema = yup.object().shape({
@@ -60,7 +60,6 @@ const LoginEmail: React.FC = () => {
           .validate({ email })
           .then(() => {
             handleNextClick();
-            setValidation({});
           })
           .catch(err => {
             setValidation({
@@ -79,7 +78,6 @@ const LoginEmail: React.FC = () => {
         schema
           .validate({ password })
           .then(() => {
-            setValidation({});
             handleLogin();
           })
           .catch(err => {
@@ -125,8 +123,8 @@ const LoginEmail: React.FC = () => {
 
   return (
     <>
-      {loading && <Loading />}
       <Container>
+        {loading && <Loading />}
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
           <Content>
             <Image source={{ uri: restaurant?.image.imageUrl }} style={styles.image} />

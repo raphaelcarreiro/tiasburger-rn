@@ -1,6 +1,5 @@
 import React from 'react';
-// import { Container, MessageText, CloseButton, CloseButtonText, MessageTextContainer } from './styles';
-import { Snackbar } from 'react-native-paper';
+import { Container, MessageText, CloseButton, CloseButtonText, MessageTextContainer } from './styles';
 
 interface MessageProps {
   message: string;
@@ -11,21 +10,16 @@ interface MessageProps {
 const Message: React.FC<MessageProps> = ({ message, open, handleClose }) => {
   return (
     <>
-      <Snackbar
-        style={{
-          backgroundColor: '#222',
-        }}
-        visible={open}
-        onDismiss={handleClose}
-        action={{
-          label: 'Fechar',
-          onPress: () => {
-            // Do something
-          },
-        }}
-      >
-        {message}
-      </Snackbar>
+      {open && (
+        <Container>
+          <MessageTextContainer>
+            <MessageText>{message}</MessageText>
+          </MessageTextContainer>
+          <CloseButton onPress={handleClose}>
+            <CloseButtonText>Fechar</CloseButtonText>
+          </CloseButton>
+        </Container>
+      )}
     </>
   );
 };

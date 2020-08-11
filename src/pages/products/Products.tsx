@@ -8,6 +8,10 @@ import InsideLoading from '../../components/loading/InsideLoading';
 import { RootStackParamList } from '../../routes/Routes';
 import ProductItem from './ProductItem';
 import { moneyFormat } from '../../helpers/numberFormat';
+import { ProductContext } from './productContext';
+import ProductSimple from './detail/simple/ProductSimple';
+import { useDispatch } from 'react-redux';
+import ProductComplement from './detail/complement/ProductComplement';
 
 const styles = StyleSheet.create({
   container: {
@@ -26,18 +30,21 @@ type ProductsProps = {
 
 const Products: React.FC<ProductsProps> = ({ route, navigation }) => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
   const refresh = useCallback(() => {
     api
       .get(`/categories/${route.params.categoryName}`)
       .then(response => {
-        const _products: Product[] = response.data.products;
+        const p: Product[] = response.data.products;
         setProducts(
-          _products.map(product => {
+          p.map(product => {
             return {
               ...product,
               formattedPrice: moneyFormat(product.price),
+              formattedSpecialPrice: moneyFormat(product.special_price),
             };
           }),
         );
@@ -58,8 +65,32 @@ const Products: React.FC<ProductsProps> = ({ route, navigation }) => {
     if (route.params) refresh();
   }, [route, refresh]);
 
+  const handleSelectProduct = useCallback((product: Product | null) => {
+    setSelectedProduct(product);
+  }, []);
+
+  const handleAddProductToCart = useCallback(() => {
+    console.log('added');
+  }, []);
+
+  const handlePrepareProduct = useCallback((product, amount = 1) => {
+    console.log('prepared');
+  }, []);
+
   return (
-    <>
+    <ProductContext.Provider
+      value={{
+        handleSelectProduct,
+        selectedProduct,
+        handleAddProductToCart,
+        handlePrepareProduct,
+        isPizza: !!selectedProduct?.category.is_pizza,
+        isComplement: !!selectedProduct?.category.has_complement && !selectedProduct?.category.is_pizza,
+        isSimple: selectedProduct ? !selectedProduct.category.has_complement : false,
+      }}
+    >
+      <ProductSimple />
+      <ProductComplement />
       <AppBar title={route.params.categoryName} showBackAction backAction={() => navigation.navigate('Menu')} />
       {loading ? (
         <InsideLoading />
@@ -76,7 +107,7 @@ const Products: React.FC<ProductsProps> = ({ route, navigation }) => {
           )}
         </View>
       )}
-    </>
+    </ProductContext.Provider>
   );
 };
 

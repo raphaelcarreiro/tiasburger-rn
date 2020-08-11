@@ -5,10 +5,10 @@ import { TextProps } from 'react-native';
 interface TypographyProps extends TextProps {
   bold?: boolean;
   size?: number;
-  children: string | string[];
   gutterBottom?: boolean;
   variant?: 'caption' | 'default';
-  color?: 'primary' | 'secondary';
+  color?: 'primary' | 'secondary' | 'contrast';
+  align?: 'right' | 'left' | 'center';
 }
 
 const Typography: React.FC<TypographyProps> = ({
@@ -19,9 +19,18 @@ const Typography: React.FC<TypographyProps> = ({
   variant = 'default',
   color,
   style,
+  align,
 }) => {
   return (
-    <StyledText style={style} bold={bold} size={size} variant={variant} gutterBottom={gutterBottom} color={color}>
+    <StyledText
+      align={align}
+      style={style}
+      bold={bold}
+      size={size}
+      variant={variant}
+      gutterBottom={gutterBottom}
+      color={color}
+    >
       {children}
     </StyledText>
   );

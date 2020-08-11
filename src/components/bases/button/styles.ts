@@ -1,5 +1,4 @@
 import styled, { css } from '../../../styled-components';
-import { RectButton } from 'react-native-gesture-handler';
 
 interface ButtonProps {
   color?: 'primary' | 'secondary';
@@ -8,15 +7,16 @@ interface ButtonProps {
   disabled?: boolean;
 }
 
-export const Button = styled(RectButton)<ButtonProps>`
+export const Button = styled.TouchableOpacity<ButtonProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: ${props => (props.fullWidth ? '100%' : '100px')};
+  min-width: ${props => (props.fullWidth ? '100%' : '30px')};
   text-transform: uppercase;
   border-radius: 4px;
   background-color: ${({ color, theme }) => (color ? theme[color] : '#eee')};
   height: 42px;
+  padding: 0 15px;
 
   ${props =>
     props.disabled &&

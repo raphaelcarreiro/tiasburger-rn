@@ -1,11 +1,18 @@
 import React, { ReactElement } from 'react';
-import { Modal as NativeModal, ModalProps as NativeModalProps, StyleSheet, View } from 'react-native';
+import {
+  Modal as NativeModal,
+  ModalProps as NativeModalProps,
+  StyleSheet,
+  View,
+  StyleProp,
+  ViewStyle,
+} from 'react-native';
 import AppBar from '../appbar/Appbar';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f3f3f3',
+    backgroundColor: '#fafafa',
     paddingTop: 60,
     paddingLeft: 15,
     paddingRight: 15,
@@ -16,15 +23,16 @@ const styles = StyleSheet.create({
 interface ModalProps extends NativeModalProps {
   open: boolean;
   handleClose(): void;
-  title: string;
+  title?: string;
   actions?: ReactElement;
+  style?: StyleProp<ViewStyle>;
 }
 
-const Modal: React.FC<ModalProps> = ({ children, open, handleClose, title, actions }) => {
+const Modal: React.FC<ModalProps> = ({ children, open, handleClose, title, actions, style, ...rest }) => {
   return (
-    <NativeModal animationType="slide" transparent visible={open}>
-      <View style={styles.container}>
-        <AppBar title={title} showBackAction backAction={handleClose} actions={actions} />
+    <NativeModal animationType="slide" transparent visible={open} {...rest} onRequestClose={handleClose}>
+      <View style={[styles.container, style]}>
+        {title && <AppBar title={title} showBackAction backAction={handleClose} actions={actions} />}
         {children}
       </View>
     </NativeModal>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Alert, Image, View } from 'react-native';
+import { StyleSheet, Image, View } from 'react-native';
 import { Category } from '../../../@types/category';
 import Text from '../../../components/bases/typography/Text';
 import { useNavigation } from '@react-navigation/native';
@@ -19,6 +19,9 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 4,
   },
+  dataText: {
+    maxWidth: 200,
+  },
 });
 
 interface CategoryListProps {
@@ -34,7 +37,7 @@ const CategoryList: React.FC<CategoryListProps> = ({ category }) => {
 
   return (
     <ListItem style={styles.listItem} onPress={() => handlePress(category.name)}>
-      <View>
+      <View style={styles.dataText}>
         <Text size={22}>{category.name}</Text>
         <Text size={14} variant="caption">
           {category.description}

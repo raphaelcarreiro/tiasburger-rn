@@ -5,7 +5,8 @@ interface TextProps {
   size?: number;
   gutterBottom?: boolean;
   variant?: 'caption' | 'default';
-  color?: 'primary' | 'secondary';
+  color?: 'primary' | 'secondary' | 'contrast';
+  align?: 'right' | 'left' | 'center';
 }
 
 export const StyledText = styled.Text<TextProps>`
@@ -29,5 +30,11 @@ export const StyledText = styled.Text<TextProps>`
     props.gutterBottom &&
     css`
       margin-bottom: 6px;
+    `}
+
+  ${props =>
+    props.align &&
+    css`
+      text-align: ${props.align};
     `}
 `;

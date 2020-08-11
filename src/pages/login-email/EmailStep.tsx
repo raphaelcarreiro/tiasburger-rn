@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import Title from '../../components/bases/typography/Text';
-import TextInput from '../../components/bases/input/Input';
+import Input from '../../components/bases/input/Input';
+import { TextInput } from 'react-native';
 
 interface EmailStepProps {
   email: string;
@@ -10,10 +11,18 @@ interface EmailStepProps {
 }
 
 const EmailStep: React.FC<EmailStepProps> = ({ email, setEmail, validation, handleValidation }) => {
+  const ref = useRef<TextInput>(null);
+
+  useEffect(() => {
+    console.log(validation);
+    if (!!validation && ref.current) ref.current.focus();
+  }, [validation, ref]);
+
   return (
     <>
       <Title size={16}>Informe seu e-mail ou telefone</Title>
-      <TextInput
+      <Input
+        ref={ref}
         error={!!validation}
         required
         placeholder="E-mail ou telefone"
@@ -27,6 +36,7 @@ const EmailStep: React.FC<EmailStepProps> = ({ email, setEmail, validation, hand
         autoCompleteType="email"
         onSubmitEditing={handleValidation}
         autoCapitalize="none"
+        blurOnSubmit={false}
       />
     </>
   );

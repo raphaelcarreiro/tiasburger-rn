@@ -1,8 +1,10 @@
 import React from 'react';
-import { StyleSheet, Alert, View, Image } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import ListItem from '../../components/list-item/ListItem';
 import { Product } from '../../@types/product';
 import Text from '../../components/bases/typography/Text';
+import { useTheme } from 'styled-components';
+import { useProduct } from './productContext';
 
 const styles = StyleSheet.create({
   listItem: {
@@ -18,11 +20,22 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 4,
   },
-  price: {
-    marginTop: 7,
-  },
   hasComplement: {
     marginTop: 7,
+  },
+  dataText: {
+    maxWidth: 200,
+  },
+  priceContent: {
+    flexDirection: 'row',
+    marginTop: 7,
+    alignItems: 'center',
+  },
+  oldPrice: {
+    color: '#888',
+    marginRight: 10,
+    textDecorationLine: 'line-through',
+    textDecorationStyle: 'solid',
   },
 });
 
@@ -31,20 +44,30 @@ interface ProductItemProps {
 }
 
 const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
-  function handlePress() {
-    Alert.alert('Pressed', 'It was pressed');
-  }
+  const theme = useTheme();
+  const { handleSelectProduct } = useProduct();
+
   return (
-    <ListItem style={styles.listItem} onPress={handlePress}>
-      <View>
+    <ListItem style={styles.listItem} onPress={() => handleSelectProduct(product)}>
+      <View style={styles.dataText}>
         <Text size={22}>{product.name}</Text>
         <Text size={14} variant="caption">
           {product.name}
         </Text>
         {product.price > 0 && (
-          <Text style={styles.price} color="primary" size={20}>
-            {product.formattedPrice}
-          </Text>
+          <View style={styles.priceContent}>
+            <Text
+              size={product.special_price ? 16 : 20}
+              style={product.special_price ? styles.oldPrice : { color: theme.primary }}
+            >
+              {product.formattedPrice}
+            </Text>
+            {product.special_price && (
+              <Text color="primary" size={20}>
+                {product.formattedSpecialPrice}
+              </Text>
+            )}
+          </View>
         )}
         {product.category.has_complement && (
           <Text style={styles.hasComplement} color="primary">

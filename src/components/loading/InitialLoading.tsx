@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   companyName: {
-    color: '#ccc',
+    color: '#666',
     position: 'absolute',
     bottom: 30,
     fontSize: 20,
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 const InitialLoading: React.FC = () => {
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" color="red" />
+      <ActivityIndicator size="large" color="#2a2a2a" />
       <Text style={styles.companyName}>Delivery</Text>
     </View>
   );
