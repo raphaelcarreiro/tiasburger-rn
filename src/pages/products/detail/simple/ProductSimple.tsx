@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import Modal from '../../../../components/modal/Modal';
 import api from '../../../../services/api';
 import Text from '../../../../components/bases/typography/Text';
@@ -77,6 +77,12 @@ const ProductSimple: React.FC = () => {
   }, [additionalPrice, amount, product]);
 
   useEffect(() => {
+    setProduct(null);
+    setLoading(true);
+    setAmount(1);
+  }, [selectedProduct]);
+
+  const loadProduct = useCallback(() => {
     if (!selectedProduct) return;
 
     api
@@ -156,11 +162,10 @@ const ProductSimple: React.FC = () => {
 
   function handleModalClose() {
     handleSelectProduct(null);
-    setProduct(null);
   }
 
   return (
-    <Modal open={isSimple} title="Adicionar" handleClose={handleModalClose}>
+    <Modal open={isSimple} title="Adicionar" handleClose={handleModalClose} onShow={loadProduct}>
       {loading ? (
         <InsideLoading />
       ) : (

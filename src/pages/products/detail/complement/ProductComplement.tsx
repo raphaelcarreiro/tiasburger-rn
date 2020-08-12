@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { ScrollView, TouchableOpacity, StyleSheet, Image, View } from 'react-native';
 import Typography from '../../../../components/bases/typography/Text';
 import { useMessage } from '../../../../hooks/message';
@@ -74,6 +74,12 @@ const ProductComplement: React.FC = () => {
   }, [complementsPrice, product, amount]);
 
   useEffect(() => {
+    setProduct(null);
+    setLoading(true);
+    setAmount(1);
+  }, [selectedProduct]);
+
+  const loadProduct = useCallback(() => {
     if (!selectedProduct) return;
 
     api
@@ -226,11 +232,10 @@ const ProductComplement: React.FC = () => {
 
   function handleModalClose() {
     handleSelectProduct(null);
-    setProduct(null);
   }
 
   return (
-    <Modal open={isComplement} title="Adicionar" handleClose={handleModalClose}>
+    <Modal open={isComplement} title="Adicionar" handleClose={handleModalClose} onShow={loadProduct}>
       {loading ? (
         <InsideLoading />
       ) : (
