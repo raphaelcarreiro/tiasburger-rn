@@ -3,9 +3,9 @@ import { Complement } from '../../../../@types/product';
 import { View, StyleSheet } from 'react-native';
 import Typography from '../../../../components/bases/typography/Text';
 import { useProduct } from '../../productContext';
-import { ListItemStyled } from '../simple/ingredients/style';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from 'styled-components';
+import { ListItemStyled } from '../style';
 
 type ProductComplementsProps = {
   complements: Complement[];
@@ -15,14 +15,8 @@ type ProductComplementsProps = {
 
 const styles = StyleSheet.create({
   listItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    minHeight: 55,
-    paddingLeft: 15,
-    paddingRight: 15,
-    marginBottom: 0,
-    position: 'relative',
+    borderWidth: 0,
+    elevation: 0,
   },
   icon: {
     height: 26,

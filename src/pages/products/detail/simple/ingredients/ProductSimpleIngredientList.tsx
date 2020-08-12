@@ -4,7 +4,7 @@ import { Ingredient } from '../../../../../@types/product';
 import Typography from '../../../../../components/bases/typography/Text';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from 'styled-components';
-import { ListItemStyled } from './style';
+import { ListItemStyled } from '../../style';
 
 type IngredientListProps = {
   handleClick(additionalId: number): void;

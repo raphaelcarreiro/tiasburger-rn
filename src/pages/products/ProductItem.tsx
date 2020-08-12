@@ -52,7 +52,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
       <View style={styles.dataText}>
         <Text size={22}>{product.name}</Text>
         <Text size={14} variant="caption">
-          {product.name}
+          {product.description}
         </Text>
         {product.price > 0 && (
           <View style={styles.priceContent}>

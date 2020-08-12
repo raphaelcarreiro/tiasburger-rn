@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: '100%',
-    height: 200,
+    height: 175,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 4,
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   },
   productImage: {
     width: '100%',
-    height: 200,
+    height: 175,
   },
   inputContainer: {
     marginTop: 20,
@@ -75,13 +75,6 @@ const ProductSimple: React.FC = () => {
     const total = (productPrice + additionalPrice) * amount;
     return moneyFormat(total);
   }, [additionalPrice, amount, product]);
-
-  useEffect(() => {
-    if (!selectedProduct) {
-      setProduct(null);
-      setAmount(1);
-    }
-  }, [selectedProduct]);
 
   useEffect(() => {
     if (!selectedProduct) return;
@@ -163,6 +156,7 @@ const ProductSimple: React.FC = () => {
 
   function handleModalClose() {
     handleSelectProduct(null);
+    setProduct(null);
   }
 
   return (

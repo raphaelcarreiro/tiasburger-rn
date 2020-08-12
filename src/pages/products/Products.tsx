@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { RouteProp, NavigationProp } from '@react-navigation/native';
 import api from '../../services/api';
@@ -33,6 +33,18 @@ const Products: React.FC<ProductsProps> = ({ route, navigation }) => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
+
+  const isPizza = useMemo(() => {
+    return !!selectedProduct?.category.is_pizza;
+  }, [selectedProduct]);
+
+  const isComplement = useMemo(() => {
+    return !!selectedProduct?.category.has_complement && !selectedProduct?.category.is_pizza;
+  }, [selectedProduct]);
+
+  const isSimple = useMemo(() => {
+    return selectedProduct ? !selectedProduct.category.has_complement : false;
+  }, [selectedProduct]);
 
   const refresh = useCallback(() => {
     api
@@ -70,11 +82,11 @@ const Products: React.FC<ProductsProps> = ({ route, navigation }) => {
   }, []);
 
   const handleAddProductToCart = useCallback(() => {
-    console.log('added');
+    // console.log('added');
   }, []);
 
   const handlePrepareProduct = useCallback((product, amount = 1) => {
-    console.log('prepared');
+    // console.log('prepared');
   }, []);
 
   return (
@@ -84,13 +96,14 @@ const Products: React.FC<ProductsProps> = ({ route, navigation }) => {
         selectedProduct,
         handleAddProductToCart,
         handlePrepareProduct,
-        isPizza: !!selectedProduct?.category.is_pizza,
-        isComplement: !!selectedProduct?.category.has_complement && !selectedProduct?.category.is_pizza,
-        isSimple: selectedProduct ? !selectedProduct.category.has_complement : false,
+        isPizza,
+        isComplement,
+        isSimple,
       }}
     >
       <ProductSimple />
       <ProductComplement />
+
       <AppBar title={route.params.categoryName} showBackAction backAction={() => navigation.navigate('Menu')} />
       {loading ? (
         <InsideLoading />

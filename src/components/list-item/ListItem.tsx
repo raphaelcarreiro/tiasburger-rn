@@ -1,13 +1,15 @@
 import React from 'react';
-import { StyleSheet, Platform, TouchableOpacity, TouchableOpacityProps } from 'react-native';
+import { StyleSheet, TouchableOpacity, TouchableOpacityProps } from 'react-native';
 
 const styles = StyleSheet.create({
   listItem: {
     flex: 1,
-    padding: 15,
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: 10,
+    paddingBottom: 10,
     backgroundColor: '#fff',
     marginBottom: 6,
-    borderRadius: 4,
     minHeight: 120,
     /* ...Platform.select({
       ios: {

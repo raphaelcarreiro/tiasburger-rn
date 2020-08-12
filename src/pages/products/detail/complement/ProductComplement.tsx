@@ -9,7 +9,6 @@ import { ComplementCategory, Complement, Product } from '../../../../@types/prod
 import Modal from '../../../../components/modal/Modal';
 import InsideLoading from '../../../../components/loading/InsideLoading';
 import ImagePreview from '../../../../components/image-preview/ImagePreview';
-import { useTheme } from 'styled-components';
 import InputText from '../../../../components/bases/input/Input';
 import ProductAmount from '../ProductAmount';
 import ProductAdd from '../ProductAdd';
@@ -35,7 +34,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: '100%',
-    height: 200,
+    height: 175,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 4,
@@ -45,7 +44,7 @@ const styles = StyleSheet.create({
   },
   productImage: {
     width: '100%',
-    height: 200,
+    height: 175,
   },
   inputContainer: {
     marginTop: 20,
@@ -68,7 +67,6 @@ const ProductComplement: React.FC = () => {
   const messaging = useMessage();
   const [complementsPrice, setComplementsPrice] = useState(0);
   const [loading, setLoading] = useState(true);
-  const theme = useTheme();
 
   const total = useMemo(() => {
     if (!product) return moneyFormat(0);
@@ -228,6 +226,7 @@ const ProductComplement: React.FC = () => {
 
   function handleModalClose() {
     handleSelectProduct(null);
+    setProduct(null);
   }
 
   return (

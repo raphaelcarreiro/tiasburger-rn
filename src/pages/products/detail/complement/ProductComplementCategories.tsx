@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     marginBottom: 0,
+    backgroundColor: '#f8f8f8',
   },
   required: {
     borderRadius: 4,
@@ -48,7 +49,9 @@ const ProductComplementCateogories: React.FC<ProductComplementCategoriesProps> =
         <View key={String(category.id)} style={styles.category}>
           <ListItem style={styles.listItem}>
             <View>
-              <Typography size={22}>{category.name}</Typography>
+              <Typography bold size={20}>
+                {category.name}
+              </Typography>
               {category.max_quantity === 1 ? (
                 <Typography size={14} variant="caption">
                   Escolha 1 opção.
