@@ -125,7 +125,7 @@ const LoginEmail: React.FC = () => {
     <>
       <Container>
         {loading && <Loading />}
-        <ScrollView contentContainerStyle={styles.scrollViewContent}>
+        <ScrollView contentContainerStyle={styles.scrollViewContent} keyboardShouldPersistTaps="handled">
           <Content>
             <Image source={{ uri: restaurant?.image.imageUrl }} style={styles.image} />
             <Title size={24}>Login</Title>

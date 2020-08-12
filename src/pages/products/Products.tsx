@@ -12,6 +12,7 @@ import { ProductContext } from './productContext';
 import ProductSimple from './detail/simple/ProductSimple';
 import { useDispatch } from 'react-redux';
 import ProductComplement from './detail/complement/ProductComplement';
+import ProductPizza from './detail/pizza/ProductPizza';
 
 const styles = StyleSheet.create({
   container: {
@@ -103,6 +104,7 @@ const Products: React.FC<ProductsProps> = ({ route, navigation }) => {
     >
       <ProductSimple />
       <ProductComplement />
+      <ProductPizza />
 
       <AppBar title={route.params.categoryName} showBackAction backAction={() => navigation.navigate('Menu')} />
       {loading ? (

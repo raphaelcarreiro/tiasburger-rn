@@ -44,6 +44,7 @@ export interface ComplementAdditional {
   product_complement_additional_id: number;
   name: string;
   prices: ComplementAdditionalPrice[];
+  selected: boolean;
 }
 
 export interface ComplementAdditionalPrice {

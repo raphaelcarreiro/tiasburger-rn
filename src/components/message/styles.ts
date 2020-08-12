@@ -1,21 +1,21 @@
 import styled from 'styled-components/native';
-import { Dimensions } from 'react-native';
-import { RectButton } from 'react-native-gesture-handler';
+import { Dimensions, Animated } from 'react-native';
 
-export const Container = styled.View`
+export const Container = styled(Animated.View)`
   flex: 1;
   background-color: #2a2a2a;
   position: absolute;
-  width: ${Dimensions.get('window').width - 20}px;
+  left: 10px;
+  right: 10px;
   min-height: 60px;
-  bottom: 0px;
   border-radius: 4px;
+  bottom: 0px;
   justify-content: space-between;
   padding: 15px 20px;
-  z-index: 20;
   margin: 10px;
   align-items: center;
   flex-direction: row;
+  z-index: 20;
 `;
 
 export const MessageText = styled.Text`
@@ -23,7 +23,7 @@ export const MessageText = styled.Text`
   font-size: 15px;
 `;
 
-export const CloseButton = styled(RectButton)`
+export const CloseButton = styled.TouchableOpacity`
   background-color: transparent;
   padding: 5px;
 `;

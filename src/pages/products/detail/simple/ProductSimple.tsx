@@ -107,6 +107,7 @@ const ProductSimple: React.FC = () => {
           formattedSpecialPrice: moneyFormat(response.data.special_price),
           additional,
           ingredients,
+          ready: true,
         });
       })
       .finally(() => {

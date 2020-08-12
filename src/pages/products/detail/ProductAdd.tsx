@@ -27,7 +27,13 @@ const ProductAdd: React.FC<ProductAddProps> = ({ total, product }) => {
   }
 
   return (
-    <Button variant="contained" color="primary" style={styles.addButton} onPress={handleConfirm}>
+    <Button
+      disabled={!product.ready}
+      variant="contained"
+      color="primary"
+      style={styles.addButton}
+      onPress={handleConfirm}
+    >
       <Typography bold>
         <Typography>Adicionar </Typography>
         {total}

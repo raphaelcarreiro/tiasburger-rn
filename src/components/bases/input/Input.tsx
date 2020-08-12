@@ -1,5 +1,5 @@
 import React, { ReactElement, forwardRef } from 'react';
-import { TextInputProps } from 'react-native';
+import { TextInputProps, ViewStyle, StyleProp } from 'react-native';
 import Outlined from './outlined/InputOutlined';
 import Standard from './standard/InputStandard';
 
@@ -11,6 +11,7 @@ interface InputProps extends TextInputProps {
   helperText?: string;
   variant?: 'standard' | 'outlined';
   label?: string;
+  containerStyle?: StyleProp<ViewStyle>;
 }
 
 interface InputRef {
