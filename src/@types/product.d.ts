@@ -1,6 +1,5 @@
 import { Image } from './image';
 import { Category } from './category';
-import { Promotion } from './promotion';
 
 export interface Additional {
   id: number;
@@ -81,10 +80,10 @@ export interface Product {
   activated: boolean;
   description: boolean;
   price: number;
-  special_price: number | null;
-  promotion_activated: boolean;
   formattedPrice: string;
-  formattedSpecialPrice: string | null;
+  special_price: number | null;
+  formattedSpecialPrice: string;
+  promotion_activated: boolean;
   image: Image;
   category: Category;
   additional: Additional[];
@@ -92,8 +91,4 @@ export interface Product {
   annotation: string;
   complement_categories: ComplementCategory[];
   ready?: boolean;
-  promotion?: Promotion;
-  product_price: number;
-  final_price: number;
-  category: Category;
 }

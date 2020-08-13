@@ -1,5 +1,6 @@
 import { moneyFormat } from '../../../helpers/numberFormat';
-import { Image } from '../../types';
+import { User } from '../../../@types/user';
+
 import {
   UserActions,
   SET_USER,
@@ -14,52 +15,9 @@ import {
   SET_MAIN_ADDRESS,
 } from './types';
 
-export interface Customer {
-  id: number;
-  name: string;
-  email: string;
-  phone: string;
-  cpf: string | null;
-  addresses: Address[];
-}
+export const INITIAL_STATE: User | null = null;
 
-interface AreaRegion {
-  id: number;
-  name: string;
-  tax: number;
-  formattedTax: string;
-}
-
-export interface Address {
-  id: number;
-  address: string;
-  number: string;
-  address_complement?: string;
-  postal_code: string;
-  district: string;
-  city: string;
-  region: string;
-  is_main: boolean;
-  area_region: AreaRegion | null;
-  distance_tax: number | null;
-  formattedDistanceTax: string | number;
-}
-
-export interface UserState {
-  id: number | null;
-  name: string;
-  email: string;
-  phone: string;
-  rule: string;
-  activated: string;
-  image: Image | null;
-  loadedFromStorage: boolean;
-  customer: Customer;
-}
-
-export const INITIAL_STATE: UserState | null = null;
-
-export default function user(state = INITIAL_STATE, action: UserActions): UserState | null {
+export default function user(state = INITIAL_STATE, action: UserActions): User | null {
   switch (action.type) {
     case SET_USER: {
       const customer = action.user.customer;

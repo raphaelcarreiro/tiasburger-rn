@@ -1,11 +1,15 @@
-export function checkCategories(cart, promotion) {
+import { Cart } from '../../../../@types/cart';
+import { Promotion } from '../../../../@types/promotion';
+
+export function checkCategories(cart: Cart, promotion: Promotion): boolean {
   // monta array de categorias x total dos produtos
   // verifica se produtos no carrinho satisfação regra da promoção
 
-  const cartCategories = [];
+  const cartCategories: Array<{ id: number; value: number }> = [];
   cart.products.forEach(product => {
     if (!product.fromPromotion)
-      if (!cartCategories.includes(product.category.id)) cartCategories.push({ id: product.category.id, value: 0 });
+      if (!cartCategories.find(c => c.id === product.category.id))
+        cartCategories.push({ id: product.category.id, value: 0 });
   });
 
   cart.products.forEach(product => {

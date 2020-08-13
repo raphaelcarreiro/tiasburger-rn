@@ -13,6 +13,7 @@ import ProductSimple from './detail/simple/ProductSimple';
 import { useDispatch } from 'react-redux';
 import ProductComplement from './detail/complement/ProductComplement';
 import ProductPizza from './detail/pizza/ProductPizza';
+import { prepareProduct, addToCart } from '../../store/modules/cart/actions';
 
 const styles = StyleSheet.create({
   container: {
@@ -83,12 +84,17 @@ const Products: React.FC<ProductsProps> = ({ route, navigation }) => {
   }, []);
 
   const handleAddProductToCart = useCallback(() => {
-    // console.log('added');
-  }, []);
+    dispatch(addToCart());
+    console.log('Added');
+  }, [dispatch]);
 
-  const handlePrepareProduct = useCallback((product, amount = 1) => {
-    // console.log('prepared');
-  }, []);
+  const handlePrepareProduct = useCallback(
+    (product: Product, amount = 1) => {
+      dispatch(prepareProduct(product, amount));
+      console.log('Prepared');
+    },
+    [dispatch],
+  );
 
   return (
     <ProductContext.Provider

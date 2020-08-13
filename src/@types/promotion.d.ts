@@ -1,3 +1,32 @@
+import { Category } from './category';
+import { Product } from './product';
+
+export interface PromotionCategory extends Category {
+  id: number;
+  promotion_id: number;
+  category_id: number;
+  value: number;
+}
+
+export interface PromotionProduct extends Product {
+  id: number;
+  product_id: number;
+  amount: number;
+  total: number;
+}
+
+export interface PromotionOfferedProduct extends Product {
+  id: number;
+  product_id: number;
+  amount: number;
+  total: number;
+}
+
+export interface PromotionOrderValue {
+  id: number;
+  promotion_id: number;
+  order_value: number;
+}
 export interface Promotion {
   id: number;
   name: string;
@@ -5,4 +34,8 @@ export interface Promotion {
   valid_at: string;
   type: string;
   activated: boolean;
+  categories: PromotionCategory[];
+  products: PromotionProduct[];
+  order_value: PromotionOrderValue | null;
+  offered_products: PromotionOfferedProduct[];
 }

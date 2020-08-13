@@ -1,3 +1,11 @@
+export interface UserRegister {
+  name: string;
+  phone: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+}
+
 export const CHANGE = 'CHANGE';
 
 interface ChangeAction {

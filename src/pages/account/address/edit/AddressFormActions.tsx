@@ -1,5 +1,5 @@
 import React from 'react';
-import { Appbar } from 'react-native-paper';
+import AppBarAction from '../../../../components/appbar/AppBarAction';
 
 interface ActionProps {
   handleSubmit(): void;
@@ -9,10 +9,10 @@ interface ActionProps {
 
 const AddressFormActions: React.FC<ActionProps> = ({ handleSubmit, saving, handleDelete }) => {
   return (
-    <Appbar.Header style={{ elevation: 0 }}>
-      <Appbar.Action icon="delete" onPress={handleDelete} disabled={saving} />
-      <Appbar.Action icon="check" onPress={handleSubmit} disabled={saving} />
-    </Appbar.Header>
+    <>
+      <AppBarAction iconName="delete" onPress={handleDelete} disabled={saving} />
+      <AppBarAction iconName="check" onPress={handleSubmit} disabled={saving} />
+    </>
   );
 };
 

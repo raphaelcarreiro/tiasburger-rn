@@ -113,7 +113,6 @@ const Account: React.FC = () => {
       value={{ userCustomer, dispatch: contextDispatch, validation, handleValidation, setValidation: setValidation }}
     >
       <AppBar
-        hideShadow
         title={userCustomer.isImageSelected ? 'Foto' : 'Minha Conta'}
         backAction={appBarGoBack}
         showBackAction={userCustomer.isImageSelected}

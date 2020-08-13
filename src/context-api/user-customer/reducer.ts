@@ -1,19 +1,6 @@
-import { UserActionTypes, USER_CHANGE, IMAGE_DELETE, SET_USER } from './types';
+import { UserActionTypes, USER_CHANGE, IMAGE_DELETE, SET_USER, UserCustomer } from './types';
 
-export interface UserState {
-  id?: number;
-  name: string;
-  email: string;
-  cpf: string | null;
-  phone: string;
-  isImageSelected: boolean;
-  image: null | {
-    id: number;
-    imageUrl: string;
-  };
-}
-
-export const INITIAL_STATE: UserState = {
+export const INITIAL_STATE: UserCustomer = {
   name: '',
   email: '',
   cpf: '',
@@ -22,7 +9,7 @@ export const INITIAL_STATE: UserState = {
   image: null,
 };
 
-export default function user(state = INITIAL_STATE, action: UserActionTypes): UserState {
+export default function user(state = INITIAL_STATE, action: UserActionTypes): UserCustomer {
   switch (action.type) {
     case USER_CHANGE: {
       return {

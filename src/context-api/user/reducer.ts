@@ -1,13 +1,6 @@
-import { UserActions, CHANGE } from './types';
+import { UserActions, CHANGE, UserRegister } from './types';
 
-export interface UserState {
-  name: string;
-  phone: string;
-  email: string;
-  password: string;
-  passwordConfirm: string;
-}
-export const INITIAL_STATE: UserState = {
+export const INITIAL_STATE: UserRegister = {
   name: '',
   phone: '',
   email: '',
@@ -15,7 +8,7 @@ export const INITIAL_STATE: UserState = {
   passwordConfirm: '',
 };
 
-export default function userReducer(state = INITIAL_STATE, action: UserActions): UserState {
+export default function userReducer(state = INITIAL_STATE, action: UserActions): UserRegister {
   switch (action.type) {
     case CHANGE: {
       return {

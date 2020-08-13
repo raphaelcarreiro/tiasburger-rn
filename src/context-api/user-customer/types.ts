@@ -1,4 +1,15 @@
-import { UserState } from './reducer';
+export interface UserCustomer {
+  id?: number;
+  name: string;
+  email: string;
+  cpf: string | null;
+  phone: string;
+  isImageSelected: boolean;
+  image: null | {
+    id: number;
+    imageUrl: string;
+  };
+}
 
 export const USER_CHANGE = 'USER_CHANGE';
 export const IMAGE_DELETE = 'IMAGE_DELETE';
@@ -16,7 +27,7 @@ interface UserImageDeleteAction {
 
 interface SetUserAction {
   type: typeof SET_USER;
-  user: UserState;
+  user: UserCustomer;
 }
 
 export type UserActionTypes = UserChangeAction | UserImageDeleteAction | SetUserAction;

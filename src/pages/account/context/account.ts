@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { UserState } from 'src/context-api/user-customer/reducer';
+import { UserCustomer } from '../../../context-api/user-customer/types';
 
 export type AccountValidation = {
   name?: string;
@@ -9,7 +9,7 @@ export type AccountValidation = {
 };
 
 interface AccountContextData {
-  userCustomer: UserState;
+  userCustomer: UserCustomer;
   dispatch(action: any): void;
   validation: AccountValidation;
   handleValidation(): void;

@@ -4,19 +4,16 @@ import { setUser, removeUser } from '../store/modules/user/actions';
 import api from '../services/api';
 import storage from '@react-native-community/async-storage';
 import jwt from 'jwt-decode';
+import { User } from '../@types/user';
 
-interface Payload {
+type Payload = {
   name: string;
   id: number;
   email: string;
   image: {
     imageUrl: string;
   } | null;
-}
-
-interface User {
-  name: string;
-}
+};
 
 interface AuthContextData {
   login(email: string, password: string): Promise<boolean>;

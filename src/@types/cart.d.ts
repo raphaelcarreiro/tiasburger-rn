@@ -1,13 +1,34 @@
 import { Product } from './product';
-import { RestaurantConfig } from './restaurant';
 import { Coupon } from './coupon';
 
+export type CartRestaurantConfigs = {
+  pizza_calculate: 'higher_value' | 'avarage_value';
+  tax_mode: 'district' | 'distance' | 'no_tax' | 'order_value';
+  tax_value: number;
+  order_minimum_value: number;
+};
+
+export interface CartProduct extends CartPrepareProduct {
+  additionalPrice: number;
+  complementsPrice: number;
+  promotion?: { id: number; name: string };
+  product_price: number;
+  final_price: number;
+  formattedFinalPrice: string;
+  formattedProductPrice: string;
+  fromPromotion?: boolean;
+}
+
+interface CartPrepareProduct extends Product {
+  amount: number;
+}
+
 export interface Cart {
-  products: Product[];
-  product: Prodct | null;
+  products: CartProduct[];
+  product: CartPrepareProduct | null;
   total: number;
-  history: Product[];
-  configs: RestaurantConfig | null;
+  history: CartProduct[];
+  configs: CartRestaurantConfigs;
   coupon: Coupon | null;
   discount: number;
   subtotal: number;

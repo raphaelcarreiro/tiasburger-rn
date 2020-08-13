@@ -1,5 +1,5 @@
 import { moneyFormat } from '../../../helpers/numberFormat';
-import { Cart } from '../../../@types/cart';
+import { Cart, CartRestaurantConfigs, CartProduct } from '../../../@types/cart';
 import {
   CartTypeActions,
   SET_CART,
@@ -20,13 +20,14 @@ import {
   SET_TAX,
   UPDATE_TOTAL,
 } from './types';
+import Storage from '@react-native-community/async-storage';
 
 export const INITIAL_STATE: Cart = {
   products: [],
   product: null,
   total: 0,
   history: [],
-  configs: null,
+  configs: {} as CartRestaurantConfigs,
   coupon: null,
   discount: 0,
   subtotal: 0,
@@ -38,9 +39,10 @@ export const INITIAL_STATE: Cart = {
 };
 
 export default function cart(state = INITIAL_STATE, action: CartTypeActions): Cart {
-  function addToCart(promotion: { id: number; name: string } | null = null) {
+  function addToCart(promotion?: { id: number; name: string }): Cart {
+    if (!state.product) return state;
     const price =
-      state.product.promotion_activated && state.product.special_price > 0
+      state.product.promotion_activated && state.product.special_price && state.product.special_price > 0
         ? state.product.special_price
         : state.product.price;
     let additionalPrice = 0;
@@ -90,9 +92,9 @@ export default function cart(state = INITIAL_STATE, action: CartTypeActions): Ca
 
     // calcula do valor das pizzas
     if (counterTaste > 0) {
-      if (state.configs?.pizza_calculate === 'average_value') {
+      if (state.configs.pizza_calculate === 'avarage_value') {
         tastePrice = tastePrice / counterTaste;
-      } else if (state.configs?.pizza_calculate === 'higher_value') {
+      } else if (state.configs.pizza_calculate === 'higher_value') {
         tastePrice = Math.max(...tastePrices);
       }
 
@@ -101,7 +103,7 @@ export default function cart(state = INITIAL_STATE, action: CartTypeActions): Ca
 
     finalPrice = promotion ? 0 : (price + additionalPrice + complementsPrice) * state.product.amount;
 
-    const products = [
+    const products: CartProduct[] = [
       ...state.products,
       {
         ...state.product,
@@ -134,8 +136,8 @@ export default function cart(state = INITIAL_STATE, action: CartTypeActions): Ca
       return {
         ...state,
         product: {
-          amount: action.amount,
           ...action.product,
+          amount: action.amount,
         },
       };
     }
@@ -230,9 +232,9 @@ export default function cart(state = INITIAL_STATE, action: CartTypeActions): Ca
 
       // calcula do valor das pizzas
       if (counterTaste > 0) {
-        if (state.configs?.pizza_calculate === 'average_value') {
+        if (state.configs.pizza_calculate === 'avarage_value') {
           tastePrice = tastePrice / counterTaste;
-        } else if (state.configs?.pizza_calculate === 'higher_value') {
+        } else if (state.configs.pizza_calculate === 'higher_value') {
           tastePrice = Math.max(...tastePrices);
         }
 
@@ -282,14 +284,12 @@ export default function cart(state = INITIAL_STATE, action: CartTypeActions): Ca
     }
 
     case CLEAR_CART: {
-      // localStorage.removeItem(process.env.LOCALSTORAGE_CART);
+      Storage.removeItem('cart');
       return {
         ...INITIAL_STATE,
-        configs: state.configs
-          ? {
-              ...state.configs,
-            }
-          : null,
+        configs: {
+          ...state.configs,
+        },
       };
     }
 
@@ -346,7 +346,7 @@ export default function cart(state = INITIAL_STATE, action: CartTypeActions): Ca
         discount = coupon.discount_type === 'percent' ? subtotal * (coupon.discount / 100) : coupon.discount;
       }
 
-      if (configs?.tax_mode === 'order_value') {
+      if (configs.tax_mode === 'order_value') {
         if (action.shipmentMethod === 'delivery') {
           tax = configs.tax_value > 0 && subtotal < configs.order_minimum_value ? configs.tax_value : 0;
           total = subtotal < configs.order_minimum_value ? subtotal - discount + tax : subtotal - discount;
@@ -354,7 +354,7 @@ export default function cart(state = INITIAL_STATE, action: CartTypeActions): Ca
           tax = 0;
           total = subtotal - discount;
         }
-      } else if (configs?.tax_mode === 'district' || configs?.tax_mode === 'distance') {
+      } else if (configs.tax_mode === 'district' || configs.tax_mode === 'distance') {
         if (action.shipmentMethod === 'delivery') total = subtotal - discount + tax;
         else {
           tax = 0;

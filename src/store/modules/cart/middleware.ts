@@ -1,12 +1,15 @@
 import { createHistory, setConfigs, updateTotal, setTax } from './actions';
+import Storage from '@react-native-community/async-storage';
 
 import checkPromotion from './promotion/checkPromotion';
+import { Cart } from '../../../@types/cart';
+import { Middleware } from 'redux';
 
-const saveCartAtLocalStorage = cart => {
-  localStorage.setItem(process.env.LOCALSTORAGE_CART, JSON.stringify(cart));
+const saveCartAtLocalStorage = async (cart: Cart) => {
+  await Storage.setItem('cart', JSON.stringify(cart));
 };
 
-export const cartMiddlware = store => next => action => {
+export const cartMiddlware: Middleware = store => next => action => {
   // actions para atualizar total e salvar carrinho em local storage
   const actionsToSaveCart = [
     '@cart/ADD_PRODUCT',
@@ -72,7 +75,7 @@ export const cartMiddlware = store => next => action => {
         tax_mode: configs.tax_mode,
         tax_value: configs.tax_value,
         order_minimum_value: configs.order_minimum_value,
-      })
+      }),
     );
   }
 

@@ -11,9 +11,9 @@ import {
   UPDATE_CUSTOMER_ADDRESS,
   SET_MAIN_ADDRESS,
 } from './types';
-import { UserState, Address } from './reducer';
+import { User, Address } from '../../../@types/user';
 
-export function setUser(user: UserState): UserActions {
+export function setUser(user: User): UserActions {
   return {
     type: SET_USER,
     user,

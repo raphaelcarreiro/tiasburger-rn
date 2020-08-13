@@ -3,8 +3,8 @@ export interface Coupon {
   name: string;
   description: string;
   discount: number;
-  discount_type: string;
-  valid_at: Date;
+  discount_type: 'percent' | 'value';
+  valid_at: string;
   usage_amount: number;
   activated: boolean;
 }

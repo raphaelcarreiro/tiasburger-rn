@@ -1,11 +1,11 @@
 import React, { useState, useRef } from 'react';
-import { UserState } from '../../context-api/user/reducer';
 import Input from '../../components/bases/input/Input';
 import { UserValidation } from './Register';
 import Text from '../../components/bases/typography/Text';
 import { Image, StyleSheet, TextInput } from 'react-native';
 import { useSelector } from '../../store/selector';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { UserRegister } from '../../context-api/user/types';
 
 const styles = StyleSheet.create({
   image: {
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 });
 
 interface RegisterFormProps {
-  user: UserState;
+  user: UserRegister;
   handleChange(index: string, value: string): void;
   validation: UserValidation;
   handleSubmit(): void;

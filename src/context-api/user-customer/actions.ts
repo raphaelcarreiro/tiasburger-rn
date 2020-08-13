@@ -1,5 +1,4 @@
-import { UserActionTypes, USER_CHANGE, IMAGE_DELETE, SET_USER } from './types';
-import { UserState } from './reducer';
+import { UserActionTypes, USER_CHANGE, IMAGE_DELETE, SET_USER, UserCustomer } from './types';
 
 export function userChange(index: string, value: string | boolean | number | null): UserActionTypes {
   return {
@@ -15,7 +14,7 @@ export function imageDelete(): UserActionTypes {
   };
 }
 
-export function setUser(user: UserState): UserActionTypes {
+export function setUser(user: UserCustomer): UserActionTypes {
   return {
     type: SET_USER,
     user,

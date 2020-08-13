@@ -2,18 +2,20 @@ import React from 'react';
 import { Container } from './styles';
 import AppBar from '../../components/appbar/Appbar';
 import Text from '../../components/bases/typography/Text';
-import { useMessage } from '../../hooks/message';
-import Button from '../../components/bases/button/Button';
+import AppBarAction from '../../components/appbar/AppBarAction';
 
 const Home: React.FC = () => {
-  const message = useMessage();
   return (
     <Container>
-      <AppBar title="Início" />
+      <AppBar
+        title="Início"
+        actions={
+          <>
+            <AppBarAction iconName="check" />
+          </>
+        }
+      />
       <Text>Home</Text>
-      <Button variant="contained" color="primary" onPress={() => message.handleOpen('Snackbar')}>
-        Snackbar!
-      </Button>
     </Container>
   );
 };

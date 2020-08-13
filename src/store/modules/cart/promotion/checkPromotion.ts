@@ -11,7 +11,7 @@ import { checkCategories } from './checkPromotionCategories';
 import { checkProducts } from './checkPromotionProducts';
 import { checkValue } from './checkPromotionValue';
 
-export default function checkPromotion(store) {
+export default function checkPromotion(store): void {
   const promotions = store.getState().promotion;
   const cart = store.getState().cart;
   const order = store.getState().order;
@@ -44,7 +44,7 @@ export default function checkPromotion(store) {
             store.dispatch(promotionRemoveFromCart(promotion.id));
             promotion.offered_products.forEach(product => {
               store.dispatch(prepareProduct(product, product.amount));
-              store.dispatch(promotionAddToCart({ id: promotion.id, name: promotion.name }));
+              store.dispatch(promotionAddToCart(promotion.id, promotion.name));
             });
             break;
           }

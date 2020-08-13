@@ -1,5 +1,5 @@
 import React from 'react';
-import { DrawerItem, DrawerContentComponentProps } from '@react-navigation/drawer';
+import { DrawerContentComponentProps } from '@react-navigation/drawer';
 import { StyleSheet, ScrollView, View } from 'react-native';
 import { useTheme } from 'styled-components';
 import { DrawerHeader, DrawerHeaderText } from './styles';
@@ -88,7 +88,7 @@ const Drawer: React.FC<DrawerContentComponentProps> = props => {
               onPress={() => navigation.navigate('Account')}
             />
             <Item
-              Icon={<McIcon color={theme.contrast} size={SIZE_ICON} name="application-export" />}
+              Icon={<McIcon color="#dc3545" size={SIZE_ICON} name="application-export" />}
               label="Sair"
               onPress={handleLogout}
             />

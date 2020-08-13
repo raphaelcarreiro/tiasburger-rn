@@ -1,4 +1,4 @@
-import { UserState, Address } from './reducer';
+import { User, Address } from '../../../@types/user';
 
 export const SET_USER = '@user/SET_USER';
 export const REMOVE_USER = '@user/REMOVE_USER';
@@ -13,7 +13,7 @@ export const SET_MAIN_ADDRESS = '@user/SET_MAIN_ADDRESS';
 
 interface SetUserAction {
   type: typeof SET_USER;
-  user: UserState;
+  user: User;
 }
 
 interface RemoveUserAction {

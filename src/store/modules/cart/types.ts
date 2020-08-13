@@ -1,8 +1,7 @@
-import { Cart } from '../../../@types/cart';
-import { Product } from '../../../@types/product';
+import { Cart, CartRestaurantConfigs, CartProduct } from '../../../@types/cart';
 import { Promotion } from '../../../@types/promotion';
-import { RestaurantConfig } from '../../../@types/restaurant';
 import { Coupon } from '../../../@types/coupon';
+import { Product } from '../../../@types/product';
 
 export const SET_CART = '@cart/SET_CART';
 export const PREPARE_PRODUCT = '@cart/PREPARE_PRODUCT';
@@ -26,82 +25,66 @@ interface SetCartAction {
   type: typeof SET_CART;
   cart: Cart;
 }
-
 interface PrepareProductAction {
   type: typeof PREPARE_PRODUCT;
   amount: number;
   product: Product;
 }
-
 interface AddProductAction {
   type: typeof ADD_PRODUCT;
 }
-
 interface PromotionAddProductAction {
   type: typeof PROMOTION_ADD_PRODUCT;
   promotionId: number;
   promotionName: string;
 }
-
 interface RemoveProductAction {
   type: typeof REMOVE_PRODUCT;
   productUid: number;
 }
-
 interface PromotionRemoveProductAction {
   type: typeof PROMOTION_REMOVE_PRODUCT;
   promotionId: number;
 }
-
 interface InactivePromotionRemoveProduct {
   type: typeof INACTIVE_PROMOTION_REMOVE_PRODUCT;
   promotions: Promotion[];
 }
-
 interface UpdateProductAction {
   type: typeof UPDATE_PRODUCT;
-  product: Product;
+  product: CartProduct;
   amount: number;
 }
-
 interface RestoreCartAction {
   type: typeof RESTORE_CART;
 }
-
 interface CreateHistoryAction {
   type: typeof CREATE_HISTORY;
-  products: Product[];
+  products: CartProduct[];
 }
-
 interface ClearCartAction {
   type: typeof CLEAR_CART;
 }
-
 interface SetConfigsAction {
   type: typeof SET_CONFIGS;
-  configs: RestaurantConfig;
+  configs: CartRestaurantConfigs;
 }
-
 interface SetCouponAction {
   type: typeof SET_COUPON;
   coupon: Coupon;
 }
-
 interface RemoveCouponAction {
   type: typeof REMOVE_COUPON;
 }
-
 interface SetTaxAction {
   type: typeof SET_TAX;
   tax: number;
 }
-
 interface SetDiscountAction {
   type: typeof SET_DISCOUNT;
   discount: number;
-  discountType: string;
+  discountType: 'percent' | 'value';
 }
-
 interface UpdateTotalAction {
   type: typeof UPDATE_TOTAL;
   shipmentMethod: 'delivery' | 'customer_collect';
