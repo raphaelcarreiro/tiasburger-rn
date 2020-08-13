@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
 });
 
 const ProductSimple: React.FC = () => {
-  const { selectedProduct, handleSelectProduct, isSimple } = useProduct();
+  const { selectedProduct, handleSelectProduct, isSimple, handlePrepareProduct } = useProduct();
   const [amount, setAmount] = useState(1);
   const [product, setProduct] = useState<Product | null>(null);
   const [additionalPrice, setAdditionalPrice] = useState(0);
@@ -81,6 +81,11 @@ const ProductSimple: React.FC = () => {
     setLoading(true);
     setAmount(1);
   }, [selectedProduct]);
+
+  useEffect(() => {
+    if (!product) return;
+    handlePrepareProduct(product, amount);
+  }, [amount, product, handlePrepareProduct]);
 
   const loadProduct = useCallback(() => {
     if (!selectedProduct) return;
@@ -145,8 +150,6 @@ const ProductSimple: React.FC = () => {
   }
 
   function handleClickAdditional(additionalId: number) {
-    console.log(additionalId);
-
     if (product)
       setProduct({
         ...product,

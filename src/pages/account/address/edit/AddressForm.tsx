@@ -1,8 +1,8 @@
 import React, { useRef, useEffect } from 'react';
-import { Address } from '../../../../store/modules/user/reducer';
 import Input from '../../../../components/bases/input/Input';
 import { AddressValidation } from './AddressEdit';
 import { TextInput } from 'react-native';
+import { Address } from '../../../../@types/address';
 
 interface AccountFormEditProps {
   address: Address | null;

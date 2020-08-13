@@ -1,10 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Address } from '../../../../store/modules/user/reducer';
 import Input from '../../../../components/bases/input/Input';
 import { AddressValidation } from './AddressNew';
 import { TextInput } from 'react-native';
 import { useSelector } from '../../../../store/selector';
 import { postalCodeSearch, ViaCepResponse } from '../../../../services/postalCodeSearch';
+import { Address } from '../../../../@types/address';
 
 interface AccountFormEditProps {
   address: Address | null;

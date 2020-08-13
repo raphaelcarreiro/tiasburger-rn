@@ -10,9 +10,9 @@ import { addCustomerAddress } from '../../../../store/modules/user/actions';
 import Loading from '../../../../components/loading/Loading';
 import * as yup from 'yup';
 import { useSelector } from '../../../../store/selector';
-import { ViaCepResponse } from 'src/services/postalCodeSearch';
-import { Address } from '../../../../store/modules/user/reducer';
+import { ViaCepResponse } from '../../../../services/postalCodeSearch';
 import { ScrollView } from 'react-native-gesture-handler';
+import { Address } from '../../../../@types/address';
 
 interface AddressEditProps {
   open: boolean;

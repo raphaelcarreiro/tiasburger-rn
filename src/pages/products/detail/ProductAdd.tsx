@@ -19,11 +19,12 @@ const styles = StyleSheet.create({
 });
 
 const ProductAdd: React.FC<ProductAddProps> = ({ total, product }) => {
-  const { handleAddProductToCart } = useProduct();
+  const { handleAddProductToCart, handleSelectProduct } = useProduct();
 
   function handleConfirm() {
     if (!product.ready) return;
     handleAddProductToCart();
+    handleSelectProduct(null); // close modal
   }
 
   return (

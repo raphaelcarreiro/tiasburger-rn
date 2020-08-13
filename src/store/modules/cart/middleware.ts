@@ -7,6 +7,7 @@ import { Middleware } from 'redux';
 
 const saveCartAtLocalStorage = async (cart: Cart) => {
   await Storage.setItem('cart', JSON.stringify(cart));
+  console.log(cart);
 };
 
 export const cartMiddlware: Middleware = store => next => action => {

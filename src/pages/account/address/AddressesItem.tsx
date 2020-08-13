@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, Platform } from 'react-native';
-import { Address } from '../../../store/modules/user/reducer';
 import Text from '../../../components/bases/typography/Text';
+import { Address } from '../../../@types/address';
 
 const styles = StyleSheet.create({
   listItem: {

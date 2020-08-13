@@ -9,6 +9,7 @@ import Menu from '../pages/menu/Menu';
 import Offers from '../pages/offer/Offers';
 import Account from '../pages/account/Account';
 import Products from '../pages/products/Products';
+import Cart from '../pages/cart/Cart';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -33,7 +34,7 @@ const Routes: React.FC = () => {
         <Drawer.Screen name="Offers" component={Offers} />
         <Drawer.Screen name="Menu" component={Menu} />
         <Drawer.Screen name="Products" component={Products} />
-        <Drawer.Screen name="Cart" component={Home} />
+        <Drawer.Screen name="Cart" component={Cart} />
         <Drawer.Screen name="Contact" component={Home} />
         {!user && <Drawer.Screen name="Login" options={{ title: 'Entrar' }} component={SignRoutes} />}
         <Drawer.Screen name="Orders" component={Home} />

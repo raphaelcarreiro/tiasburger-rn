@@ -158,11 +158,6 @@ const ProductPizza: React.FC = () => {
 
   useEffect(() => {
     if (!product) return;
-    handlePrepareProduct(product, amount);
-  }, [amount, product, handlePrepareProduct]);
-
-  useEffect(() => {
-    if (!product) return;
 
     // Calcula o valor total dos complements selecionados
     let sumPrices = 0;
@@ -192,12 +187,12 @@ const ProductPizza: React.FC = () => {
     });
 
     if (counterTaste > 0) {
-      if (restaurant?.configs.pizza_calculate === 'average_value') sumPrices = sumPrices + tastePrice / counterTaste;
+      if (restaurant?.configs.pizza_calculate === 'avarage_value') sumPrices = sumPrices + tastePrice / counterTaste;
       else if (restaurant?.configs.pizza_calculate === 'higher_value') sumPrices = sumPrices + Math.max(...tastePrices);
     }
 
     setComplementsPrice(sumPrices + additionalPrice);
-    handlePrepareProduct(product, amount);
+    if (product.ready) handlePrepareProduct(product, amount);
   }, [amount, handlePrepareProduct, product, restaurant]);
 
   function handleAmountUp() {
@@ -318,7 +313,7 @@ const ProductPizza: React.FC = () => {
 
     if (sizeSelected) setComplementSizeSelected(sizeSelected);
 
-    if (ready) handlePrepareProduct(newProduct);
+    // if (ready) handlePrepareProduct(newProduct);
   }
 
   const handleSearch = useCallback(

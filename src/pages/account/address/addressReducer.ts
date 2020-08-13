@@ -1,5 +1,5 @@
-import { Address } from '../../../store/modules/user/reducer';
 import { ViaCepResponse } from '../../../services/postalCodeSearch';
+import { Address } from '../../../@types/address';
 
 const addressInitialState: Address = {} as Address;
 

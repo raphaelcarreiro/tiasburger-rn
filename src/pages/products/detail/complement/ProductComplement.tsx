@@ -144,12 +144,6 @@ const ProductComplement: React.FC = () => {
   useEffect(() => {
     if (!product) return;
 
-    handlePrepareProduct(product, amount);
-  }, [amount, product, handlePrepareProduct]);
-
-  useEffect(() => {
-    if (!product) return;
-
     setComplementsPrice(
       product.complement_categories.reduce((value, category) => {
         const categoryPrice = category.complements.reduce((sum, complement) => {

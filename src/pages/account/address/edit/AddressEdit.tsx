@@ -1,5 +1,4 @@
 import React, { useReducer, useEffect, useState } from 'react';
-import { Address } from '../../../../store/modules/user/reducer';
 import Modal from '../../../../components/modal/Modal';
 import AddressForm from './AddressForm';
 import AddressFormActions from './AddressFormActions';
@@ -12,6 +11,7 @@ import Loading from '../../../../components/loading/Loading';
 import * as yup from 'yup';
 import { useSelector } from '../../../../store/selector';
 import { Alert, ScrollView } from 'react-native';
+import { Address } from '../../../../@types/address';
 
 interface AddressEditProps {
   address: Address | null;

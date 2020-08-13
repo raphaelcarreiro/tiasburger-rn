@@ -87,7 +87,8 @@ const ProductComplements: React.FC<ProductComplementsProps> = ({
                 price.selected &&
                 !!price.price && (
                   <Typography key={String(price.id)} bold color="primary">
-                    {!isPizzaTaste && '+'} {price.formattedPrice}
+                    {!isPizzaTaste && '+ '}
+                    {price.formattedPrice}
                   </Typography>
                 ),
             )}
