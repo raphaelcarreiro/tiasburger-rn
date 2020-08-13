@@ -1,6 +1,6 @@
 import React from 'react';
 import { Complement } from '../../../../@types/product';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import Typography from '../../../../components/bases/typography/Text';
 import { useProduct } from '../../productContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -18,6 +18,9 @@ const styles = StyleSheet.create({
   listItem: {
     borderWidth: 0,
     elevation: 0,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
   },
   icon: {
     height: 26,
@@ -26,6 +29,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     position: 'absolute',
     right: 10,
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+  },
+  imageContainer: {
+    width: 60,
+    height: 60,
+    marginRight: 15,
+    borderRadius: 30,
+    backgroundColor: '#eee',
+    overflow: 'hidden',
   },
 });
 
@@ -52,6 +67,16 @@ const ProductComplements: React.FC<ProductComplementsProps> = ({
           style={styles.listItem}
           onPress={() => handleClick(complement.id)}
         >
+          {complement.image && (
+            <View style={styles.imageContainer}>
+              <Image
+                style={styles.image}
+                source={{
+                  uri: complement.image.thumbImageUlr ? complement.image.thumbImageUlr : complement.image.imageUrl,
+                }}
+              />
+            </View>
+          )}
           <View>
             <Typography>{complement.name}</Typography>
             <Typography size={14} variant="caption" gutterBottom>

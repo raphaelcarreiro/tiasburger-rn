@@ -1,5 +1,6 @@
 import { Image } from './image';
 import { Category } from './category';
+import { Promotion } from './promotion';
 
 export interface Additional {
   id: number;
@@ -74,6 +75,7 @@ export interface Complement {
 
 export interface Product {
   id: number;
+  uid: number;
   name: string;
   url: string;
   activated: boolean;
@@ -90,4 +92,8 @@ export interface Product {
   annotation: string;
   complement_categories: ComplementCategory[];
   ready?: boolean;
+  promotion?: Promotion;
+  product_price: number;
+  final_price: number;
+  category: Category;
 }

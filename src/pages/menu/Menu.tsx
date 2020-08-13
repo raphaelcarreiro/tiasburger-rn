@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Container } from './styles';
 import AppBar from '../../components/appbar/Appbar';
-import { useMessage } from '../../hooks/message';
 import api, { getCancelTokenSource } from '../../services/api';
 import { Category } from '../../@types/category';
 import { FlatList } from 'react-native';
@@ -10,7 +9,6 @@ import CategoryList from './categories/CategoryList';
 const Menu: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
-  const messaging = useMessage();
   const [productsAmount, setProductsAmount] = useState(0);
 
   const refresh = useCallback(() => {
@@ -26,13 +24,13 @@ const Menu: React.FC = () => {
         if (request) setCategories(response.data);
       })
       .catch(err => {
-        if (err.response) messaging.handleOpen(err.response.data.error);
+        if (err.response) console.log(err.response.data.error);
       })
       .finally(() => {
         if (request) setLoading(false);
         request = false;
       });
-  }, [messaging]);
+  }, []);
 
   useEffect(() => {
     refresh();

@@ -15,7 +15,7 @@ const Message: React.FC<MessageProps> = ({ message, open, handleClose }) => {
     Animated.timing(slide, {
       useNativeDriver: true,
       toValue: 300,
-      duration: 100,
+      duration: 150,
     }).start();
   }, [slide]);
 
@@ -23,7 +23,7 @@ const Message: React.FC<MessageProps> = ({ message, open, handleClose }) => {
     Animated.timing(slide, {
       useNativeDriver: true,
       toValue: 0,
-      duration: 100,
+      duration: 150,
     }).start();
   }, [slide]);
 
