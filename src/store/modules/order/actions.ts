@@ -1,104 +1,128 @@
-export function setCustomer(customer) {
+import {
+  OrderTypeActions,
+  SET_CUSTOMER,
+  SET_SHIPMENT_ADDRESS,
+  SET_SHIPMENT_METHOD,
+  SET_PAYMENT_METHOD,
+  SET_PRODUCTS,
+  SET_CHANGE,
+  CHANGE_CREDITCARD,
+  CHANGE,
+  SET_INITIAL_STATE,
+  CLEAR_CARD,
+  SET_COUPON,
+  SET_TAX,
+  SET_SCHEDULE,
+  SET_DISCOUNT,
+  SET_CARD,
+} from './types';
+import { Customer } from '../../../@types/customer';
+import { OrderShipment, CreditCart } from '../../../@types/order';
+import { PaymnentMethod } from '../../../@types/paymentMethod';
+import { CartProduct } from '../../../@types/cart';
+import { Coupon } from '../../../@types/coupon';
+
+export function setCustomer(customer: Customer): OrderTypeActions {
   return {
-    type: '@order/SET_CUSTOMER',
+    type: SET_CUSTOMER,
     customer,
   };
 }
 
-export function setShipmentAddress(address) {
+export function setShipmentAddress(address: OrderShipment): OrderTypeActions {
   return {
-    type: '@order/SET_SHIPMENT_ADDRESS',
+    type: SET_SHIPMENT_ADDRESS,
     address,
   };
 }
 
-export function setShipmentMethod(shipmentMethod) {
+export function setShipmentMethod(shipmentMethod: 'delivery' | 'customer_collect'): OrderTypeActions {
   return {
-    type: '@order/SET_SHIPMENT_METHOD',
+    type: SET_SHIPMENT_METHOD,
     shipmentMethod,
   };
 }
 
-export function setPaymentMethod(paymentMethod) {
+export function setPaymentMethod(paymentMethod: PaymnentMethod): OrderTypeActions {
   return {
-    type: '@order/SET_PAYMENT_METHOD',
+    type: SET_PAYMENT_METHOD,
     paymentMethod,
   };
 }
 
-export function setProducts(products) {
+export function setProducts(products: CartProduct[]): OrderTypeActions {
   return {
-    type: '@order/SET_PRODUCTS',
+    type: SET_PRODUCTS,
     products,
   };
 }
 
-export function setChange(value) {
+export function setChange(value: number): OrderTypeActions {
   return {
-    type: '@order/SET_CHANGE',
+    type: SET_CHANGE,
     value,
   };
 }
 
-export function changeCreditCard(index, value) {
+export function changeCreditCard(index: string, value: string): OrderTypeActions {
   return {
-    type: '@order/CHANGE_CREDITCARD',
+    type: CHANGE_CREDITCARD,
     index,
     value,
   };
 }
 
-export function orderChange(index, value) {
+export function orderChange(index: string, value: string): OrderTypeActions {
   return {
-    type: '@order/CHANGE',
+    type: CHANGE,
     index,
     value,
   };
 }
 
-export function setInitialState() {
+export function setInitialState(): OrderTypeActions {
   return {
-    type: '@order/SET_INITIAL_STATE',
+    type: SET_INITIAL_STATE,
   };
 }
 
-export function clearCard() {
+export function clearCard(): OrderTypeActions {
   return {
-    type: '@order/CLEAR_CARD',
+    type: CLEAR_CARD,
   };
 }
 
-export function setCoupon(coupon) {
+export function setCoupon(coupon: Coupon): OrderTypeActions {
   return {
-    type: '@order/SET_COUPON',
+    type: SET_COUPON,
     coupon,
   };
 }
 
-export function setTax(tax) {
+export function setTax(tax: number): OrderTypeActions {
   return {
-    type: '@order/SET_TAX',
+    type: SET_TAX,
     tax,
   };
 }
 
-export function setSchedule(date) {
+export function setSchedule(date: Date): OrderTypeActions {
   return {
-    type: '@order/SET_SCHEDULE',
+    type: SET_SCHEDULE,
     date,
   };
 }
 
-export function setDiscount(discount) {
+export function setDiscount(discount: number): OrderTypeActions {
   return {
-    type: '@order/SET_DISCOUNT',
+    type: SET_DISCOUNT,
     discount,
   };
 }
 
-export function setCard(card) {
+export function setCard(card: CreditCart): OrderTypeActions {
   return {
-    type: '@order/SET_CARD',
+    type: SET_CARD,
     card,
   };
 }

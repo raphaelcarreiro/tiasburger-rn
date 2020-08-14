@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Content } from './styles';
-import { Image, StyleSheet, View, KeyboardAvoidingView, Platform } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import { useSelector } from '../../store/selector';
 import Title from '../../components/bases/typography/Text';
 import Button from '../../components/bases/button/Button';
@@ -12,6 +12,7 @@ import { useMessage } from '../../hooks/message';
 import { useAuth } from '../../hooks/auth';
 import { useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
+import { useApp } from '../../App';
 
 const styles = StyleSheet.create({
   image: {
@@ -47,13 +48,14 @@ const LoginEmail: React.FC = () => {
   const message = useMessage();
   const auth = useAuth();
   const navigation = useNavigation();
+  const app = useApp();
 
   function handleValidation() {
     setValidation({});
     switch (step) {
       case 'email': {
         const schema = yup.object().shape({
-          email: yup.string().email('Informe um e-mail válido').required('Informe o e-mail'),
+          email: yup.string().required('Informe o e-mail ou telefone'),
         });
 
         schema
@@ -113,7 +115,8 @@ const LoginEmail: React.FC = () => {
     auth
       .login(email, password)
       .then(() => {
-        navigation.navigate('Home');
+        if (app.redirect) navigation.navigate(app.redirect);
+        else navigation.navigate('Home');
       })
       .catch(err => {
         setLoading(false);

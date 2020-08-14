@@ -5,13 +5,13 @@ import LoginEmail from '../pages/login-email/LoginEmail';
 import Register from '../pages/register/Register';
 import { useTheme } from 'styled-components';
 
-const NoHeader = createStackNavigator();
+const Stack = createStackNavigator();
 
-const NoHeaderRoutes: React.FC = () => {
+const StackSignRoutes: React.FC = () => {
   const theme = useTheme();
 
   return (
-    <NoHeader.Navigator
+    <Stack.Navigator
       screenOptions={{
         headerStyle: {
           backgroundColor: theme.primary,
@@ -19,11 +19,11 @@ const NoHeaderRoutes: React.FC = () => {
         headerTintColor: '#fff',
       }}
     >
-      <NoHeader.Screen name="Initial" options={{ headerShown: false }} component={Login} />
-      <NoHeader.Screen name="LoginEmail" options={{ title: 'Entrar' }} component={LoginEmail} />
-      <NoHeader.Screen name="Register" options={{ title: 'Registrar' }} component={Register} />
-    </NoHeader.Navigator>
+      <Stack.Screen name="Initial" options={{ headerShown: false }} component={Login} />
+      <Stack.Screen name="LoginEmail" options={{ title: 'Entrar' }} component={LoginEmail} />
+      <Stack.Screen name="Register" options={{ title: 'Registrar' }} component={Register} />
+    </Stack.Navigator>
   );
 };
 
-export default NoHeaderRoutes;
+export default StackSignRoutes;

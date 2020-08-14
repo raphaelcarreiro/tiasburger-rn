@@ -68,14 +68,14 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
             {product.amount}x {product.name}
           </Typography>
         </View>
-        <Typography size={24}>{product.formattedPrice}</Typography>
+        <Typography size={24}>{product.formattedFinalPrice}</Typography>
       </View>
       <View style={styles.actions}>
         <Button color="primary" variant="text" onPress={() => handleDeleteClick(product.uid)}>
-          Excluir
+          Alterar
         </Button>
         <Button variant="text" onPress={() => handleDeleteClick(product.uid)}>
-          Alterar
+          Excluir
         </Button>
       </View>
     </ListItem>

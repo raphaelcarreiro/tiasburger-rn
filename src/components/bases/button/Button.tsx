@@ -7,6 +7,7 @@ interface ButtonProps extends TouchableOpacityProps {
   fullWidth?: boolean;
   variant?: 'text' | 'contained';
   disabled?: boolean;
+  disablePadding?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -15,10 +16,18 @@ const Button: React.FC<ButtonProps> = ({
   fullWidth = false,
   variant = 'contained',
   disabled = false,
+  disablePadding = false,
   ...rest
 }) => {
   return (
-    <StyledButton {...rest} color={color} fullWidth={fullWidth} variant={variant} disabled={disabled}>
+    <StyledButton
+      {...rest}
+      disablePadding={disablePadding}
+      color={color}
+      fullWidth={fullWidth}
+      variant={variant}
+      disabled={disabled}
+    >
       <ButtonText color={color} variant={variant}>
         {children}
       </ButtonText>

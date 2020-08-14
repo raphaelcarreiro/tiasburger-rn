@@ -28,11 +28,12 @@ const styles = StyleSheet.create({
 });
 
 interface AppBarProps {
-  title: string;
+  title?: string;
   subtitle?: string;
   actions?: ReactElement;
   backAction?: () => void;
   showBackAction?: boolean;
+  showTitle?: boolean;
 }
 
 const AppBar: React.FC<AppBarProps> = ({ title, subtitle, actions, backAction, showBackAction }) => {
@@ -53,12 +54,14 @@ const AppBar: React.FC<AppBarProps> = ({ title, subtitle, actions, backAction, s
             <IconButton onPress={handleToggle} Icon={<Icon name="menu" size={26} color={theme.contrast} />} />
           )}
         </View>
-        <View style={styles.title}>
-          <Typography size={20} style={{ color: theme.contrast }}>
-            {title}
-          </Typography>
-          {subtitle && <Typography style={{ color: theme.contrast }}>{subtitle}</Typography>}
-        </View>
+        {!!title && (
+          <View style={styles.title}>
+            <Typography size={20} style={{ color: theme.contrast }}>
+              {title}
+            </Typography>
+            {subtitle && <Typography style={{ color: theme.contrast }}>{subtitle}</Typography>}
+          </View>
+        )}
         {actions && <View style={styles.actions}>{actions}</View>}
       </AppBarStyled>
     </View>

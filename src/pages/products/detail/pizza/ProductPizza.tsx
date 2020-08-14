@@ -367,7 +367,7 @@ const ProductPizza: React.FC = () => {
   }
 
   return (
-    <Modal open={isPizza} title="Adicionar" handleClose={handleModalClose} onShow={loadProduct}>
+    <Modal open={isPizza} title="Adicionar ao carrinho" handleClose={handleModalClose} onShow={loadProduct}>
       {loading ? (
         <InsideLoading />
       ) : (

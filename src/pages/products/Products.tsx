@@ -15,12 +15,18 @@ import ProductComplement from './detail/complement/ProductComplement';
 import ProductPizza from './detail/pizza/ProductPizza';
 import { prepareProduct, addToCart } from '../../store/modules/cart/actions';
 import ProductActions from './ProductActions';
+import Typography from '../../components/bases/typography/Text';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 56,
     padding: 15,
+  },
+  empty: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
@@ -33,8 +39,11 @@ type ProductsProps = {
 
 const Products: React.FC<ProductsProps> = ({ route, navigation }) => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isSearching, setIsSearching] = useState(false);
+
   const dispatch = useDispatch();
 
   const isPizza = useMemo(() => {
@@ -53,16 +62,16 @@ const Products: React.FC<ProductsProps> = ({ route, navigation }) => {
     api
       .get(`/categories/${route.params.url}`)
       .then(response => {
-        const p: Product[] = response.data.products;
-        setProducts(
-          p.map(product => {
-            return {
-              ...product,
-              formattedPrice: moneyFormat(product.price),
-              formattedSpecialPrice: moneyFormat(product.special_price),
-            };
-          }),
-        );
+        let _products: Product[] = response.data.products;
+        _products = _products.map(product => {
+          return {
+            ...product,
+            formattedPrice: moneyFormat(product.price),
+            formattedSpecialPrice: moneyFormat(product.special_price),
+          };
+        });
+        setProducts(_products);
+        setFilteredProducts(_products);
       })
       .finally(() => {
         setLoading(false);
@@ -86,19 +95,34 @@ const Products: React.FC<ProductsProps> = ({ route, navigation }) => {
 
   const handleAddProductToCart = useCallback(() => {
     dispatch(addToCart());
-    console.log('Added');
   }, [dispatch]);
 
   const handlePrepareProduct = useCallback(
     (product: Product, amount = 1) => {
       dispatch(prepareProduct(product, amount));
-      console.log('Prepared');
     },
     [dispatch],
   );
 
   function handleOpenSearchBox() {
-    //
+    setIsSearching(true);
+  }
+
+  function handleCloseSearchBox() {
+    handleSearch('');
+    setIsSearching(false);
+  }
+
+  function handleSearch(value: string) {
+    const _products = products.filter(product => {
+      const productName = product.name
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
+      return productName.indexOf(value.toLowerCase()) !== -1;
+    });
+
+    setFilteredProducts(_products);
   }
 
   return (
@@ -118,23 +142,32 @@ const Products: React.FC<ProductsProps> = ({ route, navigation }) => {
       <ProductPizza />
 
       <AppBar
-        actions={<ProductActions openSearchBox={handleOpenSearchBox} />}
-        title={route.params.categoryName}
+        actions={
+          <ProductActions openSearchBox={handleOpenSearchBox} isSearching={isSearching} handleSearch={handleSearch} />
+        }
+        title={isSearching ? undefined : route.params.categoryName}
         showBackAction
-        backAction={() => navigation.navigate('Menu')}
+        backAction={() => (isSearching ? handleCloseSearchBox() : navigation.navigate('Menu'))}
       />
       {loading ? (
         <InsideLoading />
       ) : (
         <View style={styles.container}>
-          {products.length > 0 && (
+          {filteredProducts.length > 0 ? (
             <FlatList
-              data={products}
+              keyboardShouldPersistTaps="handled"
+              data={filteredProducts}
               keyExtractor={item => String(item.id)}
               renderItem={({ item: product }) => <ProductItem product={product} />}
               onRefresh={refresh}
               refreshing={loading}
             />
+          ) : (
+            <View style={styles.empty}>
+              <Typography variant="caption" size={20}>
+                Nenhum produto
+              </Typography>
+            </View>
           )}
         </View>
       )}

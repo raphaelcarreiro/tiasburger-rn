@@ -5,6 +5,7 @@ interface ButtonProps {
   fullWidth?: boolean;
   variant?: string;
   disabled?: boolean;
+  disablePadding?: boolean;
 }
 
 export const Button = styled.TouchableOpacity<ButtonProps>`
@@ -17,6 +18,12 @@ export const Button = styled.TouchableOpacity<ButtonProps>`
   background-color: ${({ color, theme }) => (color ? theme[color] : '#eee')};
   height: 42px;
   padding: 0 15px;
+
+  ${props =>
+    props.disablePadding &&
+    css`
+      padding: 0;
+    `}
 
   ${props =>
     props.disabled &&

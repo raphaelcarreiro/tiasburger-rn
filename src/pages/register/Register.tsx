@@ -11,8 +11,11 @@ import userReducer, { INITIAL_STATE as userInitialState } from '../../context-ap
 import { userChange } from '../../context-api/user/actions';
 import RegisterForm from './RegisterForm';
 import { useMessage } from '../../hooks/message';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
 import RegisterSucess from './success/RegisterSuccess';
+import AsyncStorage from '@react-native-community/async-storage';
+import { useApp } from '../../App';
+import { RootStackParamList } from '../../routes/Routes';
 
 const styles = StyleSheet.create({
   image: {
@@ -43,8 +46,9 @@ const Register: React.FC = () => {
   const [created, setCreated] = useState(false);
   const [user, contextDispatch] = useReducer(userReducer, userInitialState);
   const dispatch = useDispatch();
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const { handleOpen } = useMessage();
+  const app = useApp();
 
   function handleChange(index: string, value: string): void {
     contextDispatch(userChange(index, value));
@@ -87,9 +91,10 @@ const Register: React.FC = () => {
           .post('/users', user)
           .then(response => {
             setLoading(false);
-            // localStorage.setItem(process.env.TOKEN_NAME, response.data.token);
+            AsyncStorage.setItem('token', response.data.token);
             dispatch(setUser(response.data.user));
-            setCreated(true);
+            if (app.redirect) navigation.navigate(app.redirect);
+            else setCreated(true);
           })
           .catch(err => {
             setLoading(false);
@@ -113,7 +118,7 @@ const Register: React.FC = () => {
   }
 
   return (
-    <ScrollView>
+    <ScrollView keyboardShouldPersistTaps="handled">
       {loading && <Loading />}
       {created ? (
         <RegisterSucess />

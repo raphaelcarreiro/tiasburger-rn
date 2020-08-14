@@ -152,7 +152,8 @@ const ProductComplement: React.FC = () => {
         return categoryPrice + value;
       }, 0),
     );
-    handlePrepareProduct(product, amount);
+
+    if (product.ready) handlePrepareProduct(product, amount);
   }, [amount, handlePrepareProduct, product]);
 
   function handleAmountUp() {
@@ -216,8 +217,6 @@ const ProductComplement: React.FC = () => {
     };
 
     setProduct(newProduct);
-
-    if (ready) handlePrepareProduct(newProduct);
   }
 
   function handleImagePreview() {
@@ -229,7 +228,7 @@ const ProductComplement: React.FC = () => {
   }
 
   return (
-    <Modal open={isComplement} title="Adicionar" handleClose={handleModalClose} onShow={loadProduct}>
+    <Modal open={isComplement} title="Adicionar ao carrinho" handleClose={handleModalClose} onShow={loadProduct}>
       {loading ? (
         <InsideLoading />
       ) : (

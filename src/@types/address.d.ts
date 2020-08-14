@@ -1,4 +1,4 @@
-interface AreaRegion {
+export interface AreaRegion {
   id: number;
   name: string;
   tax: number;

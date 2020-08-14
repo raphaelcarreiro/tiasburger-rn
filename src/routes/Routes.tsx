@@ -10,6 +10,7 @@ import Offers from '../pages/offer/Offers';
 import Account from '../pages/account/Account';
 import Products from '../pages/products/Products';
 import Cart from '../pages/cart/Cart';
+import Checkout from '../pages/checkout/Checkout';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -21,12 +22,14 @@ export type RootStackParamList = {
   Login: undefined;
   Orders: undefined;
   Account: undefined;
+  Checkout: undefined;
 };
 
 const Drawer = createDrawerNavigator<RootStackParamList>();
 
 const Routes: React.FC = () => {
   const user = useSelector(state => state.user);
+
   return (
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="Home" drawerContent={props => <DrawerContent {...props} />}>
@@ -39,6 +42,7 @@ const Routes: React.FC = () => {
         {!user && <Drawer.Screen name="Login" options={{ title: 'Entrar' }} component={SignRoutes} />}
         <Drawer.Screen name="Orders" component={Home} />
         <Drawer.Screen name="Account" component={Account} />
+        <Drawer.Screen name="Checkout" component={Checkout} />
       </Drawer.Navigator>
     </NavigationContainer>
   );

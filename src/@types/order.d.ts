@@ -2,6 +2,7 @@ import { Customer } from './customer';
 import { CartProduct } from './cart';
 import { Coupon } from './coupon';
 import { PaymnentMethod } from './paymentMethod';
+import { AreaRegion } from './address';
 
 export interface CreditCart {
   number: string;
@@ -27,6 +28,8 @@ export interface OrderShipment {
   shipment_method: 'delivery' | 'customer_collect';
   scheduled_at: Date;
   formattedScheduledAt: string | null;
+  area_region: AreaRegion | null;
+  distance: number;
 }
 
 export interface Order {

@@ -9,7 +9,7 @@ export interface RestaurantConfig {
   formattedTax: string;
   delivery_time: number;
   order_minimum_value: number;
-  formattedMinimumOrder: string;
+  formattedOrderMinimumValue: string;
   order_auto_approve: boolean;
   use_postalcode: boolean;
   shipment_schedule: boolean;
@@ -44,4 +44,5 @@ export interface Restaurant {
   minimum_order: number;
   image: Image;
   configs: RestaurantConfig;
+  delivery_max_distance: number;
 }

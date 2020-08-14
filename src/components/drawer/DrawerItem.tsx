@@ -1,7 +1,9 @@
 import React, { ReactElement } from 'react';
 import { TouchableHighlight, TouchableHighlightProps, StyleSheet, View } from 'react-native';
 import { useTheme } from 'styled-components';
-import Text from '../../components/bases/typography/Text';
+import Typography from '../../components/bases/typography/Text';
+import { useSelector } from '../../store/selector';
+import { CartBadge } from './styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -26,13 +28,21 @@ interface DrawerItemProps extends TouchableHighlightProps {
 
 const DrawerItem: React.FC<DrawerItemProps> = ({ label, Icon, ...rest }) => {
   const { contrast } = useTheme();
+  const { products } = useSelector(state => state.cart);
 
   return (
     <>
       <TouchableHighlight {...rest} style={styles.container} underlayColor="rgba(0, 0, 0, 0.1)">
         <>
           <View style={styles.iconContainer}>{Icon}</View>
-          <Text style={[styles.label, { color: contrast }]}>{label}</Text>
+          <Typography style={[styles.label, { color: contrast }]}>{label}</Typography>
+          {label === 'Carrinho' && products.length > 0 && (
+            <CartBadge>
+              <Typography size={12} bold color="contrast">
+                {products.length}
+              </Typography>
+            </CartBadge>
+          )}
         </>
       </TouchableHighlight>
     </>

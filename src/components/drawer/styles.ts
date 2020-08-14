@@ -29,3 +29,17 @@ export const RestaurantStatus = styled.View<RestaurantStatusData>`
   border-color: ${lighten(0.15, '#28a745')};
   background-color: ${({ status }) => (status ? '#28a745' : '#dc3545')};
 `;
+
+export const CartBadge = styled.View`
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  top: 17px;
+  right: 20px;
+  border-radius: 12px;
+  align-items: center;
+  justify-content: center;
+  background-color: ${props => props.theme.primary};
+  border-width: 2px;
+  border-color: ${props => lighten(0.15, props.theme.primary)};
+`;

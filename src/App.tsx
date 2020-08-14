@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { View, StatusBar, StyleSheet } from 'react-native';
 import Routes from './routes/Routes';
 import api from './services/api';
@@ -21,8 +21,26 @@ const styles = StyleSheet.create({
   },
 });
 
+type AppContextProps = {
+  handleCartVisibility(): void;
+  isCartVisible: boolean;
+  setRedirect(screen: screens): void;
+  redirect: screens;
+};
+
+type screens = 'Home' | 'Account' | 'Checkout' | 'Menu' | null;
+
+const AppContext = React.createContext<AppContextProps>({} as AppContextProps);
+
+export function useApp(): AppContextProps {
+  const context = useContext(AppContext);
+  return context;
+}
+
 const App: React.FC = () => {
   const [initialLoading, setInitialLoading] = useState(true);
+  const [isCartVisible, setIsCartVisible] = useState(false);
+  const [redirect, setRedirect] = useState<screens>(null);
   const { handleSetTheme, handleSetPaperTheme } = useThemeContext();
   const dispatch = useDispatch();
   const restaurant = useSelector(state => state.restaurant);
@@ -67,15 +85,21 @@ const App: React.FC = () => {
     }
   }, [restaurant, handleSetTheme, handleSetPaperTheme]);
 
+  const handleCartVisibility = useCallback(() => {
+    setIsCartVisible(!isCartVisible);
+  }, [isCartVisible]);
+
   return (
     <>
       <StatusBar barStyle="default" backgroundColor={theme.primary} />
       {initialLoading ? (
         <InitialLoading />
       ) : (
-        <View style={styles.container}>
-          <Routes />
-        </View>
+        <AppContext.Provider value={{ handleCartVisibility, isCartVisible, setRedirect: setRedirect, redirect }}>
+          <View style={styles.container}>
+            <Routes />
+          </View>
+        </AppContext.Provider>
       )}
     </>
   );
