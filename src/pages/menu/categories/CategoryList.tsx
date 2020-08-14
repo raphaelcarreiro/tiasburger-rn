@@ -2,8 +2,9 @@ import React from 'react';
 import { StyleSheet, Image, View } from 'react-native';
 import { Category } from '../../../@types/category';
 import Text from '../../../components/bases/typography/Text';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
 import ListItem from '../../../components/list-item/ListItem';
+import { RootStackParamList } from '../../../routes/Routes';
 
 const styles = StyleSheet.create({
   listItem: {
@@ -29,14 +30,14 @@ interface CategoryListProps {
 }
 
 const CategoryList: React.FC<CategoryListProps> = ({ category }) => {
-  const navigator = useNavigation();
+  const navigator = useNavigation<NavigationProp<RootStackParamList>>();
 
-  function handlePress(categoryName: string): void {
-    navigator.navigate('Products', { categoryName });
+  function handlePress(url: string, categoryName: string): void {
+    navigator.navigate('Products', { url, categoryName });
   }
 
   return (
-    <ListItem style={styles.listItem} onPress={() => handlePress(category.name)}>
+    <ListItem style={styles.listItem} onPress={() => handlePress(category.url, category.name)}>
       <View style={styles.dataText}>
         <Text size={22}>{category.name}</Text>
         <Text size={14} variant="caption">

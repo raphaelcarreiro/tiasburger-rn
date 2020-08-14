@@ -10,6 +10,9 @@ import InitialLoading from './components/loading/InitialLoading';
 import { useThemeContext } from './hooks/theme';
 import { useSelector } from './store/selector';
 import { useTheme } from 'styled-components';
+import AsyncStorage from '@react-native-community/async-storage';
+import { setCart } from './store/modules/cart/actions';
+import { Cart } from './@types/cart';
 
 const styles = StyleSheet.create({
   container: {
@@ -41,6 +44,13 @@ const App: React.FC = () => {
             },
           }),
         );
+
+        AsyncStorage.getItem('cart').then(response => {
+          if (response) {
+            const cart: Cart = JSON.parse(response);
+            dispatch(setCart(cart));
+          }
+        });
       })
       .finally(() => {
         setInitialLoading(false);

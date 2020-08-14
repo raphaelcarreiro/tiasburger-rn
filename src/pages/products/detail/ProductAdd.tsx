@@ -4,6 +4,8 @@ import Button from '../../../components/bases/button/Button';
 import { StyleSheet } from 'react-native';
 import Typography from '../../../components/bases/typography/Text';
 import { useProduct } from '../productContext';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { RootStackParamList } from '../../../routes/Routes';
 
 type ProductAddProps = {
   total: string | number;
@@ -20,11 +22,13 @@ const styles = StyleSheet.create({
 
 const ProductAdd: React.FC<ProductAddProps> = ({ total, product }) => {
   const { handleAddProductToCart, handleSelectProduct } = useProduct();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   function handleConfirm() {
     if (!product.ready) return;
     handleAddProductToCart();
     handleSelectProduct(null); // close modal
+    navigation.navigate('Cart');
   }
 
   return (

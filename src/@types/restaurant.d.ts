@@ -1,7 +1,7 @@
 export interface RestaurantConfig {
   id: number;
   restaurant_id: number;
-  pizza_calculate: 'higher_value' | 'avarage_value';
+  pizza_calculate: 'higher_value' | 'average_value';
   require_login: boolean;
   customer_collect: boolean;
   tax_mode: 'district' | 'distance' | 'no_tax' | 'order_value';

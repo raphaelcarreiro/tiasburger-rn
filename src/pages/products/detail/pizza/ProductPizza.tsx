@@ -187,7 +187,7 @@ const ProductPizza: React.FC = () => {
     });
 
     if (counterTaste > 0) {
-      if (restaurant?.configs.pizza_calculate === 'avarage_value') sumPrices = sumPrices + tastePrice / counterTaste;
+      if (restaurant?.configs.pizza_calculate === 'average_value') sumPrices = sumPrices + tastePrice / counterTaste;
       else if (restaurant?.configs.pizza_calculate === 'higher_value') sumPrices = sumPrices + Math.max(...tastePrices);
     }
 

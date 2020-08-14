@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux';
 import ProductComplement from './detail/complement/ProductComplement';
 import ProductPizza from './detail/pizza/ProductPizza';
 import { prepareProduct, addToCart } from '../../store/modules/cart/actions';
+import ProductActions from './ProductActions';
 
 const styles = StyleSheet.create({
   container: {
@@ -50,7 +51,7 @@ const Products: React.FC<ProductsProps> = ({ route, navigation }) => {
 
   const refresh = useCallback(() => {
     api
-      .get(`/categories/${route.params.categoryName}`)
+      .get(`/categories/${route.params.url}`)
       .then(response => {
         const p: Product[] = response.data.products;
         setProducts(
@@ -96,6 +97,10 @@ const Products: React.FC<ProductsProps> = ({ route, navigation }) => {
     [dispatch],
   );
 
+  function handleOpenSearchBox() {
+    //
+  }
+
   return (
     <ProductContext.Provider
       value={{
@@ -112,7 +117,12 @@ const Products: React.FC<ProductsProps> = ({ route, navigation }) => {
       <ProductComplement />
       <ProductPizza />
 
-      <AppBar title={route.params.categoryName} showBackAction backAction={() => navigation.navigate('Menu')} />
+      <AppBar
+        actions={<ProductActions openSearchBox={handleOpenSearchBox} />}
+        title={route.params.categoryName}
+        showBackAction
+        backAction={() => navigation.navigate('Menu')}
+      />
       {loading ? (
         <InsideLoading />
       ) : (

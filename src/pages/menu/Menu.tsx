@@ -5,6 +5,7 @@ import api, { getCancelTokenSource } from '../../services/api';
 import { Category } from '../../@types/category';
 import { FlatList } from 'react-native';
 import CategoryList from './categories/CategoryList';
+import MenuActions from './categories/MenuActions';
 
 const Menu: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -38,7 +39,7 @@ const Menu: React.FC = () => {
 
   return (
     <>
-      <AppBar title="Cardápio" />
+      <AppBar title="Cardápio" actions={<MenuActions />} />
       <Container>
         <FlatList
           data={categories}

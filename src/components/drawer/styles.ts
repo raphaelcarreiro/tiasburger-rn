@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { lighten, darken } from 'polished';
+import { lighten } from 'polished';
 
 interface RestaurantStatusData {
   status: boolean;
@@ -7,7 +7,7 @@ interface RestaurantStatusData {
 
 export const DrawerHeader = styled.View`
   flex-direction: row;
-  height: 55px;
+  height: 56px;
   background-color: ${props => props.theme.primary};
   justify-content: space-between;
   padding: 0 20px;
