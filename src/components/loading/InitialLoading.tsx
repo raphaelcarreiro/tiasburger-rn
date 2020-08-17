@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, View, StyleSheet, Text } from 'react-native';
+import { ActivityIndicator, View, StyleSheet, Text, StatusBar } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -17,10 +17,13 @@ const styles = StyleSheet.create({
 
 const InitialLoading: React.FC = () => {
   return (
-    <View style={styles.container}>
-      <ActivityIndicator size="large" color="#2a2a2a" />
-      <Text style={styles.companyName}>Delivery</Text>
-    </View>
+    <>
+      <StatusBar backgroundColor="#fafafa" barStyle="dark-content" />
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="#666" />
+        <Text style={styles.companyName}>Delivery</Text>
+      </View>
+    </>
   );
 };
 

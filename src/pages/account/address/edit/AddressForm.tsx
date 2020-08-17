@@ -86,7 +86,7 @@ const AddressForm: React.FC<AccountFormEditProps> = ({
             returnKeyType="next"
             autoCapitalize="sentences"
             autoCorrect
-            value={address.address_complement}
+            value={address.address_complement || ''}
             onChange={event => handleAddressChange('address_complement', event.nativeEvent.text)}
             variant="standard"
             blurOnSubmit={false}

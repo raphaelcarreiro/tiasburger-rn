@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Address } from '../../../../@types/address';
-import ListItem from '../../../../components/list-item/ListItem';
 import Typography from '../../../../components/bases/typography/Text';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import IconButton from '../../../../components/bases/icon-button/IconButton';
@@ -11,6 +10,7 @@ import { useSelector } from '../../../../store/selector';
 import { ListItemStyled } from '../style';
 import McIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from 'styled-components';
+import OptionsButton from '../../../../components/options/OptionsButton';
 
 const styles = StyleSheet.create({
   iconButton: {
@@ -92,12 +92,8 @@ const ShipmentAddresses: React.FC<ShipmentAddressesProps> = ({
     <>
       {optionsShown && (
         <Options open={true} handleClose={handleOptionsToggle}>
-          <Button variant="text" onPress={handleEditPress}>
-            Alterar
-          </Button>
-          <Button style={styles.button} variant="text" color="error" onPress={handleDeletePress}>
-            Excluir
-          </Button>
+          <OptionsButton title="Alterar" onPress={handleEditPress} />
+          <OptionsButton color="error" title="Excluir" onPress={handleDeletePress} />
         </Options>
       )}
       <ListItemStyled

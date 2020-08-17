@@ -18,7 +18,7 @@ import {
 } from './types';
 import { Customer } from '../../../@types/customer';
 import { OrderShipment, CreditCart } from '../../../@types/order';
-import { PaymnentMethod } from '../../../@types/paymentMethod';
+import { PaymentMethod } from '../../../@types/paymentMethod';
 import { CartProduct } from '../../../@types/cart';
 import { Coupon } from '../../../@types/coupon';
 
@@ -43,7 +43,7 @@ export function setShipmentMethod(shipmentMethod: 'delivery' | 'customer_collect
   };
 }
 
-export function setPaymentMethod(paymentMethod: PaymnentMethod): OrderTypeActions {
+export function setPaymentMethod(paymentMethod: PaymentMethod | null): OrderTypeActions {
   return {
     type: SET_PAYMENT_METHOD,
     paymentMethod,

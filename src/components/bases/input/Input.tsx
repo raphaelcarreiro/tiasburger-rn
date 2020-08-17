@@ -12,6 +12,7 @@ interface InputProps extends TextInputProps {
   variant?: 'standard' | 'outlined';
   label?: string;
   containerStyle?: StyleProp<ViewStyle>;
+  mainContainerStyle?: StyleProp<ViewStyle>;
 }
 
 interface InputRef {

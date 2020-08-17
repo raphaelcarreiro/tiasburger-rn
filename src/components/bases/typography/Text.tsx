@@ -7,7 +7,7 @@ interface TypographyProps extends TextProps {
   size?: number;
   gutterBottom?: boolean;
   variant?: 'caption' | 'default';
-  color?: 'primary' | 'secondary' | 'contrast';
+  color?: 'primary' | 'secondary' | 'contrast' | 'error';
   align?: 'right' | 'left' | 'center';
 }
 

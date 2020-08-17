@@ -36,6 +36,7 @@ import ShipmentMethod from './steps/shipment-method/ShipmentMethod';
 import Shipment from './steps/shipment/Shipment';
 import { Address } from '../../@types/address';
 import Payment from './steps/payment/Payment';
+import Confirm from './steps/confirm/Confirm';
 
 const styles = StyleSheet.create({
   container: {
@@ -312,10 +313,14 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
               <ShipmentMethod />
             ) : currentStep?.id === 'STEP_SHIPMENT' ? (
               <Shipment />
+            ) : currentStep?.id === 'STEP_PAYMENT' ? (
+              <Payment />
             ) : (
-              currentStep?.id === 'STEP_PAYMENT' && <Payment />
+              currentStep?.id === 'STEP_CONFIRM' && <Confirm />
             )}
-            {currentStep?.id !== 'STEP_SHIPMENT_METHOD' && <CheckoutButtons />}
+            {currentStep?.id !== 'STEP_SHIPMENT_METHOD' && (
+              <CheckoutButtons currentStep={currentStep} stepsAmount={steps.length} />
+            )}
           </View>
         </CheckoutContext.Provider>
       )}

@@ -83,15 +83,17 @@ const App: React.FC = () => {
 
   return (
     <>
-      <StatusBar barStyle="default" backgroundColor={theme.primary} />
       {initialLoading ? (
         <InitialLoading />
       ) : (
-        <AppContext.Provider value={{ handleCartVisibility, isCartVisible, setRedirect: setRedirect, redirect }}>
-          <View style={styles.container}>
-            <Routes />
-          </View>
-        </AppContext.Provider>
+        <>
+          <StatusBar animated={false} barStyle="default" backgroundColor={theme.primary} />
+          <AppContext.Provider value={{ handleCartVisibility, isCartVisible, setRedirect: setRedirect, redirect }}>
+            <View style={styles.container}>
+              <Routes />
+            </View>
+          </AppContext.Provider>
+        </>
       )}
     </>
   );

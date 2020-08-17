@@ -4,6 +4,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Typography from '../../components/bases/typography/Text';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useCheckout } from './checkoutContext';
+import { StepType } from './steps/steps';
 
 const styles = StyleSheet.create({
   container: {
@@ -27,7 +28,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const CheckoutButtons: React.FC = () => {
+type CheckoutButtonsProps = {
+  currentStep: StepType | undefined;
+  stepsAmount: number;
+};
+
+const CheckoutButtons: React.FC<CheckoutButtonsProps> = ({ currentStep, stepsAmount }) => {
   const { handleStepPrior, handleStepNext } = useCheckout();
 
   return (
@@ -36,10 +42,12 @@ const CheckoutButtons: React.FC = () => {
         <Icon name="chevron-left" size={20} />
         <Typography size={18}>Anterior</Typography>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={handleStepNext}>
-        <Typography size={18}>Próximo</Typography>
-        <Icon name="chevron-right" size={20} />
-      </TouchableOpacity>
+      {currentStep && currentStep.order < stepsAmount - 1 && (
+        <TouchableOpacity style={styles.button} onPress={handleStepNext}>
+          <Typography size={18}>Próximo</Typography>
+          <Icon name="chevron-right" size={20} />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };

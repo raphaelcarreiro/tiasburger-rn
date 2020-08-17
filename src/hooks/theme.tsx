@@ -2,6 +2,7 @@ import React, { useState, useContext, useCallback } from 'react';
 import { ThemeProvider } from '../styled-components';
 import { DefaultTheme } from 'styled-components/native';
 import Color from 'color';
+import { darken, lighten } from 'polished';
 
 export function createTheme(primary: string, secondary: string): DefaultTheme {
   const color = Color(primary);
@@ -11,6 +12,8 @@ export function createTheme(primary: string, secondary: string): DefaultTheme {
     secondary,
     contrast: color.isDark() ? '#fff' : '#000',
     error: '#dc3545',
+    primaryDark: darken(0.1, primary),
+    primaryLight: lighten(0.2, primary),
   };
 }
 

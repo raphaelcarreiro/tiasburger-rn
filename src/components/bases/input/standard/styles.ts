@@ -11,24 +11,28 @@ interface InputProps {
 export const Container = styled.View`
   margin-top: 8px;
   margin-bottom: 8px;
-  justify-content: flex-start;
   position: relative;
 `;
 
 export const Input = styled.TextInput`
-  flex: 1;
   padding: 0px;
   font-size: 16px;
   font-family: 'sans-serif-light';
+  flex: 1;
 `;
 
 export const InputContainer = styled.View<InputProps>`
-  min-width: ${props => (props.fullWidth ? '100%' : '100px')};
   border-color: #0000003b;
   border-bottom-width: 1px;
   flex-direction: row;
   align-items: flex-end;
   height: 60px;
+
+  ${props =>
+    props.fullWidth &&
+    css`
+      min-width: 100%;
+    `}
 
   ${props =>
     props.helperText &&
@@ -51,12 +55,14 @@ export const InputContainer = styled.View<InputProps>`
 `;
 
 export const IconContainer = styled.View`
-  padding: 0 15px;
+  padding-left: 0;
 `;
 
 export const HelperText = styled.Text<InputProps>`
   color: #ccc;
   font-size: 12px;
+  position: absolute;
+  bottom: -16px;
 
   ${props =>
     props.error &&

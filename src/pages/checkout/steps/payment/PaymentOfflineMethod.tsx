@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { PaymentMethod } from '../../../../@types/paymentMethod';
 import { ListItemStyled } from '../style';
 import Typography from '../../../../components/bases/typography/Text';
@@ -10,7 +10,7 @@ import { useTheme } from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { setPaymentMethod } from '../../../../store/modules/order/actions';
 import { useCheckout } from '../../checkoutContext';
-import PaymentChange from './change/PaymentChange';
+import { moneyFormat } from '../../../../helpers/numberFormat';
 
 const styles = StyleSheet.create({
   listItem: {
@@ -46,11 +46,10 @@ type PaymentOfflineMethodProps = {
 };
 
 const PaymentOfflineMethod: React.FC<PaymentOfflineMethodProps> = ({ paymentMethod, openModalChange }) => {
-  const orderPaymentMethod = useSelector(state => state.order).paymentMethod;
+  const order = useSelector(state => state.order);
   const theme = useTheme();
   const dispatch = useDispatch();
   const checkout = useCheckout();
-  const user = useSelector(state => state.user);
 
   function handlePress(paymentMethod: PaymentMethod) {
     dispatch(setPaymentMethod(paymentMethod));
@@ -68,14 +67,23 @@ const PaymentOfflineMethod: React.FC<PaymentOfflineMethodProps> = ({ paymentMeth
       <ListItemStyled
         onPress={() => handlePress(paymentMethod)}
         style={styles.listItem}
-        selected={paymentMethod.id === orderPaymentMethod?.id}
+        selected={paymentMethod.id === order.paymentMethod?.id}
       >
         <View style={[styles.avatar, { borderColor: theme.primary }]}>
           {paymentMethod.kind === 'card' && <Icon color={theme.primary} name="credit-card" size={20} />}
           {paymentMethod.kind === 'money' && <Icon color={theme.primary} name="attach-money" size={20} />}
         </View>
-        <Typography>{paymentMethod.method}</Typography>
-        {paymentMethod.id === orderPaymentMethod?.id && (
+        <View>
+          <Typography>{paymentMethod.method}</Typography>
+          {order.paymentMethod && (
+            <>
+              {order.change > 0 && paymentMethod.kind === 'money' && (
+                <Typography variant="caption">Troco para {order.formattedChange}</Typography>
+              )}
+            </>
+          )}
+        </View>
+        {paymentMethod.id === order.paymentMethod?.id && (
           <View style={styles.iconContainer}>
             <McIcon name="check-circle" color={theme.primary} size={26} />
           </View>

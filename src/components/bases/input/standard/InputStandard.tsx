@@ -10,6 +10,7 @@ interface InputProps extends TextInputProps {
   helperText?: string;
   label?: string;
   containerStyle?: StyleProp<ViewStyle>;
+  mainContainerStyle?: StyleProp<ViewStyle>;
 }
 
 interface InputRef {
@@ -17,7 +18,19 @@ interface InputRef {
 }
 
 const InputStandard: React.ForwardRefRenderFunction<InputRef, InputProps> = (
-  { fullWidth, value, placeholder, required, Icon, error, helperText, label, containerStyle, ...rest },
+  {
+    fullWidth,
+    value,
+    placeholder,
+    required,
+    Icon,
+    error,
+    helperText,
+    label,
+    containerStyle,
+    mainContainerStyle,
+    ...rest
+  },
   ref,
 ) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -44,7 +57,7 @@ const InputStandard: React.ForwardRefRenderFunction<InputRef, InputProps> = (
   }, []);
 
   return (
-    <Container>
+    <Container style={mainContainerStyle}>
       {(isFocused || isFilled) && label && <TextLabel isFocused={isFocused}>{label}</TextLabel>}
       <InputContainer
         style={containerStyle}

@@ -7,6 +7,7 @@ import IconButton from '../../../components/bases/icon-button/IconButton';
 import Options from '../../../components/options/Options';
 import Button from '../../../components/bases/button/Button';
 import { useTheme } from 'styled-components';
+import OptionsButton from '../../../components/options/OptionsButton';
 
 const styles = StyleSheet.create({
   listItem: {
@@ -78,17 +79,11 @@ const AccountAddressesItem: React.FC<AccountAddressesItemProps> = ({
     <>
       {optionsShown && (
         <Options open={true} handleClose={() => setOptionsShown(!optionsShown)}>
-          <Button variant="text" onPress={handleEditPress}>
-            Alterar
-          </Button>
+          <OptionsButton title="Alterar" onPress={handleEditPress} />
           {selectedAddress && !selectedAddress.is_main && (
-            <Button variant="text" onPress={handleMainAddressPress}>
-              Marcar como principal
-            </Button>
+            <OptionsButton title="Marcar como principal" onPress={handleMainAddressPress} />
           )}
-          <Button style={styles.button} variant="text" color="error" onPress={handleDelete}>
-            Excluir
-          </Button>
+          <OptionsButton color="error" title="Excluir" onPress={handleDelete} />
         </Options>
       )}
       <TouchableOpacity style={styles.listItem} onPress={() => handlePress(address.id)}>

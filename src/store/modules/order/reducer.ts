@@ -18,6 +18,7 @@ import {
   SET_TAX,
   SET_SCHEDULE,
 } from './types';
+import { moneyFormat } from '../../../helpers/numberFormat';
 
 const INITIAL_STATE: Order = {
   shipment: {} as OrderShipment,
@@ -36,6 +37,8 @@ const INITIAL_STATE: Order = {
   coupon: null,
   tax: 0,
   discount: 0,
+  formattedTax: 'R$ 0,00',
+  formattedChange: 'R$ 0,00',
 };
 
 export default function order(state = INITIAL_STATE, action: OrderTypeActions): Order {
@@ -86,6 +89,7 @@ export default function order(state = INITIAL_STATE, action: OrderTypeActions): 
       return {
         ...state,
         change: action.value,
+        formattedChange: moneyFormat(action.value),
       };
     }
 
@@ -145,6 +149,7 @@ export default function order(state = INITIAL_STATE, action: OrderTypeActions): 
       return {
         ...state,
         tax: action.tax,
+        formattedTax: moneyFormat(action.tax),
       };
     }
 

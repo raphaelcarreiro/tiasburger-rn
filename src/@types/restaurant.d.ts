@@ -20,6 +20,16 @@ export interface RestaurantConfig {
   google_login: boolean;
 }
 
+interface RestaurantAddress {
+  id: number;
+  address: string;
+  number: string;
+  district: string;
+  postal_code: string;
+  city: string;
+  is_main: boolean;
+}
+
 export interface Restaurant {
   id: number;
   is_open: boolean;
@@ -45,4 +55,5 @@ export interface Restaurant {
   image: Image;
   configs: RestaurantConfig;
   delivery_max_distance: number;
+  addresses: RestaurantAddress[];
 }

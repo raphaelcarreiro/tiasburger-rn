@@ -7,7 +7,7 @@ import { AreaRegion } from './address';
 export interface CreditCart {
   number: string;
   name: string;
-  card_id: string;
+  card_id?: string;
   expiration_date: string;
   cvv: string;
   cpf: string;
@@ -43,4 +43,6 @@ export interface Order {
   coupon: Coupon | null;
   tax: number;
   discount: number;
+  formattedChange: string;
+  formattedTax: string;
 }

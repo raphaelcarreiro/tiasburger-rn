@@ -13,14 +13,15 @@ import {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    padding: 5,
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    minHeight: 200,
     alignItems: 'flex-start',
     justifyContent: 'center',
+    paddingTop: 15,
+    paddingBottom: 15,
+    minHeight: 80,
   },
   backdrop: {
     flex: 1,
