@@ -4,12 +4,13 @@ import Storage from '@react-native-community/async-storage';
 import checkPromotion from './promotion/checkPromotion';
 import { Cart } from '../../../@types/cart';
 import { Middleware } from 'redux';
+import { RootState } from '../../selector';
 
 const saveCartAtLocalStorage = async (cart: Cart) => {
   await Storage.setItem('cart', JSON.stringify(cart));
 };
 
-export const cartMiddlware: Middleware = store => next => action => {
+export const cartMiddlware: Middleware<any, RootState> = store => next => action => {
   // actions para atualizar total e salvar carrinho em local storage
   const actionsToSaveCart = [
     '@cart/ADD_PRODUCT',
@@ -38,6 +39,9 @@ export const cartMiddlware: Middleware = store => next => action => {
   if (action.type === '@order/SET_SHIPMENT_METHOD') {
     const restaurant = store.getState().restaurant;
     const order = store.getState().order;
+
+    if (!restaurant) return;
+
     if (restaurant.configs.tax_mode === 'district') {
       const { area_region } = order.shipment;
       if (!area_region) return;
@@ -53,6 +57,9 @@ export const cartMiddlware: Middleware = store => next => action => {
 
   if (action.type === '@order/SET_SHIPMENT_ADDRESS') {
     const restaurant = store.getState().restaurant;
+
+    if (!restaurant) return;
+
     if (restaurant.configs.tax_mode === 'district') {
       const { area_region } = action.address;
       if (!area_region) return;
@@ -68,7 +75,12 @@ export const cartMiddlware: Middleware = store => next => action => {
 
   // atualiza as configurações do restaurante no carrinho para calculos
   if (actionsToSetConfigs.includes(action.type)) {
-    const { configs } = store.getState().restaurant;
+    const restaurant = store.getState().restaurant;
+
+    if (!restaurant) return;
+
+    const { configs } = restaurant;
+
     store.dispatch(
       setConfigs({
         pizza_calculate: configs.pizza_calculate,
@@ -95,8 +107,14 @@ export const cartMiddlware: Middleware = store => next => action => {
 
   // salva o carrinho em local storage
   if (actionsToSaveCart.includes(action.type)) {
+    const restaurant = store.getState().restaurant;
+
+    if (!restaurant) return;
+
+    const { configs } = restaurant;
+
     const cart = store.getState().cart;
-    const { configs } = store.getState().restaurant;
+
     if (configs.preserve_cart) saveCartAtLocalStorage(cart);
   }
 };

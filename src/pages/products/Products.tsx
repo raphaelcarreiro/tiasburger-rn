@@ -137,9 +137,9 @@ const Products: React.FC<ProductsProps> = ({ route, navigation }) => {
         isSimple,
       }}
     >
-      <ProductSimple />
-      <ProductComplement />
-      <ProductPizza />
+      {isSimple && <ProductSimple />}
+      {isComplement && <ProductComplement />}
+      {isPizza && <ProductPizza />}
 
       <AppBar
         actions={

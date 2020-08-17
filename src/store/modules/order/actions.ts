@@ -106,7 +106,7 @@ export function setTax(tax: number): OrderTypeActions {
   };
 }
 
-export function setSchedule(date: Date): OrderTypeActions {
+export function setSchedule(date: Date | null): OrderTypeActions {
   return {
     type: SET_SCHEDULE,
     date,

@@ -72,43 +72,14 @@ const AddressEdit: React.FC<AddressEditProps> = ({ address, open, onExited }) =>
     api
       .put(`/customerAddresses/${editedAddress.id}`, editedAddress)
       .then(response => {
+        setSaving(false);
         dispatch(updateCustomerAddress(response.data));
         onExited();
       })
       .catch(err => {
-        if (err.response) message.handleOpen(err.response.data.error);
-      })
-      .finally(() => {
         setSaving(false);
+        if (err.response) message.handleOpen(err.response.data.error);
       });
-  }
-
-  function handleDelete() {
-    Alert.alert('Excluir', 'Você realmente deseja excluir esse endereço?', [
-      {
-        text: 'Cancelar',
-        style: 'cancel',
-      },
-      {
-        text: 'Confirmar',
-        style: 'default',
-        onPress: confirm,
-      },
-    ]);
-
-    function confirm() {
-      setSaving(true);
-
-      api
-        .delete(`/customerAddresses/${editedAddress.id}`)
-        .then(() => {
-          onExited();
-          dispatch(deleteCustomerAddress(editedAddress.id));
-        })
-        .finally(() => {
-          setSaving(false);
-        });
-    }
   }
 
   function handleModalClose() {
@@ -121,7 +92,7 @@ const AddressEdit: React.FC<AddressEditProps> = ({ address, open, onExited }) =>
       title="Alterar endereço"
       open={open}
       handleClose={handleModalClose}
-      actions={<AddressFormActions saving={saving} handleSubmit={handleValidation} handleDelete={handleDelete} />}
+      actions={<AddressFormActions saving={saving} handleSubmit={handleValidation} />}
     >
       {saving && <Loading />}
       <ScrollView>

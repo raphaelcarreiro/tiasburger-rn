@@ -4,7 +4,6 @@ import Button from '../../bases/button/Button';
 import { useSelector } from '../../../store/selector';
 import { removeCoupon } from '../../../store/modules/cart/actions';
 import { useDispatch } from 'react-redux';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const styles = StyleSheet.create({
   coupon: {

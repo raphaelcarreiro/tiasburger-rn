@@ -80,13 +80,13 @@ const AddressNew: React.FC<AddressEditProps> = ({ open, onExited }) => {
       .post(`/customerAddresses`, data)
       .then(response => {
         dispatch(addCustomerAddress(response.data));
+        setSaving(false);
         onExited();
       })
       .catch(err => {
-        if (err.response) message.handleOpen(err.response.data.error);
-      })
-      .finally(() => {
         setSaving(false);
+
+        if (err.response) message.handleOpen(err.response.data.error);
       });
   }
 

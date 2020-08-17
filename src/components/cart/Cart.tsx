@@ -10,7 +10,7 @@ import Coupon from './coupon/Coupon';
 import CouponButton from './coupon/CouponButton';
 import CartTotals from './CartTotals';
 import { useMessage } from '../../hooks/message';
-import { useApp } from '../../App';
+import { useApp } from '../../appContext';
 
 const styles = StyleSheet.create({
   container: {

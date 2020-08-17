@@ -12,9 +12,11 @@ const MenuActions: React.FC = () => {
 
   return (
     <View>
-      <CartQuantity>
-        <CartQuantityText>{cart.products.length}</CartQuantityText>
-      </CartQuantity>
+      {cart.products.length > 0 && (
+        <CartQuantity>
+          <CartQuantityText>{cart.products.length}</CartQuantityText>
+        </CartQuantity>
+      )}
       <AppBarAction iconName="cart" onPress={() => navigation.navigate('Cart')} />
     </View>
   );

@@ -1,7 +1,7 @@
 import styled, { css } from '../../../styled-components';
 
 interface ButtonProps {
-  color?: 'primary' | 'secondary';
+  color?: 'primary' | 'secondary' | 'error';
   fullWidth?: boolean;
   variant?: string;
   disabled?: boolean;

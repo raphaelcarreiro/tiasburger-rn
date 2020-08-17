@@ -3,7 +3,6 @@ import { StyleSheet, TouchableOpacity, TouchableOpacityProps } from 'react-nativ
 
 const styles = StyleSheet.create({
   listItem: {
-    flex: 1,
     paddingLeft: 15,
     paddingRight: 15,
     paddingTop: 10,

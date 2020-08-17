@@ -12,7 +12,7 @@ import { useMessage } from '../../hooks/message';
 import { useAuth } from '../../hooks/auth';
 import { useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { useApp } from '../../App';
+import { useApp } from '../../appContext';
 
 const styles = StyleSheet.create({
   image: {

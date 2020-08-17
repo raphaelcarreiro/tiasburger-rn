@@ -14,7 +14,7 @@ import { useMessage } from '../../hooks/message';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import RegisterSucess from './success/RegisterSuccess';
 import AsyncStorage from '@react-native-community/async-storage';
-import { useApp } from '../../App';
+import { useApp } from '../../appContext';
 import { RootStackParamList } from '../../routes/Routes';
 
 const styles = StyleSheet.create({

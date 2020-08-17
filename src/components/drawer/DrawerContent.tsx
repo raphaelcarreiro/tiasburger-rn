@@ -1,14 +1,14 @@
 import React from 'react';
 import { DrawerContentComponentProps } from '@react-navigation/drawer';
-import { StyleSheet, ScrollView, View } from 'react-native';
+import { StyleSheet, ScrollView, View, Image } from 'react-native';
 import { useTheme } from 'styled-components';
 import { DrawerHeader, DrawerHeaderText } from './styles';
 import { useSelector } from '../../store/selector';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import McIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Avatar } from 'react-native-paper';
 import { useAuth } from '../../hooks/auth';
 import Item from './DrawerItem';
+import Avatar from '../avatar/Avatar';
 
 const styles = StyleSheet.create({
   label: {
@@ -18,6 +18,10 @@ const styles = StyleSheet.create({
   },
   items: {
     marginTop: 8,
+  },
+  avatarImage: {
+    height: '100%',
+    width: '100%',
   },
 });
 
@@ -79,9 +83,13 @@ const Drawer: React.FC<DrawerContentComponentProps> = props => {
             <Item
               Icon={
                 user.image ? (
-                  <Avatar.Image size={38} source={{ uri: user.image.imageUrl }} />
+                  <Avatar>
+                    <Image style={styles.avatarImage} source={{ uri: user.image.imageUrl }} />
+                  </Avatar>
                 ) : (
-                  <Avatar.Icon size={24} icon="person" />
+                  <Avatar>
+                    <Icon name="person" size={24} color={theme.primary} />
+                  </Avatar>
                 )
               }
               label={user.name}

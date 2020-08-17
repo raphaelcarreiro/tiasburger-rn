@@ -27,6 +27,14 @@ export interface PromotionOrderValue {
   promotion_id: number;
   order_value: number;
 }
+
+export interface PromotionSafe {
+  id: number;
+  promotion_id: number;
+  discount: number;
+  discount_type: 'percent' | 'value';
+}
+
 export interface Promotion {
   id: number;
   name: string;
@@ -38,4 +46,5 @@ export interface Promotion {
   products: PromotionProduct[];
   order_value: PromotionOrderValue | null;
   offered_products: PromotionOfferedProduct[];
+  safe: PromotionSafe;
 }

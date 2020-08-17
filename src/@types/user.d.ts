@@ -1,4 +1,5 @@
 import { Customer } from './customer';
+import { Image } from './image';
 
 export interface User {
   id: number | null;

@@ -13,9 +13,11 @@ const CheckoutActions: React.FC<CheckoutActionsProps> = ({ handleCartVisilibity 
 
   return (
     <View>
-      <CartQuantity>
-        <CartQuantityText>{cart.products.length}</CartQuantityText>
-      </CartQuantity>
+      {cart.products.length > 0 && (
+        <CartQuantity>
+          <CartQuantityText>{cart.products.length}</CartQuantityText>
+        </CartQuantity>
+      )}
       <AppBarAction iconName="cart" onPress={handleCartVisilibity} />
     </View>
   );

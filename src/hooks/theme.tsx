@@ -1,12 +1,6 @@
 import React, { useState, useContext, useCallback } from 'react';
 import { ThemeProvider } from '../styled-components';
 import { DefaultTheme } from 'styled-components/native';
-import {
-  ThemeProvider as PaperThemeProvider,
-  DefaultTheme as DefaultPaperTheme,
-  configureFonts,
-} from 'react-native-paper';
-import { Theme as PaperThemeData } from 'react-native-paper/src/types';
 import Color from 'color';
 
 export function createTheme(primary: string, secondary: string): DefaultTheme {
@@ -16,44 +10,12 @@ export function createTheme(primary: string, secondary: string): DefaultTheme {
     primary,
     secondary,
     contrast: color.isDark() ? '#fff' : '#000',
-  };
-}
-
-export function createPaperTheme(primary: string, secondary: string): PaperThemeData {
-  return {
-    ...DefaultPaperTheme,
-    colors: {
-      ...DefaultPaperTheme.colors,
-      primary: primary,
-      accent: secondary,
-      // text: color.isDark() ? '#fff' : '#000',
-    },
-    fonts: configureFonts({
-      default: {
-        regular: {
-          fontFamily: 'sans-serif-light',
-          fontWeight: 'normal',
-        },
-        medium: {
-          fontFamily: 'sans-serif',
-          fontWeight: 'normal',
-        },
-        light: {
-          fontFamily: 'sans-serif-light',
-          fontWeight: 'normal',
-        },
-        thin: {
-          fontFamily: 'sans-serif-thin',
-          fontWeight: 'normal',
-        },
-      },
-    }),
+    error: '#dc3545',
   };
 }
 
 interface ThemeContextData {
   handleSetTheme(primary: string, secondary: string): void;
-  handleSetPaperTheme(primary: string, secondary: string): void;
 }
 
 const ThemeContext = React.createContext({} as ThemeContextData);
@@ -65,21 +27,14 @@ export function useThemeContext(): ThemeContextData {
 
 const Theme: React.FC = ({ children }) => {
   const [theme, setTheme] = useState<DefaultTheme>(createTheme('#f44336', '#4b4b4d'));
-  const [paperTheme, setPaperTheme] = useState<PaperThemeData>(createPaperTheme('#f44336', '#4b4b4d'));
 
   const handleSetTheme = useCallback((primary, secondary) => {
     setTheme(createTheme(primary, secondary));
   }, []);
 
-  const handleSetPaperTheme = useCallback((primary, secondary) => {
-    setPaperTheme(createPaperTheme(primary, secondary));
-  }, []);
-
   return (
     <ThemeProvider theme={theme}>
-      <PaperThemeProvider theme={paperTheme}>
-        <ThemeContext.Provider value={{ handleSetTheme, handleSetPaperTheme }}>{children}</ThemeContext.Provider>
-      </PaperThemeProvider>
+      <ThemeContext.Provider value={{ handleSetTheme }}>{children}</ThemeContext.Provider>
     </ThemeProvider>
   );
 };

@@ -92,7 +92,7 @@ export default function cart(state = INITIAL_STATE, action: CartTypeActions): Ca
 
     // calcula do valor das pizzas
     if (counterTaste > 0) {
-      if (state.configs.pizza_calculate === 'avarage_value') {
+      if (state.configs.pizza_calculate === 'average_value') {
         tastePrice = tastePrice / counterTaste;
       } else if (state.configs.pizza_calculate === 'higher_value') {
         tastePrice = Math.max(...tastePrices);
@@ -232,7 +232,7 @@ export default function cart(state = INITIAL_STATE, action: CartTypeActions): Ca
 
       // calcula do valor das pizzas
       if (counterTaste > 0) {
-        if (state.configs.pizza_calculate === 'avarage_value') {
+        if (state.configs.pizza_calculate === 'average_value') {
           tastePrice = tastePrice / counterTaste;
         } else if (state.configs.pizza_calculate === 'higher_value') {
           tastePrice = Math.max(...tastePrices);

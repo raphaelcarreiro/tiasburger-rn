@@ -14,7 +14,7 @@ export interface RestaurantConfig {
   use_postalcode: boolean;
   shipment_schedule: boolean;
   use_deliverer: boolean;
-  preserv_cart: boolean;
+  preserve_cart: boolean;
   google_analytics_id: string;
   facebook_pixel_id: string;
   google_login: boolean;

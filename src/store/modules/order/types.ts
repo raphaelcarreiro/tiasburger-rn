@@ -81,7 +81,7 @@ interface SetTaxAction {
 
 interface SetScheduleAction {
   type: typeof SET_SCHEDULE;
-  date: Date;
+  date: Date | null;
 }
 
 interface SetDiscountAction {

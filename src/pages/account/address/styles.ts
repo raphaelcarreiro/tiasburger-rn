@@ -9,6 +9,6 @@ export const ButtonNewAddress = styled.TouchableOpacity`
   border-style: dashed;
   border-width: 2px;
   border-color: ${({ theme }) => theme.primary};
-  background-color: #fff;
-  border-radius: 4px;
+  background-color: white;
+  border-radius: 1px;
 `;

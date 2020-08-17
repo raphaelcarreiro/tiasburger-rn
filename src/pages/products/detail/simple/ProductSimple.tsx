@@ -77,19 +77,12 @@ const ProductSimple: React.FC = () => {
   }, [additionalPrice, amount, product]);
 
   useEffect(() => {
-    setProduct(null);
-    setLoading(true);
-    setAmount(1);
-  }, [selectedProduct]);
-
-  useEffect(() => {
     if (!product) return;
     handlePrepareProduct(product, amount);
   }, [amount, product, handlePrepareProduct]);
 
-  const loadProduct = useCallback(() => {
+  useEffect(() => {
     if (!selectedProduct) return;
-
     api
       .get(`/products/${selectedProduct.id}`)
       .then(response => {
@@ -169,7 +162,7 @@ const ProductSimple: React.FC = () => {
   }
 
   return (
-    <Modal open={isSimple} title="Adicionar ao carrinho" handleClose={handleModalClose} onShow={loadProduct}>
+    <Modal open={isSimple} title="Adicionar ao carrinho" handleClose={handleModalClose}>
       {loading ? (
         <InsideLoading />
       ) : (

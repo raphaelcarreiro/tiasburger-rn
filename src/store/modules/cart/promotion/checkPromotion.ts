@@ -10,13 +10,15 @@ import {
 import { checkCategories } from './checkPromotionCategories';
 import { checkProducts } from './checkPromotionProducts';
 import { checkValue } from './checkPromotionValue';
+import { MiddlewareAPI, Dispatch } from 'redux';
+import { RootState } from '../../../selector';
 
-export default function checkPromotion(store): void {
-  const promotions = store.getState().promotion;
+export default function checkPromotion(store: MiddlewareAPI<Dispatch, RootState>): void {
+  const promotions = store.getState().promotions;
   const cart = store.getState().cart;
   const order = store.getState().order;
 
-  if (promotions) {
+  if (promotions.length > 0) {
     store.dispatch(inactivePromotionRemoveFromCart(promotions));
     promotions.forEach(promotion => {
       let checked = false;

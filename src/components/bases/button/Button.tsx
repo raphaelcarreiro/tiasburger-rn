@@ -3,7 +3,7 @@ import { Button as StyledButton, ButtonText } from './styles';
 import { TouchableOpacityProps } from 'react-native';
 
 interface ButtonProps extends TouchableOpacityProps {
-  color?: 'primary' | 'secondary';
+  color?: 'primary' | 'secondary' | 'error';
   fullWidth?: boolean;
   variant?: 'text' | 'contained';
   disabled?: boolean;

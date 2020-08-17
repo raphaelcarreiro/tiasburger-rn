@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, { useState, useEffect, useContext, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, StatusBar, StyleSheet } from 'react-native';
 import Routes from './routes/Routes';
 import api from './services/api';
@@ -13,6 +13,8 @@ import { useTheme } from 'styled-components';
 import AsyncStorage from '@react-native-community/async-storage';
 import { setCart } from './store/modules/cart/actions';
 import { Cart } from './@types/cart';
+import { setPromotions } from './store/modules/promotion/actions';
+import { RedirectScreens, AppContext } from './appContext';
 
 const styles = StyleSheet.create({
   container: {
@@ -21,32 +23,22 @@ const styles = StyleSheet.create({
   },
 });
 
-type AppContextProps = {
-  handleCartVisibility(): void;
-  isCartVisible: boolean;
-  setRedirect(screen: screens): void;
-  redirect: screens;
-};
-
-type screens = 'Home' | 'Account' | 'Checkout' | 'Menu' | null;
-
-const AppContext = React.createContext<AppContextProps>({} as AppContextProps);
-
-export function useApp(): AppContextProps {
-  const context = useContext(AppContext);
-  return context;
-}
-
 const App: React.FC = () => {
   const [initialLoading, setInitialLoading] = useState(true);
   const [isCartVisible, setIsCartVisible] = useState(false);
-  const [redirect, setRedirect] = useState<screens>(null);
-  const { handleSetTheme, handleSetPaperTheme } = useThemeContext();
+  const [redirect, setRedirect] = useState<RedirectScreens>(null);
+  const { handleSetTheme } = useThemeContext();
   const dispatch = useDispatch();
   const restaurant = useSelector(state => state.restaurant);
   const theme = useTheme();
 
   useEffect(() => {
+    function loadPromotions() {
+      api.get('/promotions').then(response => {
+        dispatch(setPromotions(response.data));
+      });
+    }
+
     api
       .get('/restaurants')
       .then(response => {
@@ -71,6 +63,7 @@ const App: React.FC = () => {
         });
       })
       .finally(() => {
+        loadPromotions();
         setInitialLoading(false);
       })
       .catch(err => {
@@ -81,9 +74,8 @@ const App: React.FC = () => {
   useEffect(() => {
     if (restaurant) {
       handleSetTheme(restaurant.primary_color, restaurant.secondary_color);
-      handleSetPaperTheme(restaurant.primary_color, restaurant.secondary_color);
     }
-  }, [restaurant, handleSetTheme, handleSetPaperTheme]);
+  }, [restaurant, handleSetTheme]);
 
   const handleCartVisibility = useCallback(() => {
     setIsCartVisible(!isCartVisible);

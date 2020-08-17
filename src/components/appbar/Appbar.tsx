@@ -1,11 +1,13 @@
 import React, { ReactElement } from 'react';
-import { useNavigation, DrawerActions } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, View } from 'react-native';
 import { AppBarStyled } from './styles';
 import IconButton from '../bases/icon-button/IconButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useTheme } from 'styled-components';
 import Typography from '../bases/typography/Text';
+import { RootStackParamList } from '../../routes/Routes';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const styles = StyleSheet.create({
   container: {
@@ -37,11 +39,11 @@ interface AppBarProps {
 }
 
 const AppBar: React.FC<AppBarProps> = ({ title, subtitle, actions, backAction, showBackAction }) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<DrawerNavigationProp<RootStackParamList>>();
   const theme = useTheme();
 
   function handleToggle() {
-    navigation.dispatch(DrawerActions.toggleDrawer());
+    navigation.toggleDrawer();
   }
 
   return (

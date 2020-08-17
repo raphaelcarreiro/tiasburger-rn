@@ -2,13 +2,17 @@ import React from 'react';
 import { Container } from './styles';
 import AppBar from '../../components/appbar/Appbar';
 import Typography from '../../components/bases/typography/Text';
+import PaymentTab from '../checkout/steps/payment/PaymentTab';
 
 const Offers: React.FC = () => {
   return (
-    <Container>
+    <>
       <AppBar title="Ofertas" />
-      <Typography>Ofertas</Typography>
-    </Container>
+      <PaymentTab online={true} offline={true} />
+      <Container>
+        <Typography>Ofertas</Typography>
+      </Container>
+    </>
   );
 };
 

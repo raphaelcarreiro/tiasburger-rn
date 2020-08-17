@@ -4,13 +4,11 @@ import AppBarAction from '../../../../components/appbar/AppBarAction';
 interface ActionProps {
   handleSubmit(): void;
   saving: boolean;
-  handleDelete(): void;
 }
 
-const AddressFormActions: React.FC<ActionProps> = ({ handleSubmit, saving, handleDelete }) => {
+const AddressFormActions: React.FC<ActionProps> = ({ handleSubmit, saving }) => {
   return (
     <>
-      <AppBarAction iconName="delete" onPress={handleDelete} disabled={saving} />
       <AppBarAction iconName="check" onPress={handleSubmit} disabled={saving} />
     </>
   );

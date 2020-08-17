@@ -79,19 +79,12 @@ const ProductPizza: React.FC = () => {
   const messaging = useMessage();
   const restaurant = useSelector(state => state.restaurant);
 
-  useEffect(() => {
-    setProduct(null);
-    setLoading(true);
-    setAmount(1);
-    setComplementSizeSelected({} as Complement);
-  }, [selectedProduct]);
-
   const total = useMemo(() => {
     if (!product) return moneyFormat(0);
     return moneyFormat((complementsPrice + product.price) * amount);
   }, [complementsPrice, product, amount]);
 
-  const loadProduct = useCallback(() => {
+  useEffect(() => {
     if (!selectedProduct) return;
 
     let sizeSelected: Complement = {} as Complement;
@@ -367,7 +360,7 @@ const ProductPizza: React.FC = () => {
   }
 
   return (
-    <Modal open={isPizza} title="Adicionar ao carrinho" handleClose={handleModalClose} onShow={loadProduct}>
+    <Modal open={isPizza} title="Adicionar ao carrinho" handleClose={handleModalClose}>
       {loading ? (
         <InsideLoading />
       ) : (

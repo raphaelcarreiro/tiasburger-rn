@@ -1,15 +1,14 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
-import Typography from '../../components/bases/typography/Text';
 import AppBar from '../../components/appbar/Appbar';
 import { StyleSheet, View, Linking } from 'react-native';
 import Modal from '../../components/modal/Modal';
 import Cart from '../../components/cart/Cart';
 import CheckoutActions from './CheckoutActions';
 import { useMessage } from '../../hooks/message';
-import { useApp } from '../../App';
+import { useApp } from '../../appContext';
 import { useDispatch } from 'react-redux';
 import { useSelector } from '../../store/selector';
-import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { NavigationProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../routes/Routes';
 import { steps as defaultSteps, StepIdTypes, StepOrderTypes, StepType } from './steps/steps';
 import {
@@ -25,13 +24,25 @@ import {
 } from '../../store/modules/order/actions';
 import { OrderShipment, Order } from '../../@types/order';
 import api from '../../services/api';
-import { PaymnentMethod } from '../../@types/paymentMethod';
+import { PaymentMethod } from '../../@types/paymentMethod';
+import Loading from '../../components/loading/Loading';
+import InsideLoading from '../../components/loading/InsideLoading';
+import CheckoutSuccess from './CheckoutSuccess';
+import CheckoutEmptyCart from './CheckoutEmptyCart';
+import CheckoutButtons from './CheckoutButtons';
+import CheckoutHeader from './CheckoutHeader';
+import { CheckoutContext } from './checkoutContext';
+import ShipmentMethod from './steps/shipment-method/ShipmentMethod';
+import Shipment from './steps/shipment/Shipment';
+import { Address } from '../../@types/address';
+import Payment from './steps/payment/Payment';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 56,
     padding: 15,
+    position: 'relative',
   },
   modal: {
     paddingTop: 0,
@@ -41,22 +52,11 @@ const styles = StyleSheet.create({
   },
 });
 
-type CheckoutContextData = {
-  handleStepNext(): void;
-  handleStepPrior(): void;
-  handleSubmitOrder(): void;
-  handleSetStep(step: StepOrderTypes): void;
-  handleSetStepById(id: StepIdTypes): void;
-  setIsCardValid(valid: boolean): void;
-  isCardValid: boolean;
-  saving: boolean;
-  createdOrder: Order | null;
-  step: number;
+type CheckoutProps = {
+  navigation: NavigationProp<RootStackParamList>;
 };
 
-const CheckoutContext = React.createContext<CheckoutContextData>({} as CheckoutContextData);
-
-const Checkout: React.FC = () => {
+const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
   const messaging = useMessage();
   const app = useApp();
   const dispatch = useDispatch();
@@ -64,15 +64,20 @@ const Checkout: React.FC = () => {
   const cart = useSelector(state => state.cart);
   const order = useSelector(state => state.order);
   const restaurant = useSelector(state => state.restaurant);
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [loading, setLoading] = useState(true);
-  const [paymentMethods, setPaymentMethods] = useState<PaymnentMethod[]>([]);
+  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
   const [step, setStep] = useState(1);
   const [saving, setSaving] = useState(false);
   const [createdOrder, setCreatedOrder] = useState<Order | null>(null);
   const [steps, setSteps] = useState<StepType[]>(defaultSteps);
   const [isCardValid, setIsCardValid] = useState(false);
   const [cartVisibility, setCartVisiblity] = useState(false);
+
+  useEffect(() => {
+    navigation.addListener('blur', () => {
+      setStep(1);
+    });
+  }, [navigation]);
 
   const currentStep = useMemo(() => {
     return steps.find(item => item.order === step);
@@ -89,6 +94,7 @@ const Checkout: React.FC = () => {
     saving,
     createdOrder,
     step,
+    paymentMethods,
   };
 
   const handleCartVisibility = useCallback(() => {
@@ -103,61 +109,95 @@ const Checkout: React.FC = () => {
   }, [restaurant]);
 
   useEffect(() => {
-    if (restaurant?.id) {
-      const { configs } = restaurant;
+    if (!restaurant) return;
 
-      let stepId: StepOrderTypes = 1;
-      let newSteps = defaultSteps.slice();
+    const { configs } = restaurant;
 
-      if (!configs.customer_collect) {
-        newSteps = newSteps.filter(s => s.id !== 'STEP_SHIPMENT_METHOD');
-      }
+    let stepId: StepOrderTypes = 1;
+    let newSteps = defaultSteps.slice();
 
-      if (order.shipment.shipment_method === 'customer_collect') {
-        newSteps = newSteps.filter(s => s.id !== 'STEP_SHIPMENT');
-      }
-
-      setSteps(
-        newSteps.map(step => {
-          step.order = stepId;
-          stepId++;
-          return step;
-        }),
-      );
+    if (!configs.customer_collect) {
+      newSteps = newSteps.filter(s => s.id !== 'STEP_SHIPMENT_METHOD');
     }
+
+    if (order.shipment.shipment_method === 'customer_collect') {
+      newSteps = newSteps.filter(s => s.id !== 'STEP_SHIPMENT');
+    }
+
+    setSteps(
+      newSteps.map(step => {
+        step.order = stepId;
+        stepId++;
+        return step;
+      }),
+    );
   }, [restaurant, order.shipment.shipment_method]);
 
   useEffect(() => {
-    if (restaurant) {
-      dispatch(setTax(cart.tax));
-      dispatch(setDiscount(cart.discount));
-      if (
-        cart.subtotal < restaurant.configs.order_minimum_value &&
-        restaurant.configs.tax_mode !== 'order_value' &&
-        currentStep?.id !== 'STEP_SUCCESS' &&
-        cart.products.length > 0
-      ) {
-        messaging.handleOpen(`Valor mínimo do pedido deve ser ${restaurant.configs.formattedOrderMinimumValue}`);
-        navigation.navigate('Menu');
-      }
-    }
-  }, [cart.total, restaurant]);
+    dispatch(setDiscount(cart.discount));
+    if (cart.coupon) dispatch(setCoupon(cart.coupon));
+  }, [dispatch, cart.discount, cart.coupon]);
 
   useEffect(() => {
-    handleCartVisibility();
+    dispatch(setProducts(cart.products));
+    dispatch(setTax(cart.tax));
+  }, [dispatch, cart.products, cart.tax]);
 
-    function setAddress(address: OrderShipment) {
+  useEffect(() => {
+    if (!restaurant) return;
+
+    if (
+      cart.subtotal < restaurant.configs.order_minimum_value &&
+      restaurant.configs.tax_mode !== 'order_value' &&
+      currentStep?.id !== 'STEP_SUCCESS' &&
+      cart.products.length > 0
+    ) {
+      messaging.handleOpen(`Valor mínimo do pedido deve ser ${restaurant.configs.formattedOrderMinimumValue}`);
+      navigation.navigate('Menu');
+    }
+  }, [restaurant, cart.subtotal, cart.products, currentStep, navigation, messaging]);
+
+  useEffect(() => {
+    function setAddress(address: Address) {
       if (restaurant?.configs.tax_mode === 'district') {
-        if (address && address.area_region) dispatch(setShipmentAddress(address));
+        if (address && address.area_region)
+          dispatch(
+            setShipmentAddress({
+              ...address,
+              complement: address.address_complement,
+              shipment_method: 'delivery',
+              scheduled_at: null,
+              formattedScheduledAt: null,
+            }),
+          );
         else dispatch(setShipmentAddress({} as OrderShipment));
         return;
       } else if (restaurant?.configs.tax_mode === 'distance') {
-        if (address && address.distance <= restaurant?.delivery_max_distance) dispatch(setShipmentAddress(address));
+        if (address && address.distance && address.distance <= restaurant?.delivery_max_distance)
+          dispatch(
+            setShipmentAddress({
+              ...address,
+              complement: address.address_complement,
+              shipment_method: 'delivery',
+              scheduled_at: null,
+              formattedScheduledAt: null,
+            }),
+          );
         else dispatch(setShipmentAddress({} as OrderShipment));
         return;
       }
 
-      dispatch(setShipmentAddress(address || {}));
+      if (address)
+        dispatch(
+          setShipmentAddress({
+            ...address,
+            complement: address.address_complement,
+            shipment_method: 'delivery',
+            scheduled_at: null,
+            formattedScheduledAt: null,
+          }),
+        );
+      else dispatch({} as OrderShipment);
     }
 
     if (user) {
@@ -165,29 +205,26 @@ const Checkout: React.FC = () => {
       const address = customer.addresses.find(address => address.is_main);
 
       dispatch(setCustomer(customer));
-      setAddress(address);
+      if (address) setAddress(address);
     }
-  }, []);
+  }, [dispatch, restaurant, user]);
 
   useEffect(() => {
     api
       .get('/order/paymentMethods')
       .then(response => {
         setPaymentMethods(response.data);
-        const paymentMethods: PaymnentMethod[] = response.data;
-        // const online = paymentMethods.some(method => method.mode === 'online');
+        const paymentMethods: PaymentMethod[] = response.data;
         const offline = paymentMethods.some(method => method.mode === 'offline');
         if (offline) dispatch(setPaymentMethod(response.data[0]));
       })
       .catch(err => {
         if (err.response) console.log(err.response.data.error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(setProducts(cart.products));
-    if (cart.coupon) dispatch(setCoupon(cart.coupon));
-  }, []);
 
   function handleSubmitOrder() {
     if (restaurant)
@@ -253,14 +290,35 @@ const Checkout: React.FC = () => {
   return (
     <>
       <AppBar title="Finalizar pedido" actions={<CheckoutActions handleCartVisilibity={handleCartVisibility} />} />
-      <Modal style={styles.modal} open={cartVisibility} handleClose={handleCartVisibility} title="Carrinho">
-        <Cart />
-      </Modal>
-      <CheckoutContext.Provider value={checkoutContextValue}>
-        <View style={styles.container}>
-          <Typography>Checkout</Typography>
-        </View>
-      </CheckoutContext.Provider>
+      {cartVisibility && (
+        <Modal style={styles.modal} open={cartVisibility} handleClose={handleCartVisibility} title="Carrinho">
+          <Cart />
+        </Modal>
+      )}
+      {saving && <Loading />}
+      {loading ? (
+        <InsideLoading />
+      ) : currentStep?.id === 'STEP_SUCCESS' ? (
+        <CheckoutContext.Provider value={checkoutContextValue}>
+          <CheckoutSuccess />
+        </CheckoutContext.Provider>
+      ) : cart.products.length === 0 ? (
+        <CheckoutEmptyCart />
+      ) : (
+        <CheckoutContext.Provider value={checkoutContextValue}>
+          <View style={styles.container}>
+            <CheckoutHeader currentStep={currentStep} />
+            {currentStep?.id === 'STEP_SHIPMENT_METHOD' ? (
+              <ShipmentMethod />
+            ) : currentStep?.id === 'STEP_SHIPMENT' ? (
+              <Shipment />
+            ) : (
+              currentStep?.id === 'STEP_PAYMENT' && <Payment />
+            )}
+            {currentStep?.id !== 'STEP_SHIPMENT_METHOD' && <CheckoutButtons />}
+          </View>
+        </CheckoutContext.Provider>
+      )}
     </>
   );
 };

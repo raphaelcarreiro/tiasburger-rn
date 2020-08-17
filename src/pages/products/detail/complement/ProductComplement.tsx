@@ -79,7 +79,7 @@ const ProductComplement: React.FC = () => {
     setAmount(1);
   }, [selectedProduct]);
 
-  const loadProduct = useCallback(() => {
+  useEffect(() => {
     if (!selectedProduct) return;
 
     api
@@ -228,7 +228,7 @@ const ProductComplement: React.FC = () => {
   }
 
   return (
-    <Modal open={isComplement} title="Adicionar ao carrinho" handleClose={handleModalClose} onShow={loadProduct}>
+    <Modal open={isComplement} title="Adicionar ao carrinho" handleClose={handleModalClose}>
       {loading ? (
         <InsideLoading />
       ) : (

@@ -6,6 +6,9 @@ import { StyleSheet, View, Image } from 'react-native';
 import Button from '../../components/bases/button/Button';
 import { useDispatch } from 'react-redux';
 import { removeFromCart } from '../../store/modules/cart/actions';
+import CartItemComplements from './CartItemComplements';
+import CartItemIngredients from './CartItemIngredients';
+import CartItemAdditional from './CartItemAdditional';
 
 const styles = StyleSheet.create({
   listItem: {
@@ -45,6 +48,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 4,
   },
+  promotion: {
+    paddingLeft: 5,
+  },
 });
 
 type CartItemProps = {
@@ -70,8 +76,25 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
         </View>
         <Typography size={24}>{product.formattedFinalPrice}</Typography>
       </View>
+      <CartItemIngredients ingredients={product.ingredients} />
+      <CartItemAdditional additional={product.additional} />
+      <View style={styles.promotion}>
+        {product.promotion && (
+          <>
+            <Typography variant="caption" size={12}>
+              Você ganhou esse produto!
+            </Typography>
+            <Typography variant="caption" size={12}>
+              Promoção {product.promotion.name}
+            </Typography>
+          </>
+        )}
+      </View>
+      {product.complement_categories.length > 0 && (
+        <CartItemComplements complementCategories={product.complement_categories} />
+      )}
       <View style={styles.actions}>
-        <Button color="primary" variant="text" onPress={() => handleDeleteClick(product.uid)}>
+        <Button disablePadding color="primary" variant="text">
           Alterar
         </Button>
         <Button variant="text" onPress={() => handleDeleteClick(product.uid)}>
