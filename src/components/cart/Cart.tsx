@@ -4,13 +4,14 @@ import { useSelector } from '../../store/selector';
 import CartItem from './CartItem';
 import Typography from '../../components/bases/typography/Text';
 import Button from '../../components/bases/button/Button';
-import { useNavigation, NavigationProp, useRoute } from '@react-navigation/native';
-import { RootStackParamList } from '../../routes/Routes';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { RootDrawerParamList } from '../../routes/Routes';
 import Coupon from './coupon/Coupon';
 import CouponButton from './coupon/CouponButton';
 import CartTotals from './CartTotals';
 import { useMessage } from '../../hooks/message';
 import { useApp } from '../../appContext';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const styles = StyleSheet.create({
   container: {
@@ -38,7 +39,7 @@ const Cart: React.FC = () => {
   const cart = useSelector(state => state.cart);
   const restaurant = useSelector(state => state.restaurant);
   const user = useSelector(state => state.user);
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<DrawerNavigationProp<RootDrawerParamList>>();
   const [isCouponVisible, setIsCouponVisible] = useState(false);
   const messaging = useMessage();
   const app = useApp();

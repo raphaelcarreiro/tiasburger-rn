@@ -3,6 +3,7 @@ import { CartProduct } from './cart';
 import { Coupon } from './coupon';
 import { PaymentMethod } from './paymentMethod';
 import { AreaRegion } from './address';
+import { CreatedOrderProduct } from './product';
 
 export interface CreditCart {
   number: string;
@@ -56,17 +57,37 @@ export interface Order {
   formattedTax: string;
 }
 
-export interface CreatedOrder extends Order {
+export type OrderStatusOptions = 'p' | 'o' | 'a' | 'd' | 'c' | 'x';
+
+interface PicPayPayment {
+  payment_url: string;
+}
+export interface CreatedOrder {
   id: number;
+  formattedId: string;
+  customer: Customer;
+  payment_method: PaymentMethod;
+  shipment: OrderShipment;
+  products: CreatedOrderProduct[];
+  coupon: Coupon;
   encrypted_id: string;
   formattedId: string;
   created_at: string;
   formattedDate: string;
+  dateDistance: string;
   subtotal: number;
   formattedSubtotal: string;
   formattedDiscount: string;
+  tax: number;
+  formattedTax: string;
   discount: number;
+  formattedDiscount: string;
+  change: number;
+  formattedChange: string;
   total: number;
   formattedTotal: string;
   order_status: OrderStatus[];
+  status: OrderStatusOptions;
+  statusName: string;
+  picpay_payment: PicPayPayment;
 }

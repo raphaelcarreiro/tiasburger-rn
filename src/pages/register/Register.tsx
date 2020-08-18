@@ -11,11 +11,12 @@ import userReducer, { INITIAL_STATE as userInitialState } from '../../context-ap
 import { userChange } from '../../context-api/user/actions';
 import RegisterForm from './RegisterForm';
 import { useMessage } from '../../hooks/message';
-import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import RegisterSucess from './success/RegisterSuccess';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useApp } from '../../appContext';
-import { RootStackParamList } from '../../routes/Routes';
+import { RootDrawerParamList } from '../../routes/Routes';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const styles = StyleSheet.create({
   image: {
@@ -46,7 +47,7 @@ const Register: React.FC = () => {
   const [created, setCreated] = useState(false);
   const [user, contextDispatch] = useReducer(userReducer, userInitialState);
   const dispatch = useDispatch();
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<DrawerNavigationProp<RootDrawerParamList>>();
   const { handleOpen } = useMessage();
   const app = useApp();
 

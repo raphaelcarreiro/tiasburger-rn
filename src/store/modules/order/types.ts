@@ -71,7 +71,7 @@ interface ClearCardAction {
 }
 interface SetCouponAction {
   type: typeof SET_COUPON;
-  coupon: Coupon;
+  coupon: Coupon | null;
 }
 
 interface SetTaxAction {

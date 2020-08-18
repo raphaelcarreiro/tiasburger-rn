@@ -4,7 +4,8 @@ import { Category } from '../../../@types/category';
 import Text from '../../../components/bases/typography/Text';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import ListItem from '../../../components/list-item/ListItem';
-import { RootStackParamList } from '../../../routes/Routes';
+import { RootDrawerParamList } from '../../../routes/Routes';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const styles = StyleSheet.create({
   listItem: {
@@ -30,7 +31,7 @@ interface CategoryListProps {
 }
 
 const CategoryList: React.FC<CategoryListProps> = ({ category }) => {
-  const navigator = useNavigation<NavigationProp<RootStackParamList>>();
+  const navigator = useNavigation<DrawerNavigationProp<RootDrawerParamList>>();
 
   function handlePress(url: string, categoryName: string): void {
     navigator.navigate('Products', { url, categoryName });

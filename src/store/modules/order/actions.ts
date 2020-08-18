@@ -92,7 +92,7 @@ export function clearCard(): OrderTypeActions {
   };
 }
 
-export function setCoupon(coupon: Coupon): OrderTypeActions {
+export function setCoupon(coupon: Coupon | null): OrderTypeActions {
   return {
     type: SET_COUPON,
     coupon,

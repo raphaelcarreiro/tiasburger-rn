@@ -314,6 +314,7 @@ export default function cart(state = INITIAL_STATE, action: CartTypeActions): Ca
       return {
         ...state,
         coupon: null,
+        discount: 0,
       };
     }
 

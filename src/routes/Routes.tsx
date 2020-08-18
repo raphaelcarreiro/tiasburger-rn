@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import SignRoutes from './SignRoutes';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -14,28 +14,39 @@ import Checkout from '../pages/checkout/Checkout';
 import Orders from '../pages/orders/Orders';
 import Order from '../pages/orders/order/Order';
 
-export type RootStackParamList = {
+type SignRouteOptions = 'Initial' | 'LoginEmail' | 'Register' | 'ForgotPassword';
+
+export type RootDrawerParamList = {
   Home: undefined;
   Offers: undefined;
   Menu: undefined;
   Products: { url: string; categoryName: string };
   Cart: undefined;
   Contact: undefined;
-  Login: undefined;
+  Login: { screen: SignRouteOptions } | undefined;
   Account: undefined;
   Checkout: undefined;
   Orders: undefined;
   Order: { orderId: string | number };
 };
 
-const Drawer = createDrawerNavigator<RootStackParamList>();
+const Drawer = createDrawerNavigator<RootDrawerParamList>();
 
 const Routes: React.FC = () => {
   const user = useSelector(state => state.user);
+  const [isInitialRender, setIsInitialRender] = useState(true);
+
+  useEffect(() => {
+    setIsInitialRender(false);
+  }, []);
 
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Home" drawerContent={props => <DrawerContent {...props} />}>
+      <Drawer.Navigator
+        initialRouteName="Home"
+        drawerStyle={{ width: isInitialRender ? undefined : 270 }}
+        drawerContent={props => <DrawerContent {...props} />}
+      >
         <Drawer.Screen name="Home" component={Home} />
         <Drawer.Screen name="Offers" component={Offers} />
         <Drawer.Screen name="Menu" component={Menu} />

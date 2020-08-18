@@ -92,3 +92,26 @@ export interface Product {
   complement_categories: ComplementCategory[];
   ready?: boolean;
 }
+
+export interface CreatedOrderProduct {
+  id: number;
+  name: string;
+  url: string;
+  activated: boolean;
+  description: boolean;
+  price: number;
+  formattedPrice: string;
+  special_price: number | null;
+  formattedSpecialPrice: string;
+  promotion_activated: boolean;
+  image: Image;
+  category: Category;
+  additional: Additional[];
+  ingredients: Ingredient[];
+  annotation: string;
+  complement_categories: ComplementCategory[];
+  product_price: number;
+  final_price: number;
+  formattedFinalPrice: string;
+  formattedProductPrice: string;
+}

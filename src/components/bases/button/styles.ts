@@ -6,6 +6,8 @@ interface ButtonProps {
   variant?: string;
   disabled?: boolean;
   disablePadding?: boolean;
+  fontSize?: number;
+  disableUpperCase?: boolean;
 }
 
 export const Button = styled.TouchableOpacity<ButtonProps>`
@@ -13,7 +15,6 @@ export const Button = styled.TouchableOpacity<ButtonProps>`
   justify-content: center;
   align-items: center;
   min-width: ${props => (props.fullWidth ? '100%' : '30px')};
-  text-transform: uppercase;
   border-radius: 4px;
   background-color: ${({ color, theme }) => (color ? theme[color] : '#eee')};
   height: 42px;
@@ -48,6 +49,18 @@ export const ButtonText = styled.Text<ButtonProps>`
   color: ${props => props.theme.contrast};
   text-transform: uppercase;
   font-size: 14px;
+
+  ${props =>
+    props.disableUpperCase &&
+    css`
+      text-transform: none;
+    `}
+
+  ${props =>
+    props.fontSize &&
+    css`
+      font-size: ${props.fontSize}px;
+    `}
 
   ${props =>
     props.variant === 'text' &&

@@ -10,9 +10,13 @@ import Loading from '../../components/loading/Loading';
 import * as yup from 'yup';
 import { useMessage } from '../../hooks/message';
 import { useAuth } from '../../hooks/auth';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, CompositeNavigationProp } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useApp } from '../../appContext';
+import { RootDrawerParamList } from '../../routes/Routes';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { SignRouteList } from '../../routes/SignRoutes';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const styles = StyleSheet.create({
   image: {
@@ -20,15 +24,13 @@ const styles = StyleSheet.create({
     height: 70,
   },
   actions: {
-    marginTop: 80,
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    width: '100%',
+    marginTop: 10,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    height: 100,
   },
   scrollViewContent: {
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    flex: 1,
+    justifyContent: 'center',
   },
 });
 
@@ -36,6 +38,11 @@ interface Validation {
   email?: string;
   password?: string;
 }
+
+type LoginEmailScreenProps = CompositeNavigationProp<
+  StackNavigationProp<SignRouteList, 'ForgotPassword'>,
+  DrawerNavigationProp<RootDrawerParamList>
+>;
 
 const LoginEmail: React.FC = () => {
   const restaurant = useSelector(state => state.restaurant);
@@ -47,7 +54,7 @@ const LoginEmail: React.FC = () => {
   const [validation, setValidation] = useState({} as Validation);
   const message = useMessage();
   const auth = useAuth();
-  const navigation = useNavigation();
+  const navigation = useNavigation<LoginEmailScreenProps>();
   const app = useApp();
 
   function handleValidation() {
@@ -150,7 +157,15 @@ const LoginEmail: React.FC = () => {
             )}
           </Content>
           <View style={styles.actions}>
-            <Button color="primary" onPress={handleValidation}>
+            <Button
+              color="primary"
+              variant="text"
+              disableUpperCase
+              onPress={() => navigation.navigate('Login', { screen: 'ForgotPassword' })}
+            >
+              Esqueci minha senha
+            </Button>
+            <Button color="primary" onPress={handleValidation} disabled={loading}>
               {step === 'email' ? 'Próximo' : 'Entrar'}
             </Button>
           </View>

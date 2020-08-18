@@ -6,8 +6,9 @@ import { useCheckout } from './checkoutContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Button from '../../components/bases/button/Button';
 import { formatId } from '../../helpers/formatOrderId';
-import { useNavigation, NavigationProp } from '@react-navigation/native';
-import { RootStackParamList } from '../../routes/Routes';
+import { useNavigation } from '@react-navigation/native';
+import { RootDrawerParamList } from '../../routes/Routes';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const styles = StyleSheet.create({
   container: {
@@ -26,7 +27,7 @@ const CheckoutSuccess: React.FC = () => {
   const user = useSelector(state => state.user);
   const checkout = useCheckout();
   const order = checkout.createdOrder;
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<DrawerNavigationProp<RootDrawerParamList>>();
 
   function handleFollowOrder() {
     if (order) navigation.navigate('Order', { orderId: order.encrypted_id });

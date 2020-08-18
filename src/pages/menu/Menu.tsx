@@ -10,7 +10,7 @@ import MenuActions from './categories/MenuActions';
 const Menu: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
-  const [productsAmount, setProductsAmount] = useState(0);
+  const [, setProductsAmount] = useState(0);
 
   const refresh = useCallback(() => {
     let request = true;

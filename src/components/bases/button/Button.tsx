@@ -8,6 +8,8 @@ interface ButtonProps extends TouchableOpacityProps {
   variant?: 'text' | 'contained';
   disabled?: boolean;
   disablePadding?: boolean;
+  fontSize?: number;
+  disableUpperCase?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -17,6 +19,8 @@ const Button: React.FC<ButtonProps> = ({
   variant = 'contained',
   disabled = false,
   disablePadding = false,
+  fontSize,
+  disableUpperCase,
   ...rest
 }) => {
   return (
@@ -28,7 +32,7 @@ const Button: React.FC<ButtonProps> = ({
       variant={variant}
       disabled={disabled}
     >
-      <ButtonText color={color} variant={variant}>
+      <ButtonText fontSize={fontSize} disableUpperCase={disableUpperCase} color={color} variant={variant}>
         {children}
       </ButtonText>
     </StyledButton>

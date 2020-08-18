@@ -5,11 +5,9 @@ import Modal from '../../components/modal/Modal';
 import Cart from '../../components/cart/Cart';
 import CheckoutActions from './CheckoutActions';
 import { useMessage } from '../../hooks/message';
-import { useApp } from '../../appContext';
 import { useDispatch } from 'react-redux';
 import { useSelector } from '../../store/selector';
-import { NavigationProp } from '@react-navigation/native';
-import { RootStackParamList } from '../../routes/Routes';
+import { RootDrawerParamList } from '../../routes/Routes';
 import { steps as defaultSteps, StepIdTypes, StepOrderTypes, StepType } from './steps/steps';
 import {
   setTax,
@@ -22,7 +20,7 @@ import {
   setChange,
   clearCard,
 } from '../../store/modules/order/actions';
-import { OrderShipment, Order, CreatedOrder } from '../../@types/order';
+import { OrderShipment, CreatedOrder } from '../../@types/order';
 import api from '../../services/api';
 import { PaymentMethod } from '../../@types/paymentMethod';
 import Loading from '../../components/loading/Loading';
@@ -38,6 +36,7 @@ import { Address } from '../../@types/address';
 import Payment from './steps/payment/Payment';
 import Confirm from './steps/confirm/Confirm';
 import { clearCart } from '../../store/modules/cart/actions';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const styles = StyleSheet.create({
   container: {
@@ -55,7 +54,7 @@ const styles = StyleSheet.create({
 });
 
 type CheckoutProps = {
-  navigation: NavigationProp<RootStackParamList>;
+  navigation: DrawerNavigationProp<RootDrawerParamList>;
 };
 
 const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
@@ -136,7 +135,7 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
 
   useEffect(() => {
     dispatch(setDiscount(cart.discount));
-    if (cart.coupon) dispatch(setCoupon(cart.coupon));
+    dispatch(setCoupon(cart.coupon));
   }, [dispatch, cart.discount, cart.coupon]);
 
   useEffect(() => {
@@ -252,7 +251,7 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
         handleStepNext();
       })
       .catch(err => {
-        if (err.response) console.log(err.response.data.error);
+        if (err.response) messaging.handleOpen(err.response.data.error);
       })
       .finally(() => {
         setSaving(false);

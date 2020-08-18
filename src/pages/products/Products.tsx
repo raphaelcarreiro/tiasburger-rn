@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
-import { RouteProp, NavigationProp } from '@react-navigation/native';
+import { RouteProp } from '@react-navigation/native';
 import api from '../../services/api';
 import { Product } from '../../@types/product';
 import AppBar from '../../components/appbar/Appbar';
 import InsideLoading from '../../components/loading/InsideLoading';
-import { RootStackParamList } from '../../routes/Routes';
+import { RootDrawerParamList } from '../../routes/Routes';
 import ProductItem from './ProductItem';
 import { moneyFormat } from '../../helpers/numberFormat';
 import { ProductContext } from './productContext';
@@ -16,6 +16,7 @@ import ProductPizza from './detail/pizza/ProductPizza';
 import { prepareProduct, addToCart } from '../../store/modules/cart/actions';
 import ProductActions from './ProductActions';
 import Typography from '../../components/bases/typography/Text';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const styles = StyleSheet.create({
   container: {
@@ -30,11 +31,11 @@ const styles = StyleSheet.create({
   },
 });
 
-type ProductsScreenRouteProp = RouteProp<RootStackParamList, 'Products'>;
+type ProductsScreenRouteProp = RouteProp<RootDrawerParamList, 'Products'>;
 
 type ProductsProps = {
   route: ProductsScreenRouteProp;
-  navigation: NavigationProp<RootStackParamList>;
+  navigation: DrawerNavigationProp<RootDrawerParamList>;
 };
 
 const Products: React.FC<ProductsProps> = ({ route, navigation }) => {

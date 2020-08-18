@@ -4,8 +4,16 @@ import Login from '../pages/login/Login';
 import LoginEmail from '../pages/login-email/LoginEmail';
 import Register from '../pages/register/Register';
 import { useTheme } from 'styled-components';
+import ForgotPassword from '../pages/forgot-password/ForgotPassword';
 
-const Stack = createStackNavigator();
+export type SignRouteList = {
+  Initial: undefined;
+  LoginEmail: undefined;
+  Register: undefined;
+  ForgotPassword: undefined;
+};
+
+const Stack = createStackNavigator<SignRouteList>();
 
 const StackSignRoutes: React.FC = () => {
   const theme = useTheme();
@@ -17,11 +25,15 @@ const StackSignRoutes: React.FC = () => {
           backgroundColor: theme.primary,
         },
         headerTintColor: '#fff',
+        cardStyle: {
+          backgroundColor: '#fff',
+        },
       }}
     >
       <Stack.Screen name="Initial" options={{ headerShown: false }} component={Login} />
       <Stack.Screen name="LoginEmail" options={{ title: 'Entrar' }} component={LoginEmail} />
       <Stack.Screen name="Register" options={{ title: 'Registrar' }} component={Register} />
+      <Stack.Screen name="ForgotPassword" options={{ title: 'Esqueci minha senha' }} component={ForgotPassword} />
     </Stack.Navigator>
   );
 };

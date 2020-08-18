@@ -6,7 +6,7 @@ import IconButton from '../bases/icon-button/IconButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useTheme } from 'styled-components';
 import Typography from '../bases/typography/Text';
-import { RootStackParamList } from '../../routes/Routes';
+import { RootDrawerParamList } from '../../routes/Routes';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const styles = StyleSheet.create({
@@ -39,7 +39,7 @@ interface AppBarProps {
 }
 
 const AppBar: React.FC<AppBarProps> = ({ title, subtitle, actions, backAction, showBackAction }) => {
-  const navigation = useNavigation<DrawerNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<DrawerNavigationProp<RootDrawerParamList>>();
   const theme = useTheme();
 
   function handleToggle() {
