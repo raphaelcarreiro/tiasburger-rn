@@ -39,7 +39,7 @@ export const INITIAL_STATE: Cart = {
 };
 
 export default function cart(state = INITIAL_STATE, action: CartTypeActions): Cart {
-  function addToCart(promotion?: { id: number; name: string }): Cart {
+  function addToCart(promotion: { id: number; name: string } | null = null): Cart {
     if (!state.product) return state;
     const price =
       state.product.promotion_activated && state.product.special_price && state.product.special_price > 0

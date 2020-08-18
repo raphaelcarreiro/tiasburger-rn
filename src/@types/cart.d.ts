@@ -11,7 +11,7 @@ export type CartRestaurantConfigs = {
 export interface CartProduct extends CartPrepareProduct {
   additionalPrice: number;
   complementsPrice: number;
-  promotion?: { id: number; name: string };
+  promotion: { id: number; name: string } | null;
   product_price: number;
   final_price: number;
   formattedFinalPrice: string;

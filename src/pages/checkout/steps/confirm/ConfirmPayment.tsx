@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     marginTop: 7,
   },
   actions: {
-    marginTop: 7,
+    marginTop: 5,
     alignItems: 'flex-end',
   },
 });

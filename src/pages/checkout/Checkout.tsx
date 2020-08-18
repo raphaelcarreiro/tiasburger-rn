@@ -22,7 +22,7 @@ import {
   setChange,
   clearCard,
 } from '../../store/modules/order/actions';
-import { OrderShipment, Order } from '../../@types/order';
+import { OrderShipment, Order, CreatedOrder } from '../../@types/order';
 import api from '../../services/api';
 import { PaymentMethod } from '../../@types/paymentMethod';
 import Loading from '../../components/loading/Loading';
@@ -37,6 +37,7 @@ import Shipment from './steps/shipment/Shipment';
 import { Address } from '../../@types/address';
 import Payment from './steps/payment/Payment';
 import Confirm from './steps/confirm/Confirm';
+import { clearCart } from '../../store/modules/cart/actions';
 
 const styles = StyleSheet.create({
   container: {
@@ -59,17 +60,16 @@ type CheckoutProps = {
 
 const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
   const messaging = useMessage();
-  const app = useApp();
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
   const cart = useSelector(state => state.cart);
   const order = useSelector(state => state.order);
   const restaurant = useSelector(state => state.restaurant);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
   const [step, setStep] = useState(1);
   const [saving, setSaving] = useState(false);
-  const [createdOrder, setCreatedOrder] = useState<Order | null>(null);
+  const [createdOrder, setCreatedOrder] = useState<CreatedOrder | null>(null);
   const [steps, setSteps] = useState<StepType[]>(defaultSteps);
   const [isCardValid, setIsCardValid] = useState(false);
   const [cartVisibility, setCartVisiblity] = useState(false);
@@ -248,7 +248,7 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
         }
         dispatch(setChange(0));
         dispatch(clearCard());
-        dispatch(clearCard());
+        dispatch(clearCart());
         handleStepNext();
       })
       .catch(err => {

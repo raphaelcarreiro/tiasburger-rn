@@ -4,7 +4,7 @@
  * @param maximumFractionDigits
  * @returns {string}
  */
-function numberFormat(value: string | number | null, maximumFractionDigits = 2): string {
+function numberFormat(value: string | number | null | undefined, maximumFractionDigits = 2): string {
   if (typeof value === 'string' && value !== '') value = parseFloat(value);
 
   value = !value ? 0 : value;
@@ -20,7 +20,7 @@ function numberFormat(value: string | number | null, maximumFractionDigits = 2):
  * @param maximumFractionDigits
  * @returns {string}
  */
-function moneyFormat(value: string | number | null, maximumFractionDigits = 2): string {
+function moneyFormat(value: string | number | null | undefined, maximumFractionDigits = 2): string {
   if (typeof value === 'string' && value !== '') value = parseFloat(value);
 
   value = !value ? 0 : value;

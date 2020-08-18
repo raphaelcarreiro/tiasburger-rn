@@ -14,6 +14,7 @@ interface AccountContextData {
   validation: AccountValidation;
   handleValidation(): void;
   setValidation(validation: AccountValidation): void;
+  saving: boolean;
 }
 
 export const AccountContext = React.createContext({} as AccountContextData);

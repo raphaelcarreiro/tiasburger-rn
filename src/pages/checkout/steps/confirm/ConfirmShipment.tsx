@@ -12,13 +12,13 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     paddingTop: 10,
-    paddingBottom: 5,
+    paddingBottom: 0,
   },
   deliveryTime: {
     marginTop: 7,
   },
   actions: {
-    marginTop: 7,
+    marginTop: 5,
     alignItems: 'flex-end',
   },
   button: {

@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 import { StepOrderTypes, StepIdTypes } from './steps/steps';
-import { Order } from '../../@types/order';
+import { CreatedOrder } from '../../@types/order';
 import { PaymentMethod } from '../../@types/paymentMethod';
 
 type CheckoutContextData = {
@@ -12,7 +12,7 @@ type CheckoutContextData = {
   setIsCardValid(valid: boolean): void;
   isCardValid: boolean;
   saving: boolean;
-  createdOrder: Order | null;
+  createdOrder: CreatedOrder | null;
   step: number;
   paymentMethods: PaymentMethod[];
 };

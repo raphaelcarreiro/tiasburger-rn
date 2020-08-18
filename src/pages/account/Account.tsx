@@ -110,7 +110,14 @@ const Account: React.FC = () => {
 
   return (
     <AccountContext.Provider
-      value={{ userCustomer, dispatch: contextDispatch, validation, handleValidation, setValidation: setValidation }}
+      value={{
+        userCustomer,
+        dispatch: contextDispatch,
+        validation,
+        handleValidation,
+        setValidation: setValidation,
+        saving,
+      }}
     >
       <AppBar
         title={userCustomer.isImageSelected ? 'Foto' : 'Minha Conta'}

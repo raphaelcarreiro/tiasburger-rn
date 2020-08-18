@@ -11,6 +11,8 @@ import Account from '../pages/account/Account';
 import Products from '../pages/products/Products';
 import Cart from '../pages/cart/Cart';
 import Checkout from '../pages/checkout/Checkout';
+import Orders from '../pages/orders/Orders';
+import Order from '../pages/orders/order/Order';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -20,9 +22,10 @@ export type RootStackParamList = {
   Cart: undefined;
   Contact: undefined;
   Login: undefined;
-  Orders: undefined;
   Account: undefined;
   Checkout: undefined;
+  Orders: undefined;
+  Order: { orderId: string | number };
 };
 
 const Drawer = createDrawerNavigator<RootStackParamList>();
@@ -40,7 +43,8 @@ const Routes: React.FC = () => {
         <Drawer.Screen name="Cart" component={Cart} />
         <Drawer.Screen name="Contact" component={Home} />
         {!user && <Drawer.Screen name="Login" options={{ title: 'Entrar' }} component={SignRoutes} />}
-        <Drawer.Screen name="Orders" component={Home} />
+        <Drawer.Screen name="Orders" component={Orders} />
+        <Drawer.Screen name="Order" component={Order} />
         <Drawer.Screen name="Account" component={Account} />
         <Drawer.Screen name="Checkout" component={Checkout} />
       </Drawer.Navigator>

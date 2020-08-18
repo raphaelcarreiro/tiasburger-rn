@@ -9,6 +9,6 @@ export const Container = styled.View`
   align-items: center;
   justify-content: center;
   flex: 1;
-  z-index: 10;
+  z-index: 30;
   background-color: rgba(250, 250, 250, 0.5);
 `;

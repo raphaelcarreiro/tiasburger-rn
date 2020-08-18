@@ -26,14 +26,23 @@ export interface OrderShipment {
   city: string;
   region: string;
   shipment_method: 'delivery' | 'customer_collect';
-  scheduled_at: Date | null;
+  scheduled_at: string | null;
   formattedScheduledAt: string | null;
   area_region: AreaRegion | null;
   distance: number | null;
   distance_tax: number | null;
 }
 
+interface OrderStatus {
+  id: number;
+  status: string;
+  created_at: string;
+  formattedDate?: string;
+}
+
 export interface Order {
+  id?: number;
+  formattedId?: string;
   shipment: OrderShipment;
   customer: Customer | null;
   paymentMethod: PaymentMethod | null;
@@ -45,4 +54,19 @@ export interface Order {
   discount: number;
   formattedChange: string;
   formattedTax: string;
+}
+
+export interface CreatedOrder extends Order {
+  id: number;
+  encrypted_id: string;
+  formattedId: string;
+  created_at: string;
+  formattedDate: string;
+  subtotal: number;
+  formattedSubtotal: string;
+  formattedDiscount: string;
+  discount: number;
+  total: number;
+  formattedTotal: string;
+  order_status: OrderStatus[];
 }
