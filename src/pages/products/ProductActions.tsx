@@ -6,9 +6,10 @@ interface ProductActionsProps {
   openSearchBox(): void;
   isSearching: boolean;
   handleSearch(value: string): void;
+  loading: boolean;
 }
 
-const ProductActions: React.FC<ProductActionsProps> = ({ openSearchBox, isSearching, handleSearch }) => {
+const ProductActions: React.FC<ProductActionsProps> = ({ openSearchBox, isSearching, handleSearch, loading }) => {
   return (
     <>
       {isSearching ? (
@@ -20,7 +21,7 @@ const ProductActions: React.FC<ProductActionsProps> = ({ openSearchBox, isSearch
           onChange={event => handleSearch(event.nativeEvent.text)}
         />
       ) : (
-        <AppBarAction iconName="search" packageIcon="mi" onPress={openSearchBox} />
+        <AppBarAction disabled={loading} iconName="search" packageIcon="mi" onPress={openSearchBox} />
       )}
     </>
   );

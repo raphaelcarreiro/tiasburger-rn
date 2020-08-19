@@ -15,7 +15,7 @@ export const DrawerHeader = styled.View`
 `;
 
 export const DrawerHeaderText = styled.Text`
-  color: #fff;
+  color: ${props => props.theme.contrast};
   font-size: 20px;
   font-family: 'sans-serif-light';
 `;

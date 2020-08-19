@@ -49,33 +49,33 @@ const Drawer: React.FC<DrawerContentComponentProps> = props => {
       <View style={styles.items}>
         <Item
           label="Início"
-          Icon={<Icon name="home" color={theme.contrast} size={SIZE_ICON} />}
+          Icon={<Icon name="home" color={theme.secondaryContrast} size={SIZE_ICON} />}
           onPress={() => navigation.navigate('Home')}
         />
         <Item
-          Icon={<Icon color={theme.contrast} size={SIZE_ICON} name="local-offer" />}
+          Icon={<Icon color={theme.secondaryContrast} size={SIZE_ICON} name="local-offer" />}
           label="Ofertas"
           onPress={() => navigation.navigate('Offers')}
         />
         <Item
-          Icon={<Icon color={theme.contrast} size={SIZE_ICON} name="book" />}
+          Icon={<Icon color={theme.secondaryContrast} size={SIZE_ICON} name="book" />}
           label="Cardápio"
           onPress={() => navigation.navigate('Menu')}
         />
         <Item
-          Icon={<Icon color={theme.contrast} size={SIZE_ICON} name="shopping-cart" />}
+          Icon={<Icon color={theme.secondaryContrast} size={SIZE_ICON} name="shopping-cart" />}
           label="Carrinho"
           onPress={() => navigation.navigate('Cart')}
         />
         <Item
-          Icon={<Icon color={theme.contrast} size={SIZE_ICON} name="contact-phone" />}
+          Icon={<Icon color={theme.secondaryContrast} size={SIZE_ICON} name="contact-phone" />}
           label="Contato"
           onPress={() => navigation.navigate('Contact')}
         />
         {user ? (
           <>
             <Item
-              Icon={<Icon color={theme.contrast} size={SIZE_ICON} name="assignment" />}
+              Icon={<Icon color={theme.secondaryContrast} size={SIZE_ICON} name="assignment" />}
               label="Meus pedidos"
               onPress={() => navigation.navigate('Orders')}
             />
@@ -88,7 +88,7 @@ const Drawer: React.FC<DrawerContentComponentProps> = props => {
                   </Avatar>
                 ) : (
                   <Avatar>
-                    <Icon name="person" size={24} color={theme.primary} />
+                    <Icon name="person" size={24} color={theme.secondaryContrast} />
                   </Avatar>
                 )
               }
@@ -96,14 +96,14 @@ const Drawer: React.FC<DrawerContentComponentProps> = props => {
               onPress={() => navigation.navigate('Account')}
             />
             <Item
-              Icon={<McIcon color="#dc3545" size={SIZE_ICON} name="application-export" />}
+              Icon={<McIcon color={theme.primary} size={SIZE_ICON} name="application-export" />}
               label="Sair"
               onPress={handleLogout}
             />
           </>
         ) : (
           <Item
-            Icon={<McIcon size={SIZE_ICON} color={theme.contrast} name="application-import" />}
+            Icon={<McIcon size={SIZE_ICON} color={theme.secondaryContrast} name="application-import" />}
             label="Entrar"
             onPress={() => navigation.navigate('Login')}
           />

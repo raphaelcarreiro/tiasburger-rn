@@ -28,10 +28,6 @@ const styles = StyleSheet.create({
     elevation: 1,
     justifyContent: 'flex-end',
   },
-  container: {
-    flex: 1,
-    marginBottom: 60,
-  },
   imageContainer: {
     width: '100%',
     height: 175,
@@ -56,6 +52,15 @@ const styles = StyleSheet.create({
     color: '#888',
     textDecorationLine: 'line-through',
     textDecorationStyle: 'solid',
+  },
+  modal: {
+    paddingRight: 0,
+    paddingLeft: 0,
+  },
+  scroll: {
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingBottom: 70,
   },
 });
 
@@ -228,13 +233,13 @@ const ProductComplement: React.FC = () => {
   }
 
   return (
-    <Modal open={isComplement} title="Adicionar ao carrinho" handleClose={handleModalClose}>
+    <Modal open={isComplement} title="Adicionar ao carrinho" handleClose={handleModalClose} style={styles.modal}>
       {loading ? (
         <InsideLoading />
       ) : (
         <>
           {product && (
-            <ScrollView style={styles.container}>
+            <ScrollView contentContainerStyle={styles.scroll}>
               <ImagePreview
                 source={product.image.imageUrl}
                 open={imagePreview}

@@ -27,7 +27,7 @@ interface DrawerItemProps extends TouchableHighlightProps {
 }
 
 const DrawerItem: React.FC<DrawerItemProps> = ({ label, Icon, ...rest }) => {
-  const { contrast } = useTheme();
+  const { secondaryContrast } = useTheme();
   const { products } = useSelector(state => state.cart);
 
   return (
@@ -35,7 +35,7 @@ const DrawerItem: React.FC<DrawerItemProps> = ({ label, Icon, ...rest }) => {
       <TouchableHighlight {...rest} style={styles.container} underlayColor="rgba(0, 0, 0, 0.1)">
         <>
           <View style={styles.iconContainer}>{Icon}</View>
-          <Typography style={[styles.label, { color: contrast }]}>{label}</Typography>
+          <Typography style={[styles.label, { color: secondaryContrast }]}>{label}</Typography>
           {label === 'Carrinho' && products.length > 0 && (
             <CartBadge>
               <Typography size={12} bold color="contrast">

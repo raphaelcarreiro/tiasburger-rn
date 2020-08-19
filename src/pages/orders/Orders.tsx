@@ -10,13 +10,17 @@ import { FlatList, StyleSheet, View } from 'react-native';
 import OrderItem from './OrderItem';
 import AppBar from '../../components/appbar/Appbar';
 import Typography from '../../components/bases/typography/Text';
-import order from '../../store/modules/order/reducer';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 56,
+  },
+  scroll: {
     padding: 15,
+  },
+  flatListEmpty: {
+    flex: 1,
   },
   empty: {
     flex: 1,
@@ -70,7 +74,7 @@ const Orders: React.FC = () => {
       <AppBar title="Meus pedidos" />
       <View style={styles.container}>
         <FlatList
-          contentContainerStyle={orders.length === 0 && { flex: 1 }}
+          contentContainerStyle={orders.length === 0 ? styles.flatListEmpty : styles.scroll}
           data={orders}
           keyExtractor={order => String(order.id)}
           renderItem={({ item: order }) => <OrderItem order={order} />}
@@ -78,9 +82,11 @@ const Orders: React.FC = () => {
           onRefresh={refresh}
           ListEmptyComponent={
             <View style={styles.empty}>
-              <Typography variant="caption" size={18}>
-                Não há pedidos para mostrar.
-              </Typography>
+              {!loading && (
+                <Typography variant="caption" size={18}>
+                  Não há pedidos para mostrar.
+                </Typography>
+              )}
             </View>
           }
         />

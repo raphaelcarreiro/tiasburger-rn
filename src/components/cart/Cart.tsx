@@ -17,6 +17,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 56,
+  },
+  scroll: {
     padding: 15,
   },
   emptyContainer: {
@@ -75,7 +77,7 @@ const Cart: React.FC = () => {
     <View style={styles.container}>
       <Coupon open={isCouponVisible} handleClose={handleCouponVisibility} />
       {cart.products.length > 0 ? (
-        <ScrollView>
+        <ScrollView style={styles.scroll}>
           {cart.products.map(product => (
             <CartItem product={product} key={String(product.uid)} />
           ))}

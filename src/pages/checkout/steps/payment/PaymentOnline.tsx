@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useCheckout } from '../../checkoutContext';
-import { useSelector } from '../../../../store/selector';
 import { useDispatch } from 'react-redux';
-import { FlatList } from 'react-native';
 import PaymentOnlineMethod from './PaymentOnlineMethod';
 import PaymentCreditCard from './credit-card/PaymentCreditCard';
 import { setPaymentMethod } from '../../../../store/modules/order/actions';
@@ -13,6 +11,10 @@ const PaymentOnline: React.FC = () => {
   const [modalCard, setModalCard] = useState(false);
   const dispatch = useDispatch();
   const [isCardValid, setIsCardValid] = useState(false);
+
+  const onlineMethods = useMemo(() => {
+    return checkout.paymentMethods.filter(payment => payment.mode === 'online');
+  }, [checkout.paymentMethods]);
 
   function handleCloseModalCard() {
     if (!isCardValid) dispatch(setPaymentMethod(null));
@@ -28,13 +30,13 @@ const PaymentOnline: React.FC = () => {
           setIsCardValid={(valid: boolean) => setIsCardValid(valid)}
         />
       )}
-      <FlatList
-        data={checkout.paymentMethods.filter(payment => payment.mode === 'online')}
-        keyExtractor={payment => String(payment.id)}
-        renderItem={({ item: paymentMethod }) => (
-          <PaymentOnlineMethod paymentMethod={paymentMethod} openModalCard={() => setModalCard(true)} />
-        )}
-      />
+      {onlineMethods.map(paymentMethod => (
+        <PaymentOnlineMethod
+          key={String(paymentMethod.id)}
+          paymentMethod={paymentMethod}
+          openModalCard={() => setModalCard(true)}
+        />
+      ))}
     </>
   );
 };

@@ -16,10 +16,9 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     position: 'absolute',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    left: 15,
-    right: 15,
+    flex: 1,
+    left: 30,
+    right: 30,
     minHeight: 200,
     borderRadius: 4,
     padding: 15,

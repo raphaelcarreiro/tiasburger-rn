@@ -2,18 +2,27 @@ import React, { useState, useContext, useCallback } from 'react';
 import { ThemeProvider } from '../styled-components';
 import { DefaultTheme } from 'styled-components/native';
 import Color from 'color';
-import { darken, lighten } from 'polished';
 
 export function createTheme(primary: string, secondary: string): DefaultTheme {
-  const color = Color(primary);
+  const primaryColor = Color(primary);
+  const secondaryColor = Color(secondary);
+
+  const primaryContrast =
+    primaryColor.red() * 0.299 + primaryColor.green() * 0.587 + primaryColor.blue() * 0.114 > 186 ? '#222' : '#fafafa';
+
+  const secondaryContrast =
+    secondaryColor.red() * 0.299 + secondaryColor.green() * 0.587 + secondaryColor.blue() * 0.114 > 186
+      ? '#222'
+      : '#fafafa';
 
   return {
     primary,
     secondary,
-    contrast: color.isDark() ? '#fff' : '#000',
+    contrast: primaryContrast,
+    secondaryContrast: secondaryContrast,
     error: '#dc3545',
-    primaryDark: darken(0.1, primary),
-    primaryLight: lighten(0.2, primary),
+    primaryDark: primaryColor.darken(0.1).hex(),
+    primaryLight: primaryColor.lighten(0.2).hex(),
   };
 }
 

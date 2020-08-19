@@ -54,6 +54,10 @@ const Order: React.FC<OrderProps> = ({ route }) => {
   const messaging = useMessage();
 
   useEffect(() => {
+    if (error) messaging.handleOpen('Não foi possível carregar o pedido');
+  }, [error, messaging]);
+
+  useEffect(() => {
     const socket = io.connect(socketBaseUrl + '/client');
     if (order) {
       socket.emit('register', order.id);

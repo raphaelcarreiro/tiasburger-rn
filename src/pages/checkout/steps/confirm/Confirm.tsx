@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import ConfirmShipment from './ConfirmShipment';
 import ConfirmPayment from './ConfirmPayment';
 import ConfirmTotal from './ConfirmTotal';
@@ -9,7 +9,7 @@ import { useCheckout } from '../../checkoutContext';
 const styles = StyleSheet.create({
   container: {
     marginTop: 15,
-    paddingBottom: 70,
+    paddingBottom: 100,
   },
   actions: {
     marginTop: 5,
@@ -29,7 +29,7 @@ const Confirm: React.FC = () => {
   const checkout = useCheckout();
   return (
     <>
-      <ScrollView style={checkout.saving ? styles.loading : styles.notLoading} contentContainerStyle={styles.container}>
+      <View style={styles.container}>
         <ConfirmShipment />
         <ConfirmPayment />
         <ConfirmTotal />
@@ -38,7 +38,7 @@ const Confirm: React.FC = () => {
             Confirmar meu pedido
           </Button>
         </View>
-      </ScrollView>
+      </View>
     </>
   );
 };

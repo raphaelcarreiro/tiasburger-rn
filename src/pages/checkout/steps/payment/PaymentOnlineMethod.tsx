@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { PaymentMethod } from '../../../../@types/paymentMethod';
 import { ListItemStyled } from '../style';
 import Typography from '../../../../components/bases/typography/Text';

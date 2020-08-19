@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import AppBar from '../../components/appbar/Appbar';
-import { StyleSheet, View, Linking } from 'react-native';
+import { StyleSheet, View, Linking, ScrollView } from 'react-native';
 import Modal from '../../components/modal/Modal';
 import Cart from '../../components/cart/Cart';
 import CheckoutActions from './CheckoutActions';
@@ -21,7 +21,7 @@ import {
   clearCard,
 } from '../../store/modules/order/actions';
 import { OrderShipment, CreatedOrder } from '../../@types/order';
-import api from '../../services/api';
+import api, { getCancelTokenSource } from '../../services/api';
 import { PaymentMethod } from '../../@types/paymentMethod';
 import Loading from '../../components/loading/Loading';
 import InsideLoading from '../../components/loading/InsideLoading';
@@ -37,13 +37,22 @@ import Payment from './steps/payment/Payment';
 import Confirm from './steps/confirm/Confirm';
 import { clearCart } from '../../store/modules/cart/actions';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
+import { CancelTokenSource } from 'axios';
+import Dialog from '../../components/dialog/Dialog';
+import Typography from '../../components/bases/typography/Text';
+import RestaurantClosed from './closed/RestaurantClosed';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 56,
-    padding: 15,
     position: 'relative',
+    paddingBottom: 60,
+  },
+  scroll: {
+    paddingTop: 15,
+    paddingLeft: 15,
+    paddingRight: 15,
   },
   modal: {
     paddingTop: 0,
@@ -73,12 +82,6 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
   const [isCardValid, setIsCardValid] = useState(false);
   const [cartVisibility, setCartVisiblity] = useState(false);
 
-  useEffect(() => {
-    navigation.addListener('blur', () => {
-      setStep(1);
-    });
-  }, [navigation]);
-
   const currentStep = useMemo(() => {
     return steps.find(item => item.order === step);
   }, [step, steps]);
@@ -100,6 +103,33 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
   const handleCartVisibility = useCallback(() => {
     setCartVisiblity(!cartVisibility);
   }, [cartVisibility]);
+
+  const loadPaymentMethods = useCallback(() => {
+    api
+      .get('/order/paymentMethods')
+      .then(response => {
+        setPaymentMethods(response.data);
+        const paymentMethods: PaymentMethod[] = response.data;
+        const offline = paymentMethods.some(method => method.mode === 'offline');
+        if (offline) dispatch(setPaymentMethod(response.data[0]));
+      })
+      .catch(err => {
+        if (err.response) console.log(err.response.data.error);
+      });
+  }, [dispatch]);
+
+  useEffect(() => {
+    const onFocus = () => {
+      loadPaymentMethods();
+    };
+
+    const onBlur = () => {
+      setStep(1);
+    };
+
+    navigation.addListener('focus', onFocus);
+    navigation.addListener('blur', onBlur);
+  }, [navigation, loadPaymentMethods]);
 
   useEffect(() => {
     if (restaurant)
@@ -209,23 +239,6 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
     }
   }, [dispatch, restaurant, user]);
 
-  useEffect(() => {
-    api
-      .get('/order/paymentMethods')
-      .then(response => {
-        setPaymentMethods(response.data);
-        const paymentMethods: PaymentMethod[] = response.data;
-        const offline = paymentMethods.some(method => method.mode === 'offline');
-        if (offline) dispatch(setPaymentMethod(response.data[0]));
-      })
-      .catch(err => {
-        if (err.response) console.log(err.response.data.error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [dispatch]);
-
   function handleSubmitOrder() {
     if (restaurant)
       if (cart.subtotal < restaurant.configs.order_minimum_value && restaurant.configs.tax_mode !== 'order_value') {
@@ -287,6 +300,14 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
     if (step) setStep(step.order);
   }
 
+  function stylesForShipmentMethodStep() {
+    return currentStep?.id === 'STEP_SHIPMENT_METHOD'
+      ? {
+          flex: 1,
+        }
+      : undefined;
+  }
+
   return (
     <>
       <AppBar title="Finalizar pedido" actions={<CheckoutActions handleCartVisilibity={handleCartVisibility} />} />
@@ -295,7 +316,11 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
           <Cart />
         </Modal>
       )}
-      {saving && <Loading />}
+      {restaurant && !restaurant.is_open && (
+        <Dialog open={true} handleClose={() => navigation.navigate('Menu')}>
+          <RestaurantClosed />
+        </Dialog>
+      )}
       {loading ? (
         <InsideLoading />
       ) : currentStep?.id === 'STEP_SUCCESS' ? (
@@ -307,16 +332,20 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
       ) : (
         <CheckoutContext.Provider value={checkoutContextValue}>
           <View style={styles.container}>
-            <CheckoutHeader currentStep={currentStep} />
-            {currentStep?.id === 'STEP_SHIPMENT_METHOD' ? (
-              <ShipmentMethod />
-            ) : currentStep?.id === 'STEP_SHIPMENT' ? (
-              <Shipment />
-            ) : currentStep?.id === 'STEP_PAYMENT' ? (
-              <Payment />
-            ) : (
-              currentStep?.id === 'STEP_CONFIRM' && <Confirm />
-            )}
+            <ScrollView style={styles.scroll} contentContainerStyle={stylesForShipmentMethodStep()}>
+              {saving && <Loading />}
+
+              <CheckoutHeader currentStep={currentStep} />
+              {currentStep?.id === 'STEP_SHIPMENT_METHOD' ? (
+                <ShipmentMethod />
+              ) : currentStep?.id === 'STEP_SHIPMENT' ? (
+                <Shipment />
+              ) : currentStep?.id === 'STEP_PAYMENT' ? (
+                <Payment />
+              ) : (
+                currentStep?.id === 'STEP_CONFIRM' && <Confirm />
+              )}
+            </ScrollView>
             {currentStep?.id !== 'STEP_SHIPMENT_METHOD' && (
               <CheckoutButtons currentStep={currentStep} stepsAmount={steps.length} />
             )}

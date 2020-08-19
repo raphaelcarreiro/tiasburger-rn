@@ -3,7 +3,7 @@ import { useSelector } from '../../../../store/selector';
 import { useDispatch } from 'react-redux';
 import { setShipmentAddress } from '../../../../store/modules/order/actions';
 import { OrderShipment } from '../../../../@types/order';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import ShipmentAddresses from './ShipmentAddresses';
 import Typography from '../../../../components/bases/typography/Text';
 import { ButtonNewAddress } from '../../../account/address/styles';
@@ -17,8 +17,8 @@ import { useCheckout } from '../../checkoutContext';
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 10,
-    marginBottom: 90,
+    marginTop: 15,
+    marginBottom: 30,
   },
 });
 
@@ -127,6 +127,23 @@ const Shipment: React.FC = () => {
 
       <View style={styles.container}>
         {customer && (
+          <>
+            {customer.addresses.map(address => (
+              <ShipmentAddresses
+                key={String(address.id)}
+                address={address}
+                setSelectedAddress={(address: Address) => setSelectedAddress(address)}
+                openModalEditAddress={() => setModalEditAddress(true)}
+                handleConfirmDelete={handleConfirmDelete}
+                handleSelectAddress={handleSelectAddress}
+              />
+            ))}
+            <ButtonNewAddress onPress={() => setModalNewAddress(true)}>
+              <Typography>Adicionar endereço</Typography>
+            </ButtonNewAddress>
+          </>
+        )}
+        {/* customer && (
           <FlatList
             ListFooterComponent={
               <ButtonNewAddress onPress={() => setModalNewAddress(true)}>
@@ -145,7 +162,7 @@ const Shipment: React.FC = () => {
               />
             )}
           />
-        )}
+            ) */}
       </View>
     </>
   );

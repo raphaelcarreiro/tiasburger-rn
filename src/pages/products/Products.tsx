@@ -4,7 +4,6 @@ import { RouteProp } from '@react-navigation/native';
 import api from '../../services/api';
 import { Product } from '../../@types/product';
 import AppBar from '../../components/appbar/Appbar';
-import InsideLoading from '../../components/loading/InsideLoading';
 import { RootDrawerParamList } from '../../routes/Routes';
 import ProductItem from './ProductItem';
 import { moneyFormat } from '../../helpers/numberFormat';
@@ -22,12 +21,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 56,
-    padding: 15,
   },
   empty: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  flatList: {
+    padding: 15,
+  },
+  flatListEmpty: {
+    flex: 1,
   },
 });
 
@@ -60,6 +64,7 @@ const Products: React.FC<ProductsProps> = ({ route, navigation }) => {
   }, [selectedProduct]);
 
   const refresh = useCallback(() => {
+    setLoading(true);
     api
       .get(`/categories/${route.params.url}`)
       .then(response => {
@@ -80,10 +85,15 @@ const Products: React.FC<ProductsProps> = ({ route, navigation }) => {
   }, [route]);
 
   useEffect(() => {
-    navigation.addListener('blur', () => {
-      setProducts([]);
-      setLoading(true);
-    });
+    const onBlur = () => {
+      // setFilteredProducts([]);
+      console.log('product cleaned');
+    };
+    navigation.addListener('blur', onBlur);
+
+    return () => {
+      navigation.removeListener('blur', onBlur);
+    };
   }, [navigation]);
 
   useEffect(() => {
@@ -144,34 +154,38 @@ const Products: React.FC<ProductsProps> = ({ route, navigation }) => {
 
       <AppBar
         actions={
-          <ProductActions openSearchBox={handleOpenSearchBox} isSearching={isSearching} handleSearch={handleSearch} />
+          <ProductActions
+            openSearchBox={handleOpenSearchBox}
+            isSearching={isSearching}
+            handleSearch={handleSearch}
+            loading={loading}
+          />
         }
         title={isSearching ? undefined : route.params.categoryName}
         showBackAction
         backAction={() => (isSearching ? handleCloseSearchBox() : navigation.navigate('Menu'))}
       />
-      {loading ? (
-        <InsideLoading />
-      ) : (
-        <View style={styles.container}>
-          {filteredProducts.length > 0 ? (
-            <FlatList
-              keyboardShouldPersistTaps="handled"
-              data={filteredProducts}
-              keyExtractor={item => String(item.id)}
-              renderItem={({ item: product }) => <ProductItem product={product} />}
-              onRefresh={refresh}
-              refreshing={loading}
-            />
-          ) : (
+
+      <View style={styles.container}>
+        <FlatList
+          contentContainerStyle={filteredProducts.length === 0 ? styles.flatListEmpty : styles.flatList}
+          keyboardShouldPersistTaps="handled"
+          data={filteredProducts}
+          keyExtractor={item => String(item.id)}
+          renderItem={({ item: product }) => <ProductItem product={product} />}
+          onRefresh={refresh}
+          refreshing={loading}
+          ListEmptyComponent={
             <View style={styles.empty}>
-              <Typography variant="caption" size={20}>
-                Nenhum produto
-              </Typography>
+              {!loading && (
+                <Typography variant="caption" size={20}>
+                  Nenhum produto
+                </Typography>
+              )}
             </View>
-          )}
-        </View>
-      )}
+          }
+        />
+      </View>
     </ProductContext.Provider>
   );
 };

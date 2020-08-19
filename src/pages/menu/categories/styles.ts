@@ -4,7 +4,7 @@ import { darken } from 'polished';
 export const CartQuantity = styled.View`
   width: 22px;
   height: 22px;
-  background-color: ${props => darken(0.2, props.theme.primary)};
+  background-color: ${props => darken(0.15, props.theme.primary)};
   border-radius: 11px;
   justify-content: center;
   align-items: center;

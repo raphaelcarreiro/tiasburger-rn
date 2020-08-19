@@ -5,8 +5,7 @@ import Routes from './routes/Routes';
 import api from './services/api';
 import { useDispatch } from 'react-redux';
 import { moneyFormat } from './helpers/numberFormat';
-import { setRestaurant } from './store/modules/restaurant/actions';
-import InitialLoading from './components/loading/InitialLoading';
+import { setRestaurant, setRestaurantIsOpen } from './store/modules/restaurant/actions';
 import { useThemeContext } from './hooks/theme';
 import { useSelector } from './store/selector';
 import { useTheme } from 'styled-components';
@@ -15,6 +14,9 @@ import { setCart } from './store/modules/cart/actions';
 import { Cart } from './@types/cart';
 import { setPromotions } from './store/modules/promotion/actions';
 import { RedirectScreens, AppContext } from './appContext';
+import { socketBaseUrl } from './constants/constants';
+import io from 'socket.io-client';
+import SplashScreen from 'react-native-splash-screen';
 
 const styles = StyleSheet.create({
   container: {
@@ -23,8 +25,9 @@ const styles = StyleSheet.create({
   },
 });
 
+const socket: SocketIOClient.Socket = io.connect(socketBaseUrl + '/client');
+
 const App: React.FC = () => {
-  const [initialLoading, setInitialLoading] = useState(true);
   const [isCartVisible, setIsCartVisible] = useState(false);
   const [redirect, setRedirect] = useState<RedirectScreens>(null);
   const { handleSetTheme } = useThemeContext();
@@ -64,7 +67,7 @@ const App: React.FC = () => {
       })
       .finally(() => {
         loadPromotions();
-        setInitialLoading(false);
+        SplashScreen.hide();
       })
       .catch(err => {
         console.log(err);
@@ -77,24 +80,46 @@ const App: React.FC = () => {
     }
   }, [restaurant, handleSetTheme]);
 
+  // set webscoket connection
+  useEffect(() => {
+    function getRestaurantState() {
+      api
+        .get('/restaurant/state')
+        .then(response => {
+          dispatch(setRestaurantIsOpen(response.data.is_open));
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+
+    if (restaurant) {
+      if (socket.disconnected) socket.connect();
+      socket.emit('register', restaurant.id);
+
+      socket.on('handleRestaurantState', ({ state }: { state: boolean }) => {
+        dispatch(setRestaurantIsOpen(state));
+      });
+
+      socket.on('reconnect', () => {
+        socket.emit('register', restaurant.id);
+        getRestaurantState();
+      });
+    }
+  }, [dispatch, restaurant]);
+
   const handleCartVisibility = useCallback(() => {
     setIsCartVisible(!isCartVisible);
   }, [isCartVisible]);
 
   return (
     <>
-      {initialLoading ? (
-        <InitialLoading />
-      ) : (
-        <>
-          <StatusBar animated={false} barStyle="default" backgroundColor={theme.primary} />
-          <AppContext.Provider value={{ handleCartVisibility, isCartVisible, setRedirect: setRedirect, redirect }}>
-            <View style={styles.container}>
-              <Routes />
-            </View>
-          </AppContext.Provider>
-        </>
-      )}
+      <StatusBar animated={false} barStyle="default" backgroundColor={theme.primary} />
+      <AppContext.Provider value={{ handleCartVisibility, isCartVisible, setRedirect: setRedirect, redirect }}>
+        <View style={styles.container}>
+          <Routes />
+        </View>
+      </AppContext.Provider>
     </>
   );
 };
