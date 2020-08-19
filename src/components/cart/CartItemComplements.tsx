@@ -2,7 +2,6 @@ import React from 'react';
 import { ComplementCategory } from '../../@types/product';
 import { View, StyleSheet } from 'react-native';
 import Typography from '../../components/bases/typography/Text';
-import { complement } from 'polished';
 
 type CartItemComplementsProps = {
   complementCategories: ComplementCategory[];

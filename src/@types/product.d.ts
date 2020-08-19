@@ -114,4 +114,5 @@ export interface CreatedOrderProduct {
   final_price: number;
   formattedFinalPrice: string;
   formattedProductPrice: string;
+  amount: number;
 }

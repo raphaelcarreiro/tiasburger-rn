@@ -5,15 +5,15 @@ import { CreatedOrder } from '../../../@types/order';
 
 const styles = StyleSheet.create({
   section: {
-    borderBottomColor: '#eee',
-    borderBottomWidth: 1,
     paddingTop: 15,
-    paddingBottom: 15,
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 7,
+    marginBottom: 0,
+  },
+  total: {
+    marginTop: 10,
   },
 });
 
@@ -37,7 +37,7 @@ const OrderTotal: React.FC<OrderTotalProps> = ({ order }) => {
           <Typography>Taxa de entrega</Typography>
           <Typography>{order.formattedTax}</Typography>
         </View>
-        <View style={styles.row}>
+        <View style={[styles.row, styles.total]}>
           <Typography>Total</Typography>
           <Typography bold size={22}>
             {order.formattedTotal}

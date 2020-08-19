@@ -36,7 +36,8 @@ export interface OrderShipment {
 
 interface OrderStatus {
   id: number;
-  status: string;
+  status: OrderStatusOptions;
+  statusName: string;
   created_at: string;
   formattedDate?: string;
 }

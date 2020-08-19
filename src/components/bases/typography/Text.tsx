@@ -9,6 +9,7 @@ interface TypographyProps extends TextProps {
   variant?: 'caption' | 'default';
   color?: 'primary' | 'secondary' | 'contrast' | 'error';
   align?: 'right' | 'left' | 'center';
+  italic?: boolean;
 }
 
 const Typography: React.FC<TypographyProps> = ({
@@ -20,12 +21,14 @@ const Typography: React.FC<TypographyProps> = ({
   color,
   style,
   align,
+  italic,
 }) => {
   return (
     <StyledText
       align={align}
       style={style}
       bold={bold}
+      italic={italic}
       size={size}
       variant={variant}
       gutterBottom={gutterBottom}

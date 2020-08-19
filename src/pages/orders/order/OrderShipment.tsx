@@ -6,9 +6,9 @@ import { OrderShipment as OrderShipmentType } from '../../../@types/order';
 
 const styles = StyleSheet.create({
   section: {
-    borderBottomColor: '#eee',
+    borderBottomColor: '#ddd',
     borderBottomWidth: 1,
-    paddingTop: 0,
+    paddingTop: 10,
     paddingBottom: 15,
   },
 });
@@ -21,7 +21,7 @@ const OrderShipment: React.FC<OrderShipmentProps> = ({ shipment }) => {
   return (
     <>
       <View style={styles.section}>
-        <Typography bold size={20} gutterBottom>
+        <Typography bold size={18} gutterBottom>
           Endereço de entrega
         </Typography>
 

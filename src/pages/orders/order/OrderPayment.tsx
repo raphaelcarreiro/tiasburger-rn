@@ -6,9 +6,9 @@ import Button from '../../../components/bases/button/Button';
 
 const styles = StyleSheet.create({
   section: {
-    borderBottomColor: '#eee',
+    borderBottomColor: '#ddd',
     borderBottomWidth: 1,
-    paddingTop: 15,
+    paddingTop: 10,
     paddingBottom: 15,
   },
 });
@@ -27,7 +27,7 @@ const OrderPayment: React.FC<OrderPaymentProps> = ({ order }) => {
   return (
     <>
       <View style={styles.section}>
-        <Typography size={20} bold gutterBottom>
+        <Typography size={18} bold gutterBottom>
           Forma de pagamento
         </Typography>
         {order.payment_method.mode === 'online' ? (
@@ -35,8 +35,13 @@ const OrderPayment: React.FC<OrderPaymentProps> = ({ order }) => {
         ) : (
           <Typography>Pagamento na entrega</Typography>
         )}
-        <Typography>{order.payment_method.method}</Typography>
-        {order.change > 0 && <Typography variant="caption">{`, troco para ${order.formattedChange}`}</Typography>}
+        <Typography>
+          {order.payment_method.method}
+          {order.change > 0 && (
+            <Typography size={14} variant="caption">{`, troco para ${order.formattedChange}`}</Typography>
+          )}
+        </Typography>
+
         {order.picpay_payment && order.status === 'p' && (
           <Button color="primary" variant="text" onPress={handleOpenPicPay}>
             Fazer pagamento

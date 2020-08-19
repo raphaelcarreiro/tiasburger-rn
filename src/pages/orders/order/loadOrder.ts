@@ -5,21 +5,18 @@ import { formatId } from '../../../helpers/formatOrderId';
 import { parseISO, format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import { moneyFormat } from '../../../helpers/numberFormat';
+import { orderStatusName } from '../orderStatus';
 
 type useLoadOrderType = [
   CreatedOrder | null,
   (orderId: number | string) => Promise<void>,
   boolean,
-  (order: CreatedOrder | null) => void,
+  React.Dispatch<React.SetStateAction<CreatedOrder | null>>,
 ];
 
 export function useLoadOrder(): useLoadOrderType {
   const [order, setOrder] = useState<CreatedOrder | null>(null);
   const [error, setError] = useState(false);
-
-  function handleSetOrder(_order: CreatedOrder | null) {
-    setOrder(_order);
-  }
 
   const loadOrder = useCallback(async orderId => {
     try {
@@ -70,6 +67,7 @@ export function useLoadOrder(): useLoadOrderType {
         order_status: _order.order_status.reverse().map(status => {
           const statusDate = parseISO(status.created_at);
           status.formattedDate = format(statusDate, "PP 'às' p", { locale: ptBR });
+          status.statusName = orderStatusName(_order.shipment.shipment_method, status.status);
           return status;
         }),
       });
@@ -77,5 +75,5 @@ export function useLoadOrder(): useLoadOrderType {
       setError(true);
     }
   }, []);
-  return [order, loadOrder, error, handleSetOrder];
+  return [order, loadOrder, error, setOrder];
 }
