@@ -53,7 +53,7 @@ const Cart: React.FC = () => {
 
   function handleProceedToCheckout() {
     if (!restaurant?.is_open) {
-      Alert.alert('Aviso', restaurant?.name + ' está fechado no momento');
+      Alert.alert('Fechado', restaurant?.name + ' não está atendendo no momento.');
       return;
     }
 

@@ -9,7 +9,7 @@ import { useCheckout } from '../../checkoutContext';
 const styles = StyleSheet.create({
   container: {
     marginTop: 15,
-    paddingBottom: 100,
+    paddingBottom: 40,
   },
   actions: {
     marginTop: 5,

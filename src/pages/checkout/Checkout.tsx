@@ -332,7 +332,11 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
       ) : (
         <CheckoutContext.Provider value={checkoutContextValue}>
           <View style={styles.container}>
-            <ScrollView style={styles.scroll} contentContainerStyle={stylesForShipmentMethodStep()}>
+            <ScrollView
+              style={styles.scroll}
+              keyboardShouldPersistTaps="handled"
+              contentContainerStyle={stylesForShipmentMethodStep()}
+            >
               {saving && <Loading />}
 
               <CheckoutHeader currentStep={currentStep} />

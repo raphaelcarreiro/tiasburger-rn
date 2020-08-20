@@ -1,8 +1,6 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { RouteProp } from '@react-navigation/native';
 import { RootDrawerParamList } from '../../../routes/Routes';
-import { useSelector } from '../../../store/selector';
-import { useApp } from '../../../appContext';
 import { useMessage } from '../../../hooks/message';
 import { StyleSheet, ScrollView } from 'react-native';
 import AppBar from '../../../components/appbar/Appbar';
@@ -49,8 +47,6 @@ const styles = StyleSheet.create({
 const Order: React.FC<OrderProps> = ({ route }) => {
   const [order, loadOrder, error, setOrder] = useLoadOrder();
   const [loading, setLoading] = useState(true);
-  const user = useSelector(state => state.user);
-  const app = useApp();
   const messaging = useMessage();
 
   useEffect(() => {

@@ -14,6 +14,7 @@ import { useCheckout } from '../../checkoutContext';
 type PaymentOnlineMethodProps = {
   paymentMethod: PaymentMethod;
   openModalCard(): void;
+  openModalCpf(): void;
 };
 
 const styles = StyleSheet.create({
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const PaymentOnlineMethod: React.FC<PaymentOnlineMethodProps> = ({ paymentMethod, openModalCard }) => {
+const PaymentOnlineMethod: React.FC<PaymentOnlineMethodProps> = ({ paymentMethod, openModalCard, openModalCpf }) => {
   const orderPaymentMethod = useSelector(state => state.order).paymentMethod;
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -56,7 +57,7 @@ const PaymentOnlineMethod: React.FC<PaymentOnlineMethodProps> = ({ paymentMethod
 
     if (paymentMethod.kind === 'picpay') {
       if (!user?.customer.cpf) {
-        // setModalCpf(true);
+        openModalCpf();
         return;
       }
     } else if (paymentMethod.kind === 'card') {

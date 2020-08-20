@@ -24,8 +24,8 @@ const RestaurantClosed: React.FC = () => {
   const theme = useTheme();
   return (
     <View style={styles.container}>
-      <Typography align="center" size={16}>
-        {`Infelizmente não vamos poder te atender. O restaurante fechou`}
+      <Typography align="center" size={18}>
+        {`Infelizmente não vamos poder te atender. O restaurante fechou.`}
       </Typography>
       <Button style={styles.button} variant="text" color="primary" onPress={handleCancelPress}>
         OK

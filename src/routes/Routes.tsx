@@ -8,11 +8,11 @@ import { useSelector } from '../store/selector';
 import Menu from '../pages/menu/Menu';
 import Offers from '../pages/offer/Offers';
 import Account from '../pages/account/Account';
-import Products from '../pages/products/Products';
 import Cart from '../pages/cart/Cart';
 import Checkout from '../pages/checkout/Checkout';
 import Orders from '../pages/orders/Orders';
 import Order from '../pages/orders/order/Order';
+import Products from '../pages/products/Products';
 
 type SignRouteOptions = 'Initial' | 'LoginEmail' | 'Register' | 'ForgotPassword';
 

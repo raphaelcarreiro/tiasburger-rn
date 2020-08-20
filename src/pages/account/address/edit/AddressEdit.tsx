@@ -6,11 +6,11 @@ import addressReducer, { setAddress, addressChange } from '../addressReducer';
 import api from '../../../../services/api';
 import { useMessage } from '../../../../hooks/message';
 import { useDispatch } from 'react-redux';
-import { updateCustomerAddress, deleteCustomerAddress } from '../../../../store/modules/user/actions';
+import { updateCustomerAddress } from '../../../../store/modules/user/actions';
 import Loading from '../../../../components/loading/Loading';
 import * as yup from 'yup';
 import { useSelector } from '../../../../store/selector';
-import { Alert, ScrollView } from 'react-native';
+import { ScrollView } from 'react-native';
 import { Address } from '../../../../@types/address';
 
 interface AddressEditProps {

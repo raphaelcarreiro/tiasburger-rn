@@ -1,11 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Modal from '../../../../../components/modal/Modal';
 import Input from '../../../../../components/bases/input/Input';
-import { StyleSheet, TextInput, View } from 'react-native';
+import { StyleSheet, TextInput, View, ScrollView } from 'react-native';
 import { useSelector } from '../../../../../store/selector';
 import { useDispatch } from 'react-redux';
 import { useCheckout } from '../../../checkoutContext';
-import { useTheme } from 'styled-components';
 import PaymentCreditCardActions from './PaymentCreditCardActions';
 import * as yup from 'yup';
 import { cpfValidation } from '../../../../../helpers/cpfValidation';
@@ -40,6 +39,14 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     flexDirection: 'row',
   },
+  modal: {
+    paddingRight: 0,
+    paddingLeft: 0,
+  },
+  scroll: {
+    paddingLeft: 15,
+    paddingRight: 15,
+  },
 });
 
 type Validation = {
@@ -59,7 +66,6 @@ const PaymentCreditCard: React.FC<PaymentCreditCardProps> = ({ open, handleClose
   const [cpf, setCpf] = useState(order.creditCard.cpf);
   const [validation, setValidation] = useState<Validation>({});
   const dispatch = useDispatch();
-  const theme = useTheme();
   const checkout = useCheckout();
 
   const inputs = {
@@ -134,13 +140,14 @@ const PaymentCreditCard: React.FC<PaymentCreditCardProps> = ({ open, handleClose
   }
 
   return (
-    <>
-      <Modal
-        open={open}
-        handleClose={handleClose}
-        title="Pagamento online"
-        actions={<PaymentCreditCardActions handleSubmit={handleCardValidation} />}
-      >
+    <Modal
+      open={open}
+      handleClose={handleClose}
+      title="Pagamento online"
+      actions={<PaymentCreditCardActions handleSubmit={handleCardValidation} />}
+      style={styles.modal}
+    >
+      <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
         <Input
           error={!!validation.number}
           helperText={validation.number}
@@ -152,7 +159,7 @@ const PaymentCreditCard: React.FC<PaymentCreditCardProps> = ({ open, handleClose
           keyboardType="numeric"
           value={number}
           onChange={e => setNumber(e.nativeEvent.text)}
-          onSubmitEditing={() => inputs.number.current?.focus()}
+          onSubmitEditing={() => inputs.name.current?.focus()}
           blurOnSubmit={false}
           returnKeyType="next"
           autoCorrect={false}
@@ -174,6 +181,7 @@ const PaymentCreditCard: React.FC<PaymentCreditCardProps> = ({ open, handleClose
           value={name}
           onChange={e => setName(e.nativeEvent.text)}
           autoCapitalize="words"
+          required
           autoCorrect={true}
         />
         <View style={styles.row}>
@@ -192,6 +200,7 @@ const PaymentCreditCard: React.FC<PaymentCreditCardProps> = ({ open, handleClose
             returnKeyType="next"
             autoCorrect={false}
             mainContainerStyle={styles.expirationDateInput}
+            required
             containerStyle={{ flex: 1 }}
           />
           <Input
@@ -209,6 +218,7 @@ const PaymentCreditCard: React.FC<PaymentCreditCardProps> = ({ open, handleClose
             returnKeyType="next"
             autoCorrect={false}
             mainContainerStyle={styles.cvvInput}
+            required
             containerStyle={{ flex: 1 }}
           />
         </View>
@@ -220,14 +230,15 @@ const PaymentCreditCard: React.FC<PaymentCreditCardProps> = ({ open, handleClose
           placeholder="CPF do títular do cartão"
           label="CPF"
           keyboardType="numeric"
-          blurOnSubmit={false}
           returnKeyType="send"
           value={cpf}
           onChange={e => setCpf(e.nativeEvent.text)}
           autoCorrect={false}
+          required
+          onSubmitEditing={handleCardValidation}
         />
-      </Modal>
-    </>
+      </ScrollView>
+    </Modal>
   );
 };
 

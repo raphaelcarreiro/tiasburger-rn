@@ -21,6 +21,7 @@ const MessageProvider: React.FC = ({ children }) => {
 
   const handleClose = useCallback(() => {
     setOpen(false);
+    setMessage('');
   }, []);
 
   const handleOpen = useCallback(

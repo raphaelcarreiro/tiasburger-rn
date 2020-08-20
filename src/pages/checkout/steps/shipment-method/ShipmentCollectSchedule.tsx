@@ -4,7 +4,7 @@ import Typography from '../../../../components/bases/typography/Text';
 import { View, StyleSheet, Platform, Alert } from 'react-native';
 import { useSelector } from '../../../../store/selector';
 import { useDispatch } from 'react-redux';
-import { addMinutes, isBefore, format } from 'date-fns';
+import { addMinutes, isBefore, format, parseISO } from 'date-fns';
 import Button from '../../../../components/bases/button/Button';
 import { useCheckout } from '../../checkoutContext';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -42,8 +42,8 @@ const ShipmentCollectSchedule: React.FC<ShipmentCollectScheduleProps> = props =>
   const [scheduledAt, setScheduledAt] = useState<Date>(() => {
     if (!restaurant) return new Date();
     return order.shipment.scheduled_at
-      ? order.shipment.scheduled_at
-      : addMinutes(new Date(), restaurant.configs.delivery_time + 1);
+      ? parseISO(order.shipment.scheduled_at)
+      : addMinutes(new Date(), restaurant.configs.delivery_time + 2);
   });
 
   function handleAnswerYes() {

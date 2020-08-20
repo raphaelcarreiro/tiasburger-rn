@@ -46,7 +46,7 @@ const OrderProducts: React.FC<OrderProductsProps> = ({ products }) => {
         <ListItem style={styles.listItem} key={String(product.id)}>
           <View style={styles.row}>
             <View>
-              <Typography bold>{product.name}</Typography>
+              <Typography>{product.name}</Typography>
               <Typography variant="caption">
                 {product.amount} x {product.formattedPrice}
               </Typography>

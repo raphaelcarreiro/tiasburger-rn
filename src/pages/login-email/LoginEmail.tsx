@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Content } from './styles';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, View, Keyboard } from 'react-native';
 import { useSelector } from '../../store/selector';
 import Title from '../../components/bases/typography/Text';
 import Button from '../../components/bases/button/Button';
@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
   image: {
     width: 70,
     height: 70,
+    marginBottom: 30,
   },
   actions: {
     marginTop: 10,
@@ -31,6 +32,10 @@ const styles = StyleSheet.create({
   },
   scrollViewContent: {
     justifyContent: 'center',
+    paddingTop: 0,
+    paddingBottom: 0,
+    paddingRight: 15,
+    paddingLeft: 15,
   },
 });
 
@@ -52,10 +57,21 @@ const LoginEmail: React.FC = () => {
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
   const [validation, setValidation] = useState({} as Validation);
+  const [keyboard, setKeyboard] = useState(false);
   const message = useMessage();
   const auth = useAuth();
   const navigation = useNavigation<LoginEmailScreenProps>();
   const app = useApp();
+
+  useEffect(() => {
+    Keyboard.addListener('keyboardDidShow', () => {
+      setKeyboard(true);
+    });
+
+    Keyboard.addListener('keyboardDidHide', () => {
+      setKeyboard(false);
+    });
+  }, []);
 
   function handleValidation() {
     setValidation({});
@@ -135,7 +151,10 @@ const LoginEmail: React.FC = () => {
     <>
       <Container>
         {loading && <Loading />}
-        <ScrollView contentContainerStyle={styles.scrollViewContent} keyboardShouldPersistTaps="handled">
+        <ScrollView
+          contentContainerStyle={!keyboard ? [styles.scrollViewContent, { flex: 1 }] : styles.scrollViewContent}
+          keyboardShouldPersistTaps="handled"
+        >
           <Content>
             <Image source={{ uri: restaurant?.image.imageUrl }} style={styles.image} />
             <Title size={24}>Login</Title>

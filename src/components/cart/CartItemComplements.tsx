@@ -21,6 +21,11 @@ const styles = StyleSheet.create({
   complement: {
     flexDirection: 'row',
   },
+  complementsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    maxWidth: '80%',
+  },
 });
 
 const CartItemComplements: React.FC<CartItemComplementsProps> = ({ complementCategories }) => {
@@ -35,19 +40,21 @@ const CartItemComplements: React.FC<CartItemComplementsProps> = ({ complementCat
               <Typography bold size={12} style={styles.categoryName}>
                 {category.name}
               </Typography>
-              {category.complements.map(complement => {
-                count = complement.selected ? count + 1 : count;
-                return (
-                  complement.selected && (
-                    <View style={styles.complement} key={String(complement.id)}>
-                      <Typography size={12}>
-                        {complement.name}
-                        {amount > 1 && amount !== count && ', '}
-                      </Typography>
-                    </View>
-                  )
-                );
-              })}
+              <View style={styles.complementsContainer}>
+                {category.complements.map(complement => {
+                  count = complement.selected ? count + 1 : count;
+                  return (
+                    complement.selected && (
+                      <View style={styles.complement} key={String(complement.id)}>
+                        <Typography size={12}>
+                          {complement.name}
+                          {amount > 1 && amount !== count && ', '}
+                        </Typography>
+                      </View>
+                    )
+                  );
+                })}
+              </View>
             </View>
           )
         );

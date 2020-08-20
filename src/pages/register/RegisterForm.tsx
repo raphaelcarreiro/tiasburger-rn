@@ -57,6 +57,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ user, handleChange, validat
         returnKeyType="next"
         onSubmitEditing={() => phoneRef.current?.focus()}
         autoFocus
+        blurOnSubmit={false}
       />
       <Input
         ref={phoneRef}
@@ -72,6 +73,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ user, handleChange, validat
         autoCompleteType="tel"
         returnKeyType="next"
         onSubmitEditing={() => emailRef.current?.focus()}
+        blurOnSubmit={false}
       />
       <Input
         ref={emailRef}
@@ -88,6 +90,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ user, handleChange, validat
         autoCapitalize="none"
         returnKeyType="next"
         onSubmitEditing={() => passwordRef.current?.focus()}
+        blurOnSubmit={false}
       />
       <Input
         ref={passwordRef}
@@ -110,6 +113,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ user, handleChange, validat
         }
         returnKeyType="next"
         onSubmitEditing={() => confirmPasswordRef.current?.focus()}
+        blurOnSubmit={false}
       />
       <Input
         ref={confirmPasswordRef}

@@ -5,12 +5,9 @@ import { useSelector } from '../../../../store/selector';
 
 const styles = StyleSheet.create({
   section: {
-    borderBottomColor: '#eee',
-    borderBottomWidth: 1,
     paddingLeft: 15,
     paddingRight: 15,
     paddingTop: 10,
-    paddingBottom: 5,
   },
   deliveryTime: {
     marginTop: 7,

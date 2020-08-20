@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   col: {
     flexDirection: 'row',
     alignItems: 'center',
-    maxWidth: 200,
+    flex: 0.7,
   },
   actions: {
     flex: 1,
