@@ -78,8 +78,7 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    entryFile: "index.js",
-    enableHermes: false,  // clean and rebuild if changing
+    enableHermes: true,  // clean and rebuild if changing
     //hermesCommand: "../../node_modules/hermes-engine/win64-bin/hermesc",
 ]
 
