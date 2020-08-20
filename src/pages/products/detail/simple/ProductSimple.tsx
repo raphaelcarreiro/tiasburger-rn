@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
     color: '#888',
     textDecorationLine: 'line-through',
     textDecorationStyle: 'solid',
+    marginRight: 15,
   },
   modal: {
     paddingRight: 0,
@@ -62,6 +63,10 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     paddingBottom: 70,
+  },
+  prices: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });
 
@@ -193,18 +198,20 @@ const ProductSimple: React.FC = () => {
                 <Text variant="caption" align="center" gutterBottom>
                   {product.description}
                 </Text>
-                <Text
-                  align="center"
-                  size={product.special_price ? 16 : 20}
-                  style={product.special_price ? styles.oldPrice : { color: theme.primary }}
-                >
-                  {product.formattedPrice}
-                </Text>
-                {product.special_price && (
-                  <Text align="center" color="primary" size={20}>
-                    {product.formattedSpecialPrice}
+                <View style={styles.prices}>
+                  <Text
+                    align="center"
+                    size={product.special_price ? 16 : 20}
+                    style={product.special_price ? styles.oldPrice : { color: theme.primary }}
+                  >
+                    {product.formattedPrice}
                   </Text>
-                )}
+                  {product.special_price && (
+                    <Text align="center" color="primary" size={20}>
+                      {product.formattedSpecialPrice}
+                    </Text>
+                  )}
+                </View>
               </View>
               {product.additional.length > 0 && (
                 <ProductSimpleAdditional

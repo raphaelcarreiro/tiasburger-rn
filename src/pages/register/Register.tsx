@@ -38,7 +38,6 @@ export interface UserValidation {
   email?: string;
   password?: string;
   passwordConfirm?: string;
-  [key: string]: any;
 }
 
 const Register: React.FC = () => {

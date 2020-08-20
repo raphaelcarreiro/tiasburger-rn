@@ -10,7 +10,7 @@ import { updateCustomerAddress } from '../../../../store/modules/user/actions';
 import Loading from '../../../../components/loading/Loading';
 import * as yup from 'yup';
 import { useSelector } from '../../../../store/selector';
-import { ScrollView } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import { Address } from '../../../../@types/address';
 
 interface AddressEditProps {
@@ -25,6 +25,17 @@ export interface AddressValidation {
   complement?: string;
   district?: string;
 }
+
+const styles = StyleSheet.create({
+  modal: {
+    paddingRight: 0,
+    paddingLeft: 0,
+  },
+  scroll: {
+    paddingLeft: 15,
+    paddingRight: 15,
+  },
+});
 
 const AddressEdit: React.FC<AddressEditProps> = ({ address, open, onExited }) => {
   const [editedAddress, addressDispatch] = useReducer(addressReducer, {} as Address);
@@ -93,9 +104,10 @@ const AddressEdit: React.FC<AddressEditProps> = ({ address, open, onExited }) =>
       open={open}
       handleClose={handleModalClose}
       actions={<AddressFormActions saving={saving} handleSubmit={handleValidation} />}
+      style={styles.modal}
     >
       {saving && <Loading />}
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.scroll}>
         <AddressForm
           address={editedAddress}
           handleAddressChange={handleAddressChange}

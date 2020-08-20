@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Input from '../../components/bases/input/Input';
 import { UserValidation } from './Register';
 import Text from '../../components/bases/typography/Text';
@@ -26,10 +26,21 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ user, handleChange, validat
   const restaurant = useSelector(state => state.restaurant);
   const [passVis, setPassVis] = useState(false);
   const [confirmPassVis, setConfirmPassVis] = useState(false);
-  const phoneRef = useRef<TextInput>(null);
-  const emailRef = useRef<TextInput>(null);
-  const passwordRef = useRef<TextInput>(null);
-  const confirmPasswordRef = useRef<TextInput>(null);
+
+  const inputRefs = {
+    name: useRef<TextInput>(null),
+    phone: useRef<TextInput>(null),
+    email: useRef<TextInput>(null),
+    password: useRef<TextInput>(null),
+    passwordConfirm: useRef<TextInput>(null),
+  };
+
+  useEffect(() => {
+    const [key] = Object.keys(validation) as Array<keyof typeof validation>;
+    if (!key) return;
+
+    inputRefs[key].current?.focus();
+  }, [validation, inputRefs]);
 
   function handleVisibility(field: string): void {
     if (field === 'password') setPassVis(!passVis);
@@ -44,6 +55,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ user, handleChange, validat
       </Text>
       <Text>É rapidinho, complete os 5 campos abaixo.</Text>
       <Input
+        ref={inputRefs.name}
         error={!!validation.name}
         helperText={validation.name}
         autoCapitalize="words"
@@ -55,12 +67,12 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ user, handleChange, validat
         onChange={event => handleChange('name', event.nativeEvent.text)}
         autoCompleteType="name"
         returnKeyType="next"
-        onSubmitEditing={() => phoneRef.current?.focus()}
+        onSubmitEditing={() => inputRefs.phone.current?.focus()}
         autoFocus
         blurOnSubmit={false}
       />
       <Input
-        ref={phoneRef}
+        ref={inputRefs.phone}
         keyboardType="number-pad"
         error={!!validation.phone}
         helperText={validation.phone}
@@ -72,11 +84,11 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ user, handleChange, validat
         onChange={event => handleChange('phone', event.nativeEvent.text)}
         autoCompleteType="tel"
         returnKeyType="next"
-        onSubmitEditing={() => emailRef.current?.focus()}
+        onSubmitEditing={() => inputRefs.phone.current?.focus()}
         blurOnSubmit={false}
       />
       <Input
-        ref={emailRef}
+        ref={inputRefs.email}
         error={!!validation.email}
         helperText={validation.email}
         fullWidth
@@ -89,11 +101,11 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ user, handleChange, validat
         autoCompleteType="email"
         autoCapitalize="none"
         returnKeyType="next"
-        onSubmitEditing={() => passwordRef.current?.focus()}
+        onSubmitEditing={() => inputRefs.password.current?.focus()}
         blurOnSubmit={false}
       />
       <Input
-        ref={passwordRef}
+        ref={inputRefs.password}
         error={!!validation.password}
         helperText={validation.password}
         fullWidth
@@ -112,11 +124,11 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ user, handleChange, validat
           )
         }
         returnKeyType="next"
-        onSubmitEditing={() => confirmPasswordRef.current?.focus()}
+        onSubmitEditing={() => inputRefs.passwordConfirm.current?.focus()}
         blurOnSubmit={false}
       />
       <Input
-        ref={confirmPasswordRef}
+        ref={inputRefs.passwordConfirm}
         error={!!validation.passwordConfirm}
         helperText={validation.passwordConfirm}
         fullWidth

@@ -29,6 +29,7 @@ const AddressForm: React.FC<AccountFormEditProps> = ({
   const restaurant = useSelector(state => state.restaurant);
   const [cepValidation, setCepValidation] = useState(false);
   const [loading, setLoading] = useState(false);
+
   const inputRefs = {
     cep: useRef<TextInput>(null),
     address: useRef<TextInput>(null),
@@ -72,6 +73,7 @@ const AddressForm: React.FC<AccountFormEditProps> = ({
               handleSetAddress(response.data);
               setCepValidation(true);
               setValidation({} as AddressValidation);
+              inputRefs.number.current?.focus();
             }
           })
           .catch(err => {
@@ -93,7 +95,7 @@ const AddressForm: React.FC<AccountFormEditProps> = ({
           {restaurant?.configs.use_postalcode && (
             <Input
               error={!!validation.cep}
-              helperText={validation.cep}
+              helperText={loading ? 'Consultando...' : validation.cep}
               label="CEP"
               placeholder="Digite o CEP"
               returnKeyType="next"
@@ -104,6 +106,7 @@ const AddressForm: React.FC<AccountFormEditProps> = ({
               onChange={event => handleCepChange(event.nativeEvent.text)}
               variant="standard"
               autoFocus
+              editable={!loading}
             />
           )}
           {cepValidation && (
@@ -144,7 +147,7 @@ const AddressForm: React.FC<AccountFormEditProps> = ({
                 returnKeyType="next"
                 autoCapitalize="sentences"
                 autoCorrect
-                value={address.address_complement}
+                value={address.address_complement || ''}
                 onChange={event => handleAddressChange('address_complement', event.nativeEvent.text)}
                 variant="standard"
                 blurOnSubmit={false}

@@ -13,6 +13,7 @@ import { useSelector } from '../../../../store/selector';
 import { ViaCepResponse } from '../../../../services/postalCodeSearch';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Address } from '../../../../@types/address';
+import { StyleSheet } from 'react-native';
 
 interface AddressEditProps {
   open: boolean;
@@ -26,6 +27,19 @@ export interface AddressValidation {
   complement?: string;
   district?: string;
 }
+
+const styles = StyleSheet.create({
+  modal: {
+    paddingRight: 0,
+    paddingLeft: 0,
+    paddingBottom: 0,
+  },
+  scroll: {
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingBottom: 15,
+  },
+});
 
 const AddressNew: React.FC<AddressEditProps> = ({ open, onExited }) => {
   const [editedAddress, addressDispatch] = useReducer(addressReducer, {} as Address);
@@ -105,9 +119,10 @@ const AddressNew: React.FC<AddressEditProps> = ({ open, onExited }) => {
       open={open}
       handleClose={handleModalClose}
       actions={<AddressFormActions saving={saving} handleSubmit={handleValidation} />}
+      style={styles.modal}
     >
       {saving && <Loading />}
-      <ScrollView>
+      <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
         <AddressForm
           address={editedAddress}
           handleAddressChange={handleAddressChange}

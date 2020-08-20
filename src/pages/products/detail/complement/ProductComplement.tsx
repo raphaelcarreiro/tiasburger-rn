@@ -79,12 +79,6 @@ const ProductComplement: React.FC = () => {
   }, [complementsPrice, product, amount]);
 
   useEffect(() => {
-    setProduct(null);
-    setLoading(true);
-    setAmount(1);
-  }, [selectedProduct]);
-
-  useEffect(() => {
     if (!selectedProduct) return;
 
     api

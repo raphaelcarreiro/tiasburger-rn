@@ -1,3 +1,57 @@
+import numbro from 'numbro';
+
+// define a language
+numbro.registerLanguage({
+  languageTag: 'pt-BR',
+  delimiters: {
+    thousands: '.',
+    decimal: ',',
+  },
+  abbreviations: {
+    thousand: 'k',
+    million: 'm',
+    billion: 'b',
+    trillion: 't',
+  },
+  ordinal: number => {
+    return number === 1 ? 'er' : 'ème';
+  },
+  currency: {
+    symbol: 'R$ ',
+    position: 'prefix',
+    code: 'BRL',
+  },
+  currencyFormat: {
+    thousandSeparated: true,
+    totalLength: 4,
+    spaceSeparated: true,
+    average: true,
+  },
+  formats: {
+    fourDigits: {
+      totalLength: 4,
+      spaceSeparated: true,
+      average: true,
+    },
+    fullWithTwoDecimals: {
+      output: 'currency',
+      mantissa: 2,
+      spaceSeparated: true,
+      thousandSeparated: true,
+    },
+    fullWithTwoDecimalsNoCurrency: {
+      mantissa: 2,
+      thousandSeparated: true,
+    },
+    fullWithNoDecimals: {
+      output: 'currency',
+      spaceSeparated: true,
+      thousandSeparated: true,
+      mantissa: 0,
+    },
+  },
+});
+
 /**
  * Format number pattern pt-BR
  * @param value
@@ -9,8 +63,9 @@ function numberFormat(value: string | number | null | undefined, maximumFraction
 
   value = !value ? 0 : value;
 
-  return value.toLocaleString('pt-BR', {
-    maximumFractionDigits: maximumFractionDigits,
+  return numbro(value).format({
+    mantissa: maximumFractionDigits,
+    thousandSeparated: true,
   });
 }
 
@@ -25,10 +80,11 @@ function moneyFormat(value: string | number | null | undefined, maximumFractionD
 
   value = !value ? 0 : value;
 
-  return value.toLocaleString('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-    maximumFractionDigits: maximumFractionDigits,
+  numbro.setLanguage('pt-BR');
+
+  return numbro(value).formatCurrency({
+    mantissa: maximumFractionDigits,
+    thousandSeparated: true,
   });
 }
 

@@ -9,6 +9,7 @@ import { removeFromCart } from '../../store/modules/cart/actions';
 import CartItemComplements from './CartItemComplements';
 import CartItemIngredients from './CartItemIngredients';
 import CartItemAdditional from './CartItemAdditional';
+import { useCart } from './cartContext';
 
 const styles = StyleSheet.create({
   listItem: {
@@ -59,6 +60,11 @@ type CartItemProps = {
 
 const CartItem: React.FC<CartItemProps> = ({ product }) => {
   const dispatch = useDispatch();
+  const cart = useCart();
+
+  function handleUpdatePress(product: CartProduct) {
+    cart.handleSelectProduct(product);
+  }
 
   function handleDeleteClick(productUid: number) {
     dispatch(removeFromCart(productUid));
@@ -94,7 +100,7 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
         <CartItemComplements complementCategories={product.complement_categories} />
       )}
       <View style={styles.actions}>
-        <Button disablePadding color="primary" variant="text">
+        <Button disablePadding color="primary" variant="text" onPress={() => handleUpdatePress(product)}>
           Alterar
         </Button>
         <Button variant="text" onPress={() => handleDeleteClick(product.uid)}>
