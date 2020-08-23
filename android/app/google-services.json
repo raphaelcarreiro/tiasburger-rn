@@ -1,0 +1,44 @@
+{
+  "project_info": {
+    "project_number": "372525900715",
+    "firebase_url": "https://delivery-23e5a.firebaseio.com",
+    "project_id": "delivery-23e5a",
+    "storage_bucket": "delivery-23e5a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:372525900715:android:8254c6cba5fc8b36c1a8ee",
+        "android_client_info": {
+          "package_name": "delivery.topnfe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "372525900715-q1652hns1718lcmtrohskb51cnnegnmn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "delivery.topnfe",
+            "certificate_hash": "1892f68d8ca74fbcf1a17ca3f97b06780b30f9ce"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAE0VB9ZJSRzsDlRYB6qOVaJHoJkKGDB1Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "372525900715-741lc2vnsuj2gs2o2i063eri0ioaeoov.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

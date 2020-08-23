@@ -19,9 +19,11 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ddd',
     borderBottomWidth: 1,
     paddingBottom: 20,
+    alignSelf: 'stretch',
   },
   signUp: {
     marginTop: 20,
+    alignSelf: 'stretch',
   },
   goBack: {
     marginTop: 20,

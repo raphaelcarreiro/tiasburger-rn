@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignItems: 'center',
     justifyContent: 'space-between',
-    height: 100,
+    height: 120,
   },
   scrollViewContent: {
     justifyContent: 'center',
@@ -176,14 +176,15 @@ const LoginEmail: React.FC = () => {
             )}
           </Content>
           <View style={styles.actions}>
-            <Button
-              color="primary"
-              variant="text"
-              disableUpperCase
-              onPress={() => navigation.navigate('Login', { screen: 'ForgotPassword' })}
-            >
-              Esqueci minha senha
-            </Button>
+            {step === 'password' && (
+              <Button
+                color="primary"
+                variant="text"
+                onPress={() => navigation.navigate('Login', { screen: 'ForgotPassword', params: { email } })}
+              >
+                Esqueci minha senha
+              </Button>
+            )}
             <Button color="primary" onPress={handleValidation} disabled={loading}>
               {step === 'email' ? 'Próximo' : 'Entrar'}
             </Button>

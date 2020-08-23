@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, StatusBar, StyleSheet } from 'react-native';
+import { View, StatusBar, StyleSheet, Platform, Alert } from 'react-native';
 import Routes from './routes/Routes';
 import api from './services/api';
 import { useDispatch } from 'react-redux';
@@ -17,6 +17,8 @@ import { RedirectScreens, AppContext } from './appContext';
 import { socketBaseUrl } from './constants/constants';
 import io from 'socket.io-client';
 import SplashScreen from 'react-native-splash-screen';
+import firebaseMessaging from '@react-native-firebase/messaging';
+import { useMessage } from './hooks/message';
 
 const styles = StyleSheet.create({
   container: {
@@ -32,14 +34,58 @@ const App: React.FC = () => {
   const [redirect, setRedirect] = useState<RedirectScreens>(null);
   const { handleSetTheme } = useThemeContext();
   const dispatch = useDispatch();
-  const restaurant = useSelector(state => state.restaurant);
   const theme = useTheme();
+  const messaging = useMessage();
+  const restaurant = useSelector(state => state.restaurant);
+  const user = useSelector(state => state.user);
+
+  const saveToken = useCallback(() => {
+    firebaseMessaging()
+      .getToken()
+      .then(token => {
+        const param = {
+          token: token,
+          device: Platform.OS,
+          type: 'client',
+        };
+
+        api.post('/pushTokens', param).catch(err => {
+          console.log(err);
+        });
+      });
+  }, []);
+
+  const requestPermission = useCallback(() => {
+    firebaseMessaging()
+      .requestPermission()
+      .then(permission => {
+        if (permission) saveToken();
+      });
+  }, [saveToken]);
 
   useEffect(() => {
-    function loadPromotions() {
-      api.get('/promotions').then(response => {
-        dispatch(setPromotions(response.data));
+    if (!user) return;
+
+    firebaseMessaging()
+      .hasPermission()
+      .then(enabled => {
+        if (enabled) saveToken();
+        else requestPermission();
       });
+  }, [saveToken, requestPermission, user]);
+
+  useEffect(() => {
+    const unsubscribe = firebaseMessaging().onMessage(async ({ notification }) => {
+      if (notification && notification.body) messaging.handleOpen(notification.body);
+    });
+
+    return unsubscribe;
+  }, [messaging]);
+
+  useEffect(() => {
+    async function loadPromotions() {
+      const response = await api.get('/promotions');
+      dispatch(setPromotions(response.data));
     }
 
     api
@@ -65,8 +111,8 @@ const App: React.FC = () => {
           }
         });
       })
-      .finally(() => {
-        loadPromotions();
+      .finally(async () => {
+        await loadPromotions();
         SplashScreen.hide();
       })
       .catch(err => {

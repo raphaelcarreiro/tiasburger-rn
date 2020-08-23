@@ -38,7 +38,7 @@ export function useThemeContext(): ThemeContextData {
 }
 
 const Theme: React.FC = ({ children }) => {
-  const [theme, setTheme] = useState<DefaultTheme>(createTheme('#f44336', '#4b4b4d'));
+  const [theme, setTheme] = useState<DefaultTheme>(createTheme('#222', '#4b4b4d'));
 
   const handleSetTheme = useCallback((primary, secondary) => {
     setTheme(createTheme(primary, secondary));

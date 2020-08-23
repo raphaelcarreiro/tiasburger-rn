@@ -35,6 +35,7 @@ const Orders: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   const refresh = useCallback(() => {
+    setLoading(true);
     api
       .get('/orders')
       .then(response => {

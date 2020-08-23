@@ -10,7 +10,7 @@ export type SignRouteList = {
   Initial: undefined;
   LoginEmail: undefined;
   Register: undefined;
-  ForgotPassword: undefined;
+  ForgotPassword: { email?: string };
 };
 
 const Stack = createStackNavigator<SignRouteList>();

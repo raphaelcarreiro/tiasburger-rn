@@ -9,7 +9,7 @@ export const Container = styled.View`
 `;
 
 export const Content = styled.View`
-  min-height: 300px;
+  min-height: 280px;
 
   align-items: center;
 `;

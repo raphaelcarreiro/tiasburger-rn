@@ -5,7 +5,6 @@ import { Address } from '../../../@types/address';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import IconButton from '../../../components/bases/icon-button/IconButton';
 import Options from '../../../components/options/Options';
-import Button from '../../../components/bases/button/Button';
 import { useTheme } from 'styled-components';
 import OptionsButton from '../../../components/options/OptionsButton';
 
@@ -17,6 +16,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
     borderWidth: 1,
     borderColor: '#eee',
+    justifyContent: 'center',
   },
   text: {
     fontSize: 18,
@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
   },
   star: {
     position: 'absolute',
-    top: 10,
     right: 10,
   },
 });

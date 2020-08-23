@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+apply plugin: "com.google.gms.google-services"
 
 import com.android.build.OutputFile
 
@@ -78,7 +79,7 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    enableHermes: true,  // clean and rebuild if changing
+    enableHermes: false,  // clean and rebuild if changing
     //hermesCommand: "../../node_modules/hermes-engine/win64-bin/hermesc",
 ]
 
@@ -130,11 +131,12 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.deliveryclient"
+        applicationId "delivery.topnfe"
+        // applicationId "com.deliveryclient"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.2"
         multiDexEnabled true
     }
     splits {

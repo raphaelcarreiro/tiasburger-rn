@@ -66,11 +66,11 @@ export const HelperText = styled.Text<InputProps>`
 export const TextLabel = styled.Text<InputProps>`
   position: absolute;
   font-size: 12px;
-  top: -7px;
+  top: -8px;
   left: 10px;
   font-family: 'sans-serif-light';
   color: #222;
-  background-color: #f3f3f3;
+  background-color: #fafafa;
   z-index: 10;
   padding: 0 5px;
 

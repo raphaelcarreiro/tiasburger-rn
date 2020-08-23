@@ -29,7 +29,7 @@ const OrderItem: React.FC<OrderItemProps> = ({ order }) => {
   return (
     <ListItem onPress={() => handlePress(order.encrypted_id)}>
       <OrderStatusBadge status={order.status}>
-        <Typography color="contrast" size={12} bold>
+        <Typography color="contrast" size={12}>
           {order.statusName}
         </Typography>
       </OrderStatusBadge>

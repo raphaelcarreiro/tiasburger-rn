@@ -141,12 +141,12 @@ const Cart: React.FC = () => {
               <View style={styles.info}>
                 {restaurant.configs.delivery_time > 0 && (
                   <Typography variant="caption" size={14}>
-                    * Tempo estimado para entrega {restaurant.configs.delivery_time} minutos
+                    Tempo estimado para entrega {restaurant.configs.delivery_time} minutos
                   </Typography>
                 )}
                 {restaurant.configs.order_minimum_value > 0 && restaurant.configs.tax_mode !== 'order_value' && (
                   <Typography variant="caption" size={14}>
-                    * {restaurant.configs.formattedOrderMinimumValue} pedido mínimo
+                    {restaurant.configs.formattedOrderMinimumValue} pedido mínimo
                   </Typography>
                 )}
               </View>

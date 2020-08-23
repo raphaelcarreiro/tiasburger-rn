@@ -23,7 +23,7 @@ export type RootDrawerParamList = {
   Products: { url: string; categoryName: string };
   Cart: undefined;
   Contact: undefined;
-  Login: { screen: SignRouteOptions } | undefined;
+  Login: { screen: SignRouteOptions; params?: { email: string } } | undefined;
   Account: undefined;
   Checkout: undefined;
   Orders: undefined;

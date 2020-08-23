@@ -50,7 +50,9 @@ const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
   return (
     <ListItem style={styles.listItem} onPress={() => handleSelectProduct(product)}>
       <View style={styles.dataText}>
-        <Text size={22}>{product.name}</Text>
+        <Text size={22} gutterBottom>
+          {product.name}
+        </Text>
         <Text size={14} variant="caption">
           {product.description}
         </Text>

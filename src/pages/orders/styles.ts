@@ -21,4 +21,6 @@ export const OrderStatusBadge = styled.View<OrderStatusBadgeProps>`
   background-color: ${props => backgroundColors[props.status]};
   padding: 5px;
   border-radius: 4px;
+  min-width: 80px;
+  align-items: center;
 `;

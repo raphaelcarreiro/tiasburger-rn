@@ -1,3 +1,5 @@
+import { Image } from './image';
+
 export interface RestaurantConfig {
   id: number;
   restaurant_id: number;
@@ -53,6 +55,7 @@ export interface Restaurant {
   working_hours: string;
   minimum_order: number;
   image: Image;
+  cover: Image;
   configs: RestaurantConfig;
   delivery_max_distance: number;
   addresses: RestaurantAddress[];
