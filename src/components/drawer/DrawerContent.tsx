@@ -9,6 +9,7 @@ import McIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useAuth } from '../../hooks/auth';
 import Item from './DrawerItem';
 import Avatar from '../avatar/Avatar';
+import { useApp } from '../../appContext';
 
 const styles = StyleSheet.create({
   label: {
@@ -33,10 +34,11 @@ const Drawer: React.FC<DrawerContentComponentProps> = props => {
   const user = useSelector(state => state.user);
   const { logout } = useAuth();
   const { navigation } = props;
+  const app = useApp();
 
   function handleLogout(): void {
-    logout().catch(err => {
-      console.log(err);
+    logout().then(() => {
+      app.setRedirect(null);
     });
   }
 

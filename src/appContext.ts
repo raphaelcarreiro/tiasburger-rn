@@ -1,6 +1,6 @@
 import { useContext, createContext } from 'react';
 
-export type RedirectScreens = 'Home' | 'Account' | 'Checkout' | 'Menu' | null;
+export type RedirectScreens = 'Home' | 'Account' | 'Checkout' | 'Menu' | 'Orders' | 'Order' | null;
 
 type AppContextProps = {
   handleCartVisibility(): void;

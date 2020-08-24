@@ -87,7 +87,6 @@ const Products: React.FC<ProductsProps> = ({ route, navigation }) => {
   useEffect(() => {
     const onBlur = () => {
       // setFilteredProducts([]);
-      // console.log('product cleaned');
     };
     navigation.addListener('blur', onBlur);
 

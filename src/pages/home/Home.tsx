@@ -2,14 +2,13 @@ import React from 'react';
 import AppBar from '../../components/appbar/Appbar';
 import Typography from '../../components/bases/typography/Text';
 import { useSelector } from '../../store/selector';
-import { StyleSheet, View, FlatList, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import Button from '../../components/bases/button/Button';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { RootDrawerParamList } from '../../routes/Routes';
-import PromotionItem from './PromotionItem';
 import Header from './Header';
 import Promotions from './Promotions';
-import { Link } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const styles = StyleSheet.create({
   info: {
@@ -18,6 +17,7 @@ const styles = StyleSheet.create({
     padding: 5,
     paddingLeft: 15,
     paddingRight: 15,
+    alignItems: 'center',
   },
   main: {
     flex: 1,
@@ -66,7 +66,7 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
             <View style={styles.info}>
               {restaurant.configs.delivery_time > 0 && (
                 <Typography variant="caption" size={18}>
-                  {restaurant.configs.delivery_time} minutos
+                  <Icon name="clock" size={16} /> {restaurant.configs.delivery_time} minutos
                 </Typography>
               )}
               {restaurant.configs.order_minimum_value > 0 && restaurant.configs.tax_mode !== 'order_value' && (

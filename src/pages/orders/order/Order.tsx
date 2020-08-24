@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { RouteProp } from '@react-navigation/native';
+import { RouteProp, useFocusEffect, useIsFocused } from '@react-navigation/native';
 import { RootDrawerParamList } from '../../../routes/Routes';
 import { useMessage } from '../../../hooks/message';
 import { StyleSheet, ScrollView } from 'react-native';
@@ -18,11 +18,15 @@ import { socketBaseUrl } from '../../../constants/constants';
 import { OrderStatus as OrderStatusType, OrderStatusOptions } from '../../../@types/order';
 import { orderStatusName } from '../orderStatus';
 import OrderProducts from './products/OrderProducts';
+import { useSelector } from '../../../store/selector';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
+import { useApp } from '../../../appContext';
 
 type OrderScreenRouteProp = RouteProp<RootDrawerParamList, 'Order'>;
 
 type OrderProps = {
   route: OrderScreenRouteProp;
+  navigation: DrawerNavigationProp<RootDrawerParamList>;
 };
 
 type Payload = {
@@ -44,10 +48,27 @@ const styles = StyleSheet.create({
   },
 });
 
-const Order: React.FC<OrderProps> = ({ route }) => {
+const Order: React.FC<OrderProps> = ({ route, navigation }) => {
   const [order, loadOrder, error, setOrder] = useLoadOrder();
   const [loading, setLoading] = useState(true);
   const messaging = useMessage();
+  const user = useSelector(state => state.user);
+  const app = useApp();
+  const isFocused = useIsFocused();
+
+  useFocusEffect(() => {
+    if (!user) {
+      navigation.navigate('Login');
+      app.setRedirect('Order');
+    }
+  });
+
+  useEffect(() => {
+    if (!user && isFocused) {
+      navigation.navigate('Login');
+      app.setRedirect('Order');
+    }
+  }, [user, isFocused, navigation, app]);
 
   useEffect(() => {
     if (error) messaging.handleOpen('Não foi possível carregar o pedido');
@@ -90,8 +111,10 @@ const Order: React.FC<OrderProps> = ({ route }) => {
   }, [loadOrder, route.params]);
 
   useEffect(() => {
+    if (!user) return;
+
     refresh();
-  }, [refresh]);
+  }, [refresh, user]);
 
   return (
     <>

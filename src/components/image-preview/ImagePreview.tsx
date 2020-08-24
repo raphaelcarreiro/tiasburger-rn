@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
   },
   description: {
     color: '#f5f5f5',
+    maxWidth: '80%',
   },
   buttonClose: {
     marginRight: 20,
@@ -41,6 +42,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     zIndex: 10,
+    right: 10,
   },
 });
 
@@ -48,7 +50,7 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({ source, description, handle
   return (
     <>
       <Modal open={open} handleClose={handleClose} style={styles.container}>
-        <StatusBar backgroundColor="#000" translucent barStyle="default" />
+        <StatusBar backgroundColor="#000" barStyle="light-content" />
         <View style={styles.header}>
           <Icon name="arrow-back" size={26} color="#fff" onPress={handleClose} style={styles.buttonClose} />
           <Typography bold size={24} style={styles.description}>

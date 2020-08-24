@@ -116,7 +116,7 @@ const Cart: React.FC = () => {
       <View style={styles.container}>
         <Coupon open={isCouponVisible} handleClose={handleCouponVisibility} />
         {cart.products.length > 0 ? (
-          <ScrollView style={styles.scroll}>
+          <ScrollView contentContainerStyle={styles.scroll}>
             {cart.products.map(product => (
               <CartItem product={product} key={String(product.uid)} />
             ))}
@@ -140,12 +140,12 @@ const Cart: React.FC = () => {
             {restaurant && route.name !== 'Checkout' && (
               <View style={styles.info}>
                 {restaurant.configs.delivery_time > 0 && (
-                  <Typography variant="caption" size={14}>
+                  <Typography align="center" variant="caption" size={14}>
                     Tempo estimado para entrega {restaurant.configs.delivery_time} minutos
                   </Typography>
                 )}
                 {restaurant.configs.order_minimum_value > 0 && restaurant.configs.tax_mode !== 'order_value' && (
-                  <Typography variant="caption" size={14}>
+                  <Typography align="center" variant="caption" size={14}>
                     {restaurant.configs.formattedOrderMinimumValue} pedido mínimo
                   </Typography>
                 )}

@@ -41,6 +41,8 @@ import { CancelTokenSource } from 'axios';
 import Dialog from '../../components/dialog/Dialog';
 import Typography from '../../components/bases/typography/Text';
 import RestaurantClosed from './closed/RestaurantClosed';
+import { useApp } from '../../appContext';
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
   container: {
@@ -73,7 +75,7 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
   const cart = useSelector(state => state.cart);
   const order = useSelector(state => state.order);
   const restaurant = useSelector(state => state.restaurant);
-  const [loading, setLoading] = useState(false);
+  const app = useApp();
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
   const [step, setStep] = useState(1);
   const [saving, setSaving] = useState(false);
@@ -81,6 +83,7 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
   const [steps, setSteps] = useState<StepType[]>(defaultSteps);
   const [isCardValid, setIsCardValid] = useState(false);
   const [cartVisibility, setCartVisiblity] = useState(false);
+  const isFocused = useIsFocused();
 
   const currentStep = useMemo(() => {
     return steps.find(item => item.order === step);
@@ -119,24 +122,21 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
   }, [dispatch]);
 
   useEffect(() => {
+    if (!user && isFocused) {
+      navigation.navigate('Login');
+      app.setRedirect('Checkout');
+    }
+  }, [user, isFocused, navigation, app]);
+
+  useEffect(() => {
     const onFocus = () => {
+      if (!user) return;
       loadPaymentMethods();
     };
 
-    const onBlur = () => {
-      setStep(1);
-    };
-
     navigation.addListener('focus', onFocus);
-    navigation.addListener('blur', onBlur);
-  }, [navigation, loadPaymentMethods]);
-
-  useEffect(() => {
-    if (restaurant)
-      if (restaurant.configs.facebook_pixel_id) {
-        // fbq('track', 'InitiateCheckout');
-      }
-  }, [restaurant]);
+    navigation.addListener('blur', () => setStep(1));
+  }, [navigation, loadPaymentMethods, app, user]);
 
   useEffect(() => {
     if (!restaurant) return;
@@ -321,9 +321,7 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
           <RestaurantClosed />
         </Dialog>
       )}
-      {loading ? (
-        <InsideLoading />
-      ) : currentStep?.id === 'STEP_SUCCESS' ? (
+      {currentStep?.id === 'STEP_SUCCESS' ? (
         <CheckoutContext.Provider value={checkoutContextValue}>
           <CheckoutSuccess />
         </CheckoutContext.Provider>

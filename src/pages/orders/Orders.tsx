@@ -10,6 +10,11 @@ import { FlatList, StyleSheet, View } from 'react-native';
 import OrderItem from './OrderItem';
 import AppBar from '../../components/appbar/Appbar';
 import Typography from '../../components/bases/typography/Text';
+import { useSelector } from '../../store/selector';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
+import { RootDrawerParamList } from '../../routes/Routes';
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
+import { useApp } from '../../appContext';
 
 const styles = StyleSheet.create({
   container: {
@@ -30,9 +35,16 @@ const styles = StyleSheet.create({
   },
 });
 
-const Orders: React.FC = () => {
+type OrderProps = {
+  navigation: DrawerNavigationProp<RootDrawerParamList>;
+};
+
+const Orders: React.FC<OrderProps> = ({ navigation }) => {
   const [orders, setOrders] = useState<CreatedOrder[]>([]);
   const [loading, setLoading] = useState(true);
+  const user = useSelector(state => state.user);
+  const app = useApp();
+  const isFocused = useIsFocused();
 
   const refresh = useCallback(() => {
     setLoading(true);
@@ -47,9 +59,25 @@ const Orders: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    if (!user && isFocused) {
+      navigation.navigate('Login');
+      app.setRedirect('Orders');
+    }
+  }, [user, isFocused, navigation, app]);
+
+  useFocusEffect(() => {
+    if (!user) {
+      navigation.navigate('Login');
+      app.setRedirect('Orders');
+    }
+  });
+
+  useEffect(() => {
+    if (!user) return;
+
     setLoading(true);
     refresh();
-  }, [refresh]);
+  }, [refresh, user, navigation, app]);
 
   function handleSetOrders(orders: CreatedOrder[]) {
     return orders.map(order => {

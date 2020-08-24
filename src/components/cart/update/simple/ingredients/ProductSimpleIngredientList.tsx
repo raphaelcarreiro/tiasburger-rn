@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Ingredient } from '../../../../../@types/product';
 import Typography from '../../../../bases/typography/Text';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -16,11 +16,13 @@ const styles = StyleSheet.create({
     elevation: 0,
     borderWidth: 0,
   },
-  icon: {
+  iconContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
     height: 26,
     width: 26,
-    borderRadius: 15,
-    backgroundColor: '#fff',
+    borderRadius: 13,
     position: 'absolute',
     right: 10,
   },
@@ -32,7 +34,11 @@ const ProductSimpleIngredientList: React.FC<IngredientListProps> = ({ ingredient
   return (
     <ListItemStyled selected={ingredient.selected} style={styles.listItem} onPress={() => handleClick(ingredient.id)}>
       <Typography>{ingredient.name}</Typography>
-      {ingredient.selected && <Icon name="check-circle" style={styles.icon} color={theme.primary} size={26} />}
+      {ingredient.selected && (
+        <View style={styles.iconContainer}>
+          <Icon name="check-circle" color={theme.primary} size={26} />
+        </View>
+      )}
     </ListItemStyled>
   );
 };

@@ -18,11 +18,13 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     elevation: 0,
   },
-  icon: {
+  iconContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
     height: 26,
     width: 26,
-    borderRadius: 15,
-    backgroundColor: '#fff',
+    borderRadius: 13,
     position: 'absolute',
     right: 10,
   },
@@ -61,7 +63,11 @@ const ProductComplements: React.FC<ProductComplementsProps> = ({
               </Typography>
             )}
           </View>
-          {complement.selected && <Icon name="check-circle" style={styles.icon} color={theme.primary} size={26} />}
+          {complement.selected && (
+            <View style={styles.iconContainer}>
+              <Icon name="check-circle" color={theme.primary} size={26} />
+            </View>
+          )}
         </ListItemStyled>
       ))}
     </>

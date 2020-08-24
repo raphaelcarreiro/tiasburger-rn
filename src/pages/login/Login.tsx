@@ -4,7 +4,9 @@ import { Image, StyleSheet, View, ScrollView } from 'react-native';
 import { useSelector } from '../../store/selector';
 import Title from '../../components/bases/typography/Text';
 import Button from '../../components/bases/button/Button';
-import { useNavigation } from '@react-navigation/native';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
+import { RootDrawerParamList } from '../../routes/Routes';
+import { useApp } from '../../appContext';
 
 const styles = StyleSheet.create({
   image: {
@@ -30,9 +32,29 @@ const styles = StyleSheet.create({
   },
 });
 
-const Login: React.FC = () => {
+type LoginProps = {
+  navigation: DrawerNavigationProp<RootDrawerParamList>;
+};
+
+const Login: React.FC<LoginProps> = ({ navigation }) => {
   const restaurant = useSelector(state => state.restaurant);
-  const navigation = useNavigation();
+  const user = useSelector(state => state.user);
+  const app = useApp();
+
+  function handleBack() {
+    if (!user) {
+      // navigation.navigate('Home');
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Home' }],
+      });
+
+      app.setRedirect(null);
+      return;
+    }
+
+    navigation.goBack();
+  }
 
   return (
     <ScrollView contentContainerStyle={{ flex: 1 }} keyboardShouldPersistTaps="handled">
@@ -54,7 +76,7 @@ const Login: React.FC = () => {
               </Button>
             </View>
             <View style={styles.goBack}>
-              <Button variant="text" fullWidth color="primary" onPress={() => navigation.goBack()}>
+              <Button variant="text" fullWidth color="primary" onPress={handleBack}>
                 Voltar
               </Button>
             </View>

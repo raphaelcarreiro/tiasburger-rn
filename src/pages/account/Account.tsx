@@ -14,20 +14,38 @@ import { useMessage } from '../../hooks/message';
 import * as yup from 'yup';
 import { cpfValidation } from '../../helpers/cpfValidation';
 import Loading from '../../components/loading/Loading';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
+import { useApp } from '../../appContext';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
+import { RootDrawerParamList } from '../../routes/Routes';
 
-const Account: React.FC = () => {
+type AccountProps = {
+  navigation: DrawerNavigationProp<RootDrawerParamList>;
+};
+
+const Account: React.FC<AccountProps> = ({ navigation }) => {
   const [userCustomer, contextDispatch] = useReducer(userReducer, userCustomerInitialState);
   const [validation, setValidation] = useState<AccountValidation>({} as AccountValidation);
   const user = useSelector(state => state.user);
   const [saving, setSaving] = useState(false);
   const dispatch = useDispatch();
   const messaging = useMessage();
-  const navigator = useNavigation();
+  const app = useApp();
+  const isFocused = useIsFocused();
+
+  useFocusEffect(() => {
+    if (!user) {
+      navigation.navigate('Login');
+      app.setRedirect('Account');
+    }
+  });
 
   useEffect(() => {
-    if (!user) navigator.navigate('Home');
-  }, [user, navigator]);
+    if (!user && isFocused) {
+      navigation.navigate('Login');
+      app.setRedirect('Account');
+    }
+  }, [user, isFocused, navigation, app]);
 
   useEffect(() => {
     if (!user) return;

@@ -14,7 +14,6 @@ const EmailStep: React.FC<EmailStepProps> = ({ email, setEmail, validation, hand
   const ref = useRef<TextInput>(null);
 
   useEffect(() => {
-    console.log(validation);
     if (!!validation && ref.current) ref.current.focus();
   }, [validation, ref]);
 

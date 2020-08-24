@@ -108,9 +108,6 @@ const Register: React.FC = () => {
           });
       })
       .catch((err: yup.ValidationError) => {
-        if (err instanceof yup.ValidationError) {
-          console.log(err);
-        }
         setValidation({
           [err.path]: err.message,
         });

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SignRoutes from './SignRoutes';
-import { NavigationContainer, LinkingOptions } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Home from '../pages/home/Home';
 import DrawerContent from '../components/drawer/DrawerContent';
@@ -13,7 +13,7 @@ import Checkout from '../pages/checkout/Checkout';
 import Orders from '../pages/orders/Orders';
 import Order from '../pages/orders/order/Order';
 import Products from '../pages/products/Products';
-import { baseUrl, appUrlPrefix } from '../constants/constants';
+import { linking } from './linking';
 
 type SignRouteOptions = 'Initial' | 'LoginEmail' | 'Register' | 'ForgotPassword';
 
@@ -36,35 +36,6 @@ const Drawer = createDrawerNavigator<RootDrawerParamList>();
 const Routes: React.FC = () => {
   const user = useSelector(state => state.user);
   const [isInitialRender, setIsInitialRender] = useState(true);
-
-  const linking: LinkingOptions = {
-    prefixes: [baseUrl, appUrlPrefix],
-    config: {
-      screens: {
-        Account: {
-          path: 'account',
-        },
-        Order: {
-          path: 'account/orders/:orderId',
-        },
-        Menu: {
-          path: 'menu',
-        },
-        Offers: {
-          path: 'offers',
-        },
-        Products: {
-          path: 'products/:url',
-        },
-        Cart: {
-          path: 'cart',
-        },
-        Checkout: {
-          path: 'checkout',
-        },
-      },
-    },
-  };
 
   useEffect(() => {
     setIsInitialRender(false);

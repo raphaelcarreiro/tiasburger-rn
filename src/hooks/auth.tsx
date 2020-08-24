@@ -5,6 +5,7 @@ import api from '../services/api';
 import storage from '@react-native-community/async-storage';
 import jwt from 'jwt-decode';
 import { User } from '../@types/user';
+import { useApp } from '../appContext';
 
 type Payload = {
   name: string;
@@ -151,7 +152,7 @@ const AuthProvider: React.FC = ({ children }) => {
           reject(new Error(err));
         });
     });
-  }, []);
+  }, [dispatch]);
 
   return (
     <AuthContext.Provider value={{ login, logout, isAuthenticated, data, verifyToken, checkEmail }}>
