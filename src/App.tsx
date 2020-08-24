@@ -129,14 +129,9 @@ const App: React.FC = () => {
   // set webscoket connection
   useEffect(() => {
     function getRestaurantState() {
-      api
-        .get('/restaurant/state')
-        .then(response => {
-          dispatch(setRestaurantIsOpen(response.data.is_open));
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      api.get('/restaurant/state').then(response => {
+        dispatch(setRestaurantIsOpen(response.data.is_open));
+      });
     }
 
     if (restaurant) {
@@ -149,7 +144,7 @@ const App: React.FC = () => {
 
       socket.on('reconnect', () => {
         socket.emit('register', restaurant.id);
-        getRestaurantState();
+        // getRestaurantState();
       });
     }
   }, [dispatch, restaurant]);

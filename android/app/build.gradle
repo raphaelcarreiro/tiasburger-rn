@@ -79,7 +79,7 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    enableHermes: false,  // clean and rebuild if changing
+    enableHermes: true,  // clean and rebuild if changing
     //hermesCommand: "../../node_modules/hermes-engine/win64-bin/hermesc",
 ]
 
@@ -131,8 +131,8 @@ android {
     }
 
     defaultConfig {
-        applicationId "delivery.topnfe"
-        // applicationId "com.deliveryclient"
+        //applicationId "delivery.topnfe"
+        applicationId "com.deliveryclient"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 3

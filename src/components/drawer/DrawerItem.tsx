@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
+    maxWidth: 160,
   },
   iconContainer: {
     width: 60,

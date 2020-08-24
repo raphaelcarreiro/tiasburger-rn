@@ -21,7 +21,7 @@ import {
   clearCard,
 } from '../../store/modules/order/actions';
 import { OrderShipment, CreatedOrder } from '../../@types/order';
-import api, { getCancelTokenSource } from '../../services/api';
+import api from '../../services/api';
 import { PaymentMethod } from '../../@types/paymentMethod';
 import Loading from '../../components/loading/Loading';
 import InsideLoading from '../../components/loading/InsideLoading';

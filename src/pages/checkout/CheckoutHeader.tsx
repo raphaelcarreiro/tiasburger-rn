@@ -28,7 +28,7 @@ const CheckoutHeader: React.FC<CheckoutHeaderProps> = ({ currentStep }) => {
           {currentStep?.order}
         </Typography>
       </StepBadge>
-      <Typography color="secondary">{currentStep?.description}</Typography>
+      <Typography>{currentStep?.description}</Typography>
     </View>
   );
 };

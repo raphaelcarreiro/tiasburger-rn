@@ -9,6 +9,7 @@ import { RootDrawerParamList } from '../../routes/Routes';
 import PromotionItem from './PromotionItem';
 import Header from './Header';
 import Promotions from './Promotions';
+import { Link } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
   info: {
@@ -33,11 +34,13 @@ const styles = StyleSheet.create({
   },
   footer: {
     position: 'absolute',
-    bottom: 15,
-    left: 15,
-    right: 15,
+    bottom: 0,
+    left: 0,
+    right: 0,
     flexDirection: 'row',
     justifyContent: 'center',
+    backgroundColor: '#fff',
+    padding: 10,
   },
   flatList: {
     paddingLeft: 10,

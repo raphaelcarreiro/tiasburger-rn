@@ -17,12 +17,14 @@ type ProductsProps = {
 const NewProducts: React.FC<ProductsProps> = ({ route, navigation }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [categoryName, setCategoryName] = useState('');
 
   const refresh = useCallback(() => {
     setLoading(true);
     api
       .get(`/categories/${route.params.url}`)
       .then(response => {
+        setCategoryName(response.data.name);
         let _products: Product[] = response.data.products;
         _products = _products.map(product => {
           return {
@@ -40,7 +42,7 @@ const NewProducts: React.FC<ProductsProps> = ({ route, navigation }) => {
 
   useEffect(() => {
     const onBlur = () => {
-      // console.log('product cleaned');
+      setCategoryName('');
     };
     navigation.addListener('blur', onBlur);
 
@@ -55,7 +57,12 @@ const NewProducts: React.FC<ProductsProps> = ({ route, navigation }) => {
 
   return (
     <>
-      <ProductList title={route.params.categoryName} products={products} refresh={refresh} loading={loading} />
+      <ProductList
+        title={categoryName || route.params.categoryName}
+        products={products}
+        refresh={refresh}
+        loading={loading}
+      />
     </>
   );
 };

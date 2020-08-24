@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     right: 0,
     flexDirection: 'row',
     height: 60,
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     borderTopWidth: 1,
     borderColor: '#eee',
     backgroundColor: '#fff',
@@ -40,11 +40,11 @@ const CheckoutButtons: React.FC<CheckoutButtonsProps> = ({ currentStep, stepsAmo
     <View style={styles.container}>
       <TouchableOpacity style={styles.button} onPress={handleStepPrior}>
         <Icon name="chevron-left" size={20} />
-        <Typography size={18}>Anterior</Typography>
+        <Typography>Anterior</Typography>
       </TouchableOpacity>
       {currentStep && currentStep.order < stepsAmount - 1 && (
         <TouchableOpacity style={styles.button} onPress={handleStepNext}>
-          <Typography size={18}>Próximo</Typography>
+          <Typography>Próximo</Typography>
           <Icon name="chevron-right" size={20} />
         </TouchableOpacity>
       )}
