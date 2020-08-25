@@ -84,7 +84,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ user, handleChange, validat
         onChange={event => handleChange('phone', event.nativeEvent.text)}
         autoCompleteType="tel"
         returnKeyType="next"
-        onSubmitEditing={() => inputRefs.phone.current?.focus()}
+        onSubmitEditing={() => inputRefs.email.current?.focus()}
         blurOnSubmit={false}
       />
       <Input

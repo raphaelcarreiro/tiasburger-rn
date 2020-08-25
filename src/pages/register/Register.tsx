@@ -101,9 +101,11 @@ const Register: React.FC = () => {
             if (err.response) {
               handleOpen(err.response.data.error);
               if (err.response.data.code === 'duplicated-phone') navigation.navigate('Login');
+              navigation.navigate('Login', { screen: 'LoginEmail', params: { email: user.phone.replace(/\D/g, '') } });
               // router.push(`/login/email?phone=${user.phone.replace(/\D/g, '')}`);
               if (err.response.data.code === 'duplicated-email') navigation.navigate('Login');
               // router.push(`/login/email?email=${user.email}`);
+              navigation.navigate('Login', { screen: 'LoginEmail', params: { email: user.email } });
             }
           });
       })

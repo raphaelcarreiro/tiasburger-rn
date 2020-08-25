@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Content } from './styles';
 import { Image, StyleSheet, View, Keyboard } from 'react-native';
 import { useSelector } from '../../store/selector';
@@ -10,7 +10,7 @@ import Loading from '../../components/loading/Loading';
 import * as yup from 'yup';
 import { useMessage } from '../../hooks/message';
 import { useAuth } from '../../hooks/auth';
-import { useNavigation, CompositeNavigationProp } from '@react-navigation/native';
+import { CompositeNavigationProp, RouteProp } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useApp } from '../../appContext';
 import { RootDrawerParamList } from '../../routes/Routes';
@@ -42,14 +42,22 @@ const styles = StyleSheet.create({
 interface Validation {
   email?: string;
   password?: string;
+  route?: LoginEmailScreenRoute;
 }
+
+type LoginEmailScreenRoute = RouteProp<SignRouteList, 'LoginEmail'>;
 
 type LoginEmailScreenProps = CompositeNavigationProp<
   StackNavigationProp<SignRouteList, 'ForgotPassword'>,
   DrawerNavigationProp<RootDrawerParamList>
 >;
 
-const LoginEmail: React.FC = () => {
+type LoginEmailProps = {
+  navigation: LoginEmailScreenProps;
+  route: LoginEmailScreenRoute;
+};
+
+const LoginEmail: React.FC<LoginEmailProps> = ({ navigation, route }) => {
   const restaurant = useSelector(state => state.restaurant);
   const [step, setStep] = useState('email');
   const [email, setEmail] = useState('');
@@ -60,8 +68,31 @@ const LoginEmail: React.FC = () => {
   const [keyboard, setKeyboard] = useState(false);
   const message = useMessage();
   const auth = useAuth();
-  const navigation = useNavigation<LoginEmailScreenProps>();
   const app = useApp();
+
+  const handleNextClick = useCallback(() => {
+    setLoading(true);
+
+    auth
+      .checkEmail(email)
+      .then(response => {
+        setName(response.name);
+        setStep('password');
+      })
+      .catch(err => {
+        message.handleOpen(err.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [auth, email, message]);
+
+  useEffect(() => {
+    if (!route.params.email) return;
+
+    setEmail(route.params.email);
+    // handleNextClick();
+  }, [route.params, handleNextClick]);
 
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', () => {
@@ -114,23 +145,6 @@ const LoginEmail: React.FC = () => {
         break;
       }
     }
-  }
-
-  function handleNextClick() {
-    setLoading(true);
-
-    auth
-      .checkEmail(email)
-      .then(response => {
-        setName(response.name);
-        setStep('password');
-      })
-      .catch(err => {
-        message.handleOpen(err.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
   }
 
   function handleLogin() {

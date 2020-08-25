@@ -8,7 +8,7 @@ import ForgotPassword from '../pages/forgot-password/ForgotPassword';
 
 export type SignRouteList = {
   Initial: undefined;
-  LoginEmail: undefined;
+  LoginEmail: { email?: string };
   Register: undefined;
   ForgotPassword: { email?: string };
 };

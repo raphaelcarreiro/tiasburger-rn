@@ -111,8 +111,8 @@ const Order: React.FC<OrderProps> = ({ route, navigation }) => {
   }, [loadOrder, route.params]);
 
   useEffect(() => {
-    if (!user) return;
-
+    // if (!user) return;
+    console.log('test');
     refresh();
   }, [refresh, user]);
 

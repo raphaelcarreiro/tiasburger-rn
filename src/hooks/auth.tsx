@@ -5,7 +5,6 @@ import api from '../services/api';
 import storage from '@react-native-community/async-storage';
 import jwt from 'jwt-decode';
 import { User } from '../@types/user';
-import { useApp } from '../appContext';
 
 type Payload = {
   name: string;
