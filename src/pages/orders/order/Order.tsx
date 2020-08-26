@@ -102,13 +102,14 @@ const Order: React.FC<OrderProps> = ({ route, navigation }) => {
   }, [setOrder, order]);
 
   const refresh = useCallback(() => {
+    if (!route.params) return;
     if (!route.params.orderId) return;
 
     setLoading(true);
     loadOrder(route.params.orderId).finally(() => {
       setLoading(false);
     });
-  }, [loadOrder, route.params]);
+  }, [loadOrder, route]);
 
   useEffect(() => {
     // if (!user) return;

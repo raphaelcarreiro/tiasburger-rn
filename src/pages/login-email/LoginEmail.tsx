@@ -42,7 +42,6 @@ const styles = StyleSheet.create({
 interface Validation {
   email?: string;
   password?: string;
-  route?: LoginEmailScreenRoute;
 }
 
 type LoginEmailScreenRoute = RouteProp<SignRouteList, 'LoginEmail'>;
@@ -88,11 +87,12 @@ const LoginEmail: React.FC<LoginEmailProps> = ({ navigation, route }) => {
   }, [auth, email, message]);
 
   useEffect(() => {
+    if (!route.params) return;
     if (!route.params.email) return;
 
     setEmail(route.params.email);
     // handleNextClick();
-  }, [route.params, handleNextClick]);
+  }, [route]);
 
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', () => {
