@@ -35,17 +35,6 @@ const Offers: React.FC<ProductsProps> = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    const onBlur = () => {
-      // console.log('product cleaned');
-    };
-    navigation.addListener('blur', onBlur);
-
-    return () => {
-      navigation.removeListener('blur', onBlur);
-    };
-  }, [navigation]);
-
-  useEffect(() => {
     refresh();
   }, [refresh]);
 

@@ -31,7 +31,7 @@ const Menu: React.FC = () => {
         if (request) setCategories(response.data);
       })
       .catch(err => {
-        if (err.response) console.log(err.response.data.error);
+        if (err.response) console.log('Menu categories loading', err.response.data.error);
       })
       .finally(() => {
         if (request) setLoading(false);

@@ -22,14 +22,16 @@ interface AuthContextData {
   verifyToken(): Promise<Payload | null>;
   checkEmail(email: string): Promise<User>;
   data: Payload | null;
+  isLoading: boolean;
 }
 
-const AuthContext = React.createContext({} as AuthContextData);
+const AuthContext = React.createContext<AuthContextData>({} as AuthContextData);
 
 const AuthProvider: React.FC = ({ children }) => {
   const dispatch = useDispatch();
   const [data, setData] = useState<Payload | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setIsAuthenticated(!!data);
@@ -63,11 +65,15 @@ const AuthProvider: React.FC = ({ children }) => {
               })
               .catch(err => {
                 if (err.response) console.log(err.response.data.error);
+              })
+              .finally(() => {
+                setIsLoading(false);
               });
           }
         } catch (e) {
-          console.log(e);
+          setIsLoading(false);
         }
+      else setIsLoading(false);
     }
 
     loadFromStorage();
@@ -94,7 +100,7 @@ const AuthProvider: React.FC = ({ children }) => {
               : null,
           };
       } catch (e) {
-        console.log(e);
+        console.log('error token decoding verify', e);
       }
     }
 
@@ -154,7 +160,7 @@ const AuthProvider: React.FC = ({ children }) => {
   }, [dispatch]);
 
   return (
-    <AuthContext.Provider value={{ login, logout, isAuthenticated, data, verifyToken, checkEmail }}>
+    <AuthContext.Provider value={{ login, logout, isAuthenticated, data, verifyToken, checkEmail, isLoading }}>
       {children}
     </AuthContext.Provider>
   );

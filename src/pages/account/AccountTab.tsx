@@ -3,9 +3,15 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { useTheme } from 'styled-components';
 import AccountForm from './form/AccountForm';
 import AccountAddresses from './address/Addresses';
+import Loading from '../../components/loading/Loading';
+
 const Tab = createMaterialTopTabNavigator();
 
-const AccountTab: React.FC = () => {
+type AccountTabProps = {
+  saving: boolean;
+};
+
+const AccountTab: React.FC<AccountTabProps> = ({ saving }) => {
   const theme = useTheme();
   return (
     <>
@@ -27,6 +33,7 @@ const AccountTab: React.FC = () => {
         <Tab.Screen name="Dados" component={AccountForm} />
         <Tab.Screen name="Endereços" component={AccountAddresses} />
       </Tab.Navigator>
+      {saving && <Loading />}
     </>
   );
 };

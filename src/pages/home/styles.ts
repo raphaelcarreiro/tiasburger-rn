@@ -4,14 +4,14 @@ interface RestaurantStatusProps {
   status: boolean;
 }
 
-export const ListItem = styled.View`
+export const ListItem = styled.TouchableOpacity`
   padding: 10px;
-  border-color: ${props => props.theme.primary};
+  border-color: #eee;
   border-width: 1px;
   margin-right: 10px;
   min-height: 80px;
   border-radius: 0px;
-  background-color: ${props => props.theme.primaryLight};
+  background-color: #f5f5f5;
 `;
 
 export const RestaurantStatus = styled.View<RestaurantStatusProps>`

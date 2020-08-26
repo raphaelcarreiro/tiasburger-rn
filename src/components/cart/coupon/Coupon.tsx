@@ -28,7 +28,7 @@ const Coupon: React.FC<CouponProps> = ({ open, handleClose }) => {
         handleClose();
       })
       .catch(err => {
-        if (err.response) console.log(err.response.data.error);
+        if (err.response) console.log('get coupons request', err.response.data.error);
         else Alert.alert('Falha', 'Não foi possível aplicar o cupom de desconto');
       })
       .finally(() => {

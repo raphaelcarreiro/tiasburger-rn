@@ -8,7 +8,7 @@ export const Container = styled.View`
   right: 0;
   align-items: center;
   justify-content: center;
-  flex: 1;
+  flex: 20;
   z-index: 30;
   background-color: rgba(250, 250, 250, 0.5);
 `;

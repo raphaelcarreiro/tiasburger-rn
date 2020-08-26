@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import SignRoutes from './SignRoutes';
+import AuthRoutes from './AuthRoutes';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Home from '../pages/home/Home';
@@ -14,6 +14,9 @@ import Orders from '../pages/orders/Orders';
 import Order from '../pages/orders/order/Order';
 import Products from '../pages/products/Products';
 import { linking } from './linking';
+import { useAuth } from '../hooks/auth';
+import Typography from '../components/bases/typography/Text';
+import InsideLoading from '../components/loading/InsideLoading';
 
 type SignRouteOptions = 'Initial' | 'LoginEmail' | 'Register' | 'ForgotPassword';
 
@@ -36,6 +39,7 @@ const Drawer = createDrawerNavigator<RootDrawerParamList>();
 const Routes: React.FC = () => {
   const user = useSelector(state => state.user);
   const [isInitialRender, setIsInitialRender] = useState(true);
+  const auth = useAuth();
 
   useEffect(() => {
     setIsInitialRender(false);
@@ -43,23 +47,23 @@ const Routes: React.FC = () => {
 
   return (
     <NavigationContainer linking={linking}>
-      <Drawer.Navigator
-        initialRouteName="Home"
-        drawerStyle={{ width: isInitialRender ? undefined : 270 }}
-        drawerContent={props => <DrawerContent {...props} />}
-      >
-        <Drawer.Screen name="Home" component={Home} />
-        <Drawer.Screen name="Offers" component={Offers} />
-        <Drawer.Screen name="Menu" component={Menu} />
-        <Drawer.Screen name="Products" component={Products} />
-        <Drawer.Screen name="Cart" component={Cart} />
-        <Drawer.Screen name="Contact" component={Home} />
-        {!user && <Drawer.Screen name="Login" options={{ title: 'Entrar' }} component={SignRoutes} />}
-        <Drawer.Screen name="Orders" component={Orders} />
-        <Drawer.Screen name="Order" component={Order} />
-        <Drawer.Screen name="Account" component={Account} />
-        <Drawer.Screen name="Checkout" component={Checkout} />
-      </Drawer.Navigator>
+      {auth.isLoading ? (
+        <InsideLoading />
+      ) : (
+        <Drawer.Navigator initialRouteName="Home" drawerContent={props => <DrawerContent {...props} />}>
+          <Drawer.Screen name="Home" component={Home} />
+          <Drawer.Screen name="Offers" component={Offers} />
+          <Drawer.Screen name="Menu" component={Menu} />
+          <Drawer.Screen name="Products" component={Products} />
+          <Drawer.Screen name="Cart" component={Cart} />
+          <Drawer.Screen name="Contact" component={Home} />
+          {!user && <Drawer.Screen name="Login" options={{ title: 'Entrar' }} component={AuthRoutes} />}
+          <Drawer.Screen name="Checkout" component={Checkout} />
+          <Drawer.Screen name="Account" component={Account} />
+          <Drawer.Screen name="Orders" component={Orders} />
+          <Drawer.Screen name="Order" component={Order} />
+        </Drawer.Navigator>
+      )}
     </NavigationContainer>
   );
 };

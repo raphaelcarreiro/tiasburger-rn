@@ -77,8 +77,8 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
   const restaurant = useSelector(state => state.restaurant);
   const app = useApp();
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
-  const [step, setStep] = useState(1);
-  const [saving, setSaving] = useState(false);
+  const [step, setStep] = useState(4);
+  const [saving, setSaving] = useState(true);
   const [createdOrder, setCreatedOrder] = useState<CreatedOrder | null>(null);
   const [steps, setSteps] = useState<StepType[]>(defaultSteps);
   const [isCardValid, setIsCardValid] = useState(false);
@@ -117,7 +117,7 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
         if (offline) dispatch(setPaymentMethod(response.data[0]));
       })
       .catch(err => {
-        if (err.response) console.log(err.response.data.error);
+        if (err.response) console.log('checkout loading order payments', err.response.data.error);
       });
   }, [dispatch]);
 
@@ -335,8 +335,6 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
               keyboardShouldPersistTaps="handled"
               contentContainerStyle={stylesForShipmentMethodStep()}
             >
-              {saving && <Loading />}
-
               <CheckoutHeader currentStep={currentStep} />
               {currentStep?.id === 'STEP_SHIPMENT_METHOD' ? (
                 <ShipmentMethod />
@@ -354,6 +352,7 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
           </View>
         </CheckoutContext.Provider>
       )}
+      {saving && <Loading />}
     </>
   );
 };

@@ -75,7 +75,7 @@ const Shipment: React.FC = () => {
         }
       })
       .catch(err => {
-        if (err.response) console.log(err.response.data.error);
+        if (err.response) console.log('customer address delete', err.response.data.error);
       })
       .finally(() => {
         setSaving(false);

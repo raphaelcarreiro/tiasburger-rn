@@ -40,6 +40,7 @@ export interface Promotion {
   name: string;
   description: string;
   valid_at: string;
+  formattedValidAt: string;
   type: string;
   activated: boolean;
   categories: PromotionCategory[];

@@ -15,7 +15,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { useApp } from '../../appContext';
 import { RootDrawerParamList } from '../../routes/Routes';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { SignRouteList } from '../../routes/SignRoutes';
+import { SignRouteList } from '../../routes/AuthRoutes';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const styles = StyleSheet.create({

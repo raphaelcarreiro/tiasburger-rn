@@ -90,7 +90,7 @@ const PaymentCpf: React.FC<PaymentCpfProps> = ({ open, handleClose }) => {
       })
       .catch(err => {
         setSaving(false);
-        if (err.response) console.log(err.response.data.error);
+        if (err.response) console.log('checkout - customer cpf update', err.response.data.error);
       });
   }
 

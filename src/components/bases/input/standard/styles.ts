@@ -1,5 +1,6 @@
 // import styled, { css } from 'styled-components/native';
 import styled, { css } from 'styled-components/native';
+import { Animated } from 'react-native';
 
 interface InputProps {
   fullWidth?: boolean;
@@ -71,10 +72,9 @@ export const HelperText = styled.Text<InputProps>`
     `}
 `;
 
-export const TextLabel = styled.Text<InputProps>`
+export const TextLabel = styled(Animated.Text)<InputProps>`
   position: absolute;
   font-size: 12px;
-  top: 10px;
   font-family: 'sans-serif-light';
   color: #222;
 

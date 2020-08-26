@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, StatusBar, StyleSheet, Platform, Alert } from 'react-native';
+import { View, StatusBar, StyleSheet, Platform } from 'react-native';
 import Routes from './routes/Routes';
 import api from './services/api';
 import { useDispatch } from 'react-redux';
@@ -19,6 +19,9 @@ import io from 'socket.io-client';
 import SplashScreen from 'react-native-splash-screen';
 import firebaseMessaging from '@react-native-firebase/messaging';
 import { useMessage } from './hooks/message';
+import { Promotion } from './@types/promotion';
+import { parseISO, format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 const styles = StyleSheet.create({
   container: {
@@ -50,7 +53,7 @@ const App: React.FC = () => {
         };
 
         api.post('/pushTokens', param).catch(err => {
-          console.log(err);
+          console.log('pushTokens', err);
         });
       });
   }, []);
@@ -85,7 +88,12 @@ const App: React.FC = () => {
   useEffect(() => {
     async function loadPromotions() {
       const response = await api.get('/promotions');
-      dispatch(setPromotions(response.data));
+      const promotions: Promotion[] = response.data.map((promotion: Promotion) => {
+        if (promotion.valid_at)
+          promotion.formattedValidAt = format(parseISO(promotion.valid_at), "PP 'às' p", { locale: ptBR });
+        return promotion;
+      });
+      dispatch(setPromotions(promotions));
     }
 
     api
@@ -116,7 +124,7 @@ const App: React.FC = () => {
         SplashScreen.hide();
       })
       .catch(err => {
-        console.log(err);
+        console.log('restaurant loading', err);
       });
   }, [dispatch]);
 

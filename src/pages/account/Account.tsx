@@ -143,9 +143,8 @@ const Account: React.FC<AccountProps> = ({ navigation }) => {
         showBackAction={userCustomer.isImageSelected}
         actions={<AccountActions handleSubmit={handleValidation} />}
       />
-      {saving && <Loading />}
       <Container>
-        <AccountTab />
+        <AccountTab saving={saving} />
       </Container>
     </AccountContext.Provider>
   );

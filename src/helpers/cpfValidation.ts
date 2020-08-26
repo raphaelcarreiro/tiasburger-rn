@@ -2,6 +2,8 @@ export function cpfValidation(cpf: string): boolean {
   let sum = 0;
   let rest;
 
+  if (cpf.length > 11) return false;
+
   if (
     cpf === '00000000000' ||
     cpf === '11111111111' ||

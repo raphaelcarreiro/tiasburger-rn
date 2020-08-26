@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import Typography from '../../components/bases/typography/Text';
 import { RouteProp } from '@react-navigation/native';
-import { SignRouteList } from '../../routes/SignRoutes';
+import { SignRouteList } from '../../routes/AuthRoutes';
 import { StyleSheet, View, TextInput } from 'react-native';
 import Input from '../../components/bases/input/Input';
 import Button from '../../components/bases/button/Button';
