@@ -5,7 +5,7 @@ import CartComponent from '../../components/cart/Cart';
 const Cart: React.FC = () => {
   return (
     <>
-      <AppBar title="Carrinho" />
+      <AppBar title="carrinho" />
       <CartComponent />
     </>
   );

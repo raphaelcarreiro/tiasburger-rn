@@ -32,6 +32,11 @@ interface RestaurantAddress {
   is_main: boolean;
 }
 
+interface RestaurantPhones {
+  id: number;
+  phone: string;
+}
+
 export interface Restaurant {
   id: number;
   is_open: boolean;
@@ -59,4 +64,5 @@ export interface Restaurant {
   configs: RestaurantConfig;
   delivery_max_distance: number;
   addresses: RestaurantAddress[];
+  phones: RestaurantPhones[];
 }

@@ -38,9 +38,10 @@ type ProductsProps = {
   refresh(): void;
   loading: boolean;
   title: string;
+  isOffer?: boolean;
 };
 
-const ProductList: React.FC<ProductsProps> = ({ products, refresh, loading, title }) => {
+const ProductList: React.FC<ProductsProps> = ({ products, refresh, loading, title, isOffer = false }) => {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isSearching, setIsSearching] = useState(false);
@@ -126,7 +127,7 @@ const ProductList: React.FC<ProductsProps> = ({ products, refresh, loading, titl
           />
         }
         title={isSearching ? undefined : title}
-        showBackAction={title !== 'Ofertas' || isSearching}
+        showBackAction={!isOffer || isSearching}
         backAction={() => (isSearching ? handleCloseSearchBox() : navigation.navigate('Menu'))}
       />
 

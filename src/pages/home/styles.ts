@@ -18,11 +18,11 @@ export const RestaurantStatus = styled.View<RestaurantStatusProps>`
   width: 20px;
   height: 20px;
   border-radius: 10px;
-  background-color: green;
+  background-color: transparent;
   border-color: white;
   margin-right: 7px;
 
   ${({ status }) => css`
-    background-color: ${status ? 'green' : 'red'};
+    background-color: ${status ? '#28a745' : '#dc3545'};
   `}
 `;

@@ -9,6 +9,7 @@ import { RootDrawerParamList } from '../../routes/Routes';
 import Header from './Header';
 import Promotions from './Promotions';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { RestaurantStatus } from './styles';
 
 const styles = StyleSheet.create({
   info: {
@@ -37,14 +38,22 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#fff',
     padding: 10,
+    borderColor: '#f5f5f5',
+    borderTopWidth: 1,
   },
   flatList: {
     paddingLeft: 10,
     paddingRight: 10,
+  },
+  status: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 5,
   },
 });
 
@@ -58,7 +67,7 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <AppBar title="Início" />
+      <AppBar title="início" />
       <ScrollView>
         <Header />
         {restaurant && (
@@ -83,6 +92,12 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
         )}
       </ScrollView>
       <View style={styles.footer}>
+        {restaurant && (
+          <View style={styles.status}>
+            <RestaurantStatus status={restaurant.is_open} />
+            <Typography size={14}>{restaurant.is_open ? 'Aberto' : 'Fechado'}</Typography>
+          </View>
+        )}
         <Typography align="center" size={14} variant="caption">
           {restaurant?.working_hours}
         </Typography>

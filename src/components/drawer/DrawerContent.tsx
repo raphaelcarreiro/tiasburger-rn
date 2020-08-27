@@ -10,6 +10,8 @@ import { useAuth } from '../../hooks/auth';
 import Item from './DrawerItem';
 import Avatar from '../avatar/Avatar';
 import { useApp } from '../../appContext';
+import Typography from '../bases/typography/Text';
+import Button from '../bases/button/Button';
 
 const styles = StyleSheet.create({
   label: {
@@ -50,28 +52,28 @@ const Drawer: React.FC<DrawerContentComponentProps> = props => {
       </DrawerHeader>
       <View style={styles.items}>
         <Item
-          label="Início"
+          label="início"
           Icon={<Icon name="home" color={theme.secondaryContrast} size={SIZE_ICON} />}
           onPress={() => navigation.navigate('Home')}
         />
         <Item
           Icon={<Icon color={theme.secondaryContrast} size={SIZE_ICON} name="local-offer" />}
-          label="Ofertas"
+          label="ofertas"
           onPress={() => navigation.navigate('Offers')}
         />
         <Item
           Icon={<Icon color={theme.secondaryContrast} size={SIZE_ICON} name="book" />}
-          label="Cardápio"
+          label="cardápio"
           onPress={() => navigation.navigate('Menu')}
         />
         <Item
           Icon={<Icon color={theme.secondaryContrast} size={SIZE_ICON} name="shopping-cart" />}
-          label="Carrinho"
+          label="carrinho"
           onPress={() => navigation.navigate('Cart')}
         />
         <Item
           Icon={<Icon color={theme.secondaryContrast} size={SIZE_ICON} name="contact-phone" />}
-          label="Contato"
+          label="fala comigo"
           onPress={() => navigation.navigate('Contact')}
         />
         {user ? (
@@ -99,17 +101,25 @@ const Drawer: React.FC<DrawerContentComponentProps> = props => {
             />
             <Item
               Icon={<McIcon color={theme.primary} size={SIZE_ICON} name="application-export" />}
-              label="Sair"
+              label="sair"
               onPress={handleLogout}
             />
           </>
         ) : (
           <Item
             Icon={<McIcon size={SIZE_ICON} color={theme.secondaryContrast} name="application-import" />}
-            label="Entrar"
+            label="entrar"
             onPress={() => navigation.navigate('Login')}
           />
         )}
+      </View>
+      <View style={{ paddingTop: 30, paddingLeft: 15, alignItems: 'flex-start' }}>
+        <Typography color="contrast" size={14}>
+          Quer ter um app como esse?
+        </Typography>
+        <Button disableUpperCase disablePadding variant="text" color="primary">
+          Entrar em contato
+        </Button>
       </View>
     </ScrollView>
   );

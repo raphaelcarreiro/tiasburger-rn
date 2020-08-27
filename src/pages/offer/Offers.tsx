@@ -40,7 +40,7 @@ const Offers: React.FC<ProductsProps> = ({ navigation }) => {
 
   return (
     <>
-      <ProductList title="Ofertas" products={products} refresh={refresh} loading={loading} />
+      <ProductList isOffer title="ofertas" products={products} refresh={refresh} loading={loading} />
     </>
   );
 };

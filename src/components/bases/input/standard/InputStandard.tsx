@@ -41,16 +41,26 @@ const InputStandard: React.ForwardRefRenderFunction<InputRef, InputProps> = (
   const theme = useTheme();
 
   useEffect(() => {
-    if ((isFocused || isFilled) && label)
+    if (isFilled) {
       Animated.timing(animatedValue, {
-        duration: 300,
+        duration: 0,
         toValue: 10,
         useNativeDriver: false,
       }).start();
 
-    if (!isFocused && !isFilled)
+      return;
+    }
+
+    if (isFocused && label)
       Animated.timing(animatedValue, {
-        duration: 300,
+        duration: 200,
+        toValue: 10,
+        useNativeDriver: false,
+      }).start();
+
+    if (!isFocused)
+      Animated.timing(animatedValue, {
+        duration: 200,
         toValue: 33,
         useNativeDriver: false,
       }).start();

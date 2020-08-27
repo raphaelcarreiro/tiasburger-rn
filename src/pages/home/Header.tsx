@@ -50,15 +50,6 @@ const styles = StyleSheet.create({
   descriptionColor: {
     color: '#fff',
   },
-  status: {
-    position: 'absolute',
-    bottom: 20,
-    left: 20,
-    zIndex: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
 });
 
 const Header: React.FC = () => {
@@ -76,12 +67,6 @@ const Header: React.FC = () => {
             </Typography>
             <Typography gutterBottom size={16} style={styles.descriptionColor}>
               {restaurant.description}
-            </Typography>
-          </View>
-          <View style={styles.status}>
-            <RestaurantStatus status={restaurant.is_open} />
-            <Typography style={styles.descriptionColor} bold>
-              {restaurant.is_open ? 'Aberto' : 'Fechado'}
             </Typography>
           </View>
           <View style={styles.logoWrapper}>

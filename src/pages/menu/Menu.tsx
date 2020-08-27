@@ -45,7 +45,7 @@ const Menu: React.FC = () => {
 
   return (
     <>
-      <AppBar title="Cardápio" actions={<MenuActions />} />
+      <AppBar title="cardápio" actions={<MenuActions />} />
       <Container>
         <FlatList
           contentContainerStyle={styles.flatList}
