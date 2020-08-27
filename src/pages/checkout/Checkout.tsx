@@ -77,8 +77,8 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
   const restaurant = useSelector(state => state.restaurant);
   const app = useApp();
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
-  const [step, setStep] = useState(4);
-  const [saving, setSaving] = useState(true);
+  const [step, setStep] = useState(1);
+  const [saving, setSaving] = useState(false);
   const [createdOrder, setCreatedOrder] = useState<CreatedOrder | null>(null);
   const [steps, setSteps] = useState<StepType[]>(defaultSteps);
   const [isCardValid, setIsCardValid] = useState(false);

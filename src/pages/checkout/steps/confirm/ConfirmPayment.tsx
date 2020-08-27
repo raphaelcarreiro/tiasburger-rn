@@ -2,8 +2,10 @@ import React from 'react';
 import Typography from '../../../../components/bases/typography/Text';
 import { StyleSheet, View } from 'react-native';
 import { useSelector } from '../../../../store/selector';
-import Button from '../../../../components/bases/button/Button';
 import { useCheckout } from '../../checkoutContext';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useTheme } from 'styled-components';
+import IconButton from '../../../../components/bases/icon-button/IconButton';
 
 const styles = StyleSheet.create({
   section: {
@@ -12,7 +14,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     paddingTop: 10,
-    paddingBottom: 5,
+    paddingBottom: 20,
   },
   deliveryTime: {
     marginTop: 7,
@@ -20,6 +22,9 @@ const styles = StyleSheet.create({
   actions: {
     marginTop: 5,
     alignItems: 'flex-end',
+    position: 'absolute',
+    top: 0,
+    right: 0,
   },
 });
 
@@ -54,15 +59,10 @@ const ConfirmPayment: React.FC = () => {
           </Typography>
         )}
         <View style={styles.actions}>
-          <Button
-            style={{ width: 60 }}
-            disablePadding
-            variant="text"
-            color="primary"
+          <IconButton
             onPress={() => handleSetStepById('STEP_PAYMENT')}
-          >
-            Alterar
-          </Button>
+            Icon={<Icon color="#666" name="edit" size={24} />}
+          />
         </View>
       </View>
     </>

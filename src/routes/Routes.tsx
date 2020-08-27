@@ -15,8 +15,8 @@ import Order from '../pages/orders/order/Order';
 import Products from '../pages/products/Products';
 import { linking } from './linking';
 import { useAuth } from '../hooks/auth';
-import Typography from '../components/bases/typography/Text';
 import InsideLoading from '../components/loading/InsideLoading';
+import Contact from '../pages/contact/Contact';
 
 type SignRouteOptions = 'Initial' | 'LoginEmail' | 'Register' | 'ForgotPassword';
 
@@ -56,7 +56,7 @@ const Routes: React.FC = () => {
           <Drawer.Screen name="Menu" component={Menu} />
           <Drawer.Screen name="Products" component={Products} />
           <Drawer.Screen name="Cart" component={Cart} />
-          <Drawer.Screen name="Contact" component={Home} />
+          <Drawer.Screen name="Contact" component={Contact} />
           {!user && <Drawer.Screen name="Login" options={{ title: 'Entrar' }} component={AuthRoutes} />}
           <Drawer.Screen name="Checkout" component={Checkout} />
           <Drawer.Screen name="Account" component={Account} />

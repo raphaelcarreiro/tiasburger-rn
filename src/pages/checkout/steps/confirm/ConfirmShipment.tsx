@@ -2,8 +2,9 @@ import React, { useMemo } from 'react';
 import Typography from '../../../../components/bases/typography/Text';
 import { StyleSheet, View } from 'react-native';
 import { useSelector } from '../../../../store/selector';
-import Button from '../../../../components/bases/button/Button';
 import { useCheckout } from '../../checkoutContext';
+import IconButton from '../../../../components/bases/icon-button/IconButton';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const styles = StyleSheet.create({
   section: {
@@ -12,7 +13,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     paddingTop: 10,
-    paddingBottom: 0,
+    paddingBottom: 20,
   },
   deliveryTime: {
     marginTop: 7,
@@ -20,6 +21,9 @@ const styles = StyleSheet.create({
   actions: {
     marginTop: 5,
     alignItems: 'flex-end',
+    position: 'absolute',
+    top: 0,
+    right: 0,
   },
   button: {
     width: 60,
@@ -58,15 +62,7 @@ const ConfirmShipment: React.FC = () => {
             </View>
           )}
           <View style={styles.actions}>
-            <Button
-              variant="text"
-              color="primary"
-              onPress={() => handleSetStep(1)}
-              style={styles.button}
-              disablePadding
-            >
-              Alterar
-            </Button>
+            <IconButton onPress={() => handleSetStep(1)} Icon={<Icon color="#666" name="edit" size={24} />} />
           </View>
         </View>
       ) : (
@@ -87,15 +83,7 @@ const ConfirmShipment: React.FC = () => {
             </View>
           )}
           <View style={styles.actions}>
-            <Button
-              style={styles.button}
-              disablePadding
-              variant="text"
-              color="primary"
-              onPress={() => handleSetStep(1)}
-            >
-              Alterar
-            </Button>
+            <IconButton onPress={() => handleSetStep(1)} Icon={<Icon color="#666" name="edit" size={24} />} />
           </View>
         </View>
       )}

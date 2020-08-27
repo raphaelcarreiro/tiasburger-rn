@@ -1,6 +1,7 @@
 import React, { useState, useCallback, ReactElement, useEffect, forwardRef, useRef } from 'react';
 import { Input as StyledInput, Container, IconContainer, HelperText, InputContainer, TextLabel } from './styles';
 import { TextInputProps, StyleProp, ViewStyle, Animated } from 'react-native';
+import { useTheme } from 'styled-components';
 
 interface InputProps extends TextInputProps {
   fullWidth?: boolean;
@@ -36,13 +37,21 @@ const InputStandard: React.ForwardRefRenderFunction<InputRef, InputProps> = (
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
   const [placeholderFocused, setPlaceholderFocused] = useState<string | undefined>('');
-  const animatedValue = useRef(new Animated.Value(30)).current;
+  const animatedValue = useRef(new Animated.Value(33)).current;
+  const theme = useTheme();
 
   useEffect(() => {
     if ((isFocused || isFilled) && label)
       Animated.timing(animatedValue, {
-        duration: 1000,
+        duration: 300,
         toValue: 10,
+        useNativeDriver: false,
+      }).start();
+
+    if (!isFocused && !isFilled)
+      Animated.timing(animatedValue, {
+        duration: 300,
+        toValue: 33,
         useNativeDriver: false,
       }).start();
   }, [isFocused, isFilled, label, animatedValue]);
@@ -68,11 +77,26 @@ const InputStandard: React.ForwardRefRenderFunction<InputRef, InputProps> = (
 
   return (
     <Container style={mainContainerStyle}>
-      {(isFocused || isFilled) && label && (
-        <TextLabel style={{ top: animatedValue, backfaceVisibility: 'hidden' }} isFocused={isFocused}>
-          {label}
-        </TextLabel>
-      )}
+      <TextLabel
+        style={{
+          top: animatedValue,
+          fontSize: animatedValue.interpolate({
+            inputRange: [10, 30],
+            outputRange: [12, 16],
+          }),
+          color: animatedValue.interpolate({
+            inputRange: [10, 30],
+            outputRange: [theme.primary, '#999'],
+          }),
+          opacity: animatedValue.interpolate({
+            inputRange: [10, 30],
+            outputRange: [1, 0],
+          }),
+        }}
+        isFocused={isFocused}
+      >
+        {label}
+      </TextLabel>
       <InputContainer
         style={containerStyle}
         fullWidth={fullWidth}

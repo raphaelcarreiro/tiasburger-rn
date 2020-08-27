@@ -74,9 +74,7 @@ export const HelperText = styled.Text<InputProps>`
 
 export const TextLabel = styled(Animated.Text)<InputProps>`
   position: absolute;
-  font-size: 12px;
   font-family: 'sans-serif-light';
-  color: #222;
 
   ${({ isFocused, theme }) =>
     isFocused &&
