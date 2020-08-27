@@ -76,7 +76,7 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
             {promotions.length > 0 && <Promotions />}
             <View style={styles.main}>
               <Button color="primary" variant="text" onPress={() => navigation.navigate('Menu')}>
-                Acessar Cardápio Code!
+                Acessar Cardápio
               </Button>
             </View>
           </>
