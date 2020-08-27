@@ -73,6 +73,7 @@ export function useLoadOrder(): useLoadOrderType {
       });
     } catch (err) {
       setError(true);
+      setOrder(null);
     }
   }, []);
   return [order, loadOrder, error, setOrder];

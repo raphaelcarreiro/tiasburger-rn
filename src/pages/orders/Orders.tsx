@@ -100,7 +100,7 @@ const Orders: React.FC<OrderProps> = ({ navigation }) => {
   }
   return (
     <>
-      <AppBar title="Meus pedidos" />
+      <AppBar title="meus pedidos" />
       <View style={styles.container}>
         <FlatList
           contentContainerStyle={orders.length === 0 ? styles.flatListEmpty : styles.scroll}

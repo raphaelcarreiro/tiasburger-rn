@@ -80,7 +80,7 @@ const Drawer: React.FC<DrawerContentComponentProps> = props => {
           <>
             <Item
               Icon={<Icon color={theme.secondaryContrast} size={SIZE_ICON} name="assignment" />}
-              label="Meus pedidos"
+              label="meus pedidos"
               onPress={() => navigation.navigate('Orders')}
             />
 

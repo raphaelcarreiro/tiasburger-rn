@@ -316,7 +316,7 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
           <Cart />
         </Modal>
       )}
-      {restaurant && !restaurant.is_open && (
+      {restaurant && !restaurant.is_open && isFocused && (
         <Dialog open={true} handleClose={() => navigation.navigate('Menu')}>
           <RestaurantClosed />
         </Dialog>

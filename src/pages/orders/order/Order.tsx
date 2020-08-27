@@ -1,8 +1,7 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { RouteProp, useFocusEffect, useIsFocused } from '@react-navigation/native';
 import { RootDrawerParamList } from '../../../routes/Routes';
-import { useMessage } from '../../../hooks/message';
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView, View } from 'react-native';
 import AppBar from '../../../components/appbar/Appbar';
 import InsideLoading from '../../../components/loading/InsideLoading';
 import OrderActions from './OrderActions';
@@ -21,6 +20,7 @@ import OrderProducts from './products/OrderProducts';
 import { useSelector } from '../../../store/selector';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { useApp } from '../../../appContext';
+import Typography from '../../../components/bases/typography/Text';
 
 type OrderScreenRouteProp = RouteProp<RootDrawerParamList, 'Order'>;
 
@@ -46,12 +46,16 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 56,
   },
+  error: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 const Order: React.FC<OrderProps> = ({ route, navigation }) => {
   const [order, loadOrder, error, setOrder] = useLoadOrder();
   const [loading, setLoading] = useState(true);
-  const messaging = useMessage();
   const user = useSelector(state => state.user);
   const app = useApp();
   const isFocused = useIsFocused();
@@ -69,10 +73,6 @@ const Order: React.FC<OrderProps> = ({ route, navigation }) => {
       app.setRedirect('Order');
     }
   }, [user, isFocused, navigation, app]);
-
-  useEffect(() => {
-    if (error) messaging.handleOpen('Não foi possível carregar o pedido');
-  }, [error, messaging]);
 
   useEffect(() => {
     const socket = io.connect(socketBaseUrl + '/client');
@@ -119,14 +119,14 @@ const Order: React.FC<OrderProps> = ({ route, navigation }) => {
   return (
     <>
       <AppBar
-        title={order ? `Pedido ${order.formattedId}` : 'Pedido'}
+        title={order ? `pedido ${order.formattedId}` : 'pedido'}
         actions={<OrderActions loadOrder={refresh} loading={loading} />}
       />
       {loading ? (
         <InsideLoading />
       ) : (
         <>
-          {order && (
+          {order && !error ? (
             <ScrollView style={styles.scrollView} contentContainerStyle={styles.container}>
               <OrderStatus orderStatus={order.order_status} />
               <OrderShipment shipment={order.shipment} />
@@ -134,6 +134,12 @@ const Order: React.FC<OrderProps> = ({ route, navigation }) => {
               <OrderProducts products={order.products} />
               <OrderTotal order={order} />
             </ScrollView>
+          ) : (
+            error && (
+              <View style={styles.error}>
+                <Typography variant="caption">Não foi possível carregar o pedido.</Typography>
+              </View>
+            )
           )}
         </>
       )}

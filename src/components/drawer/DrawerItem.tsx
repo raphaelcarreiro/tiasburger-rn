@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
     paddingLeft: 25,
     paddingBottom: 10,
     paddingTop: 13,
+    position: 'relative',
   },
   label: {
     fontSize: 16,
@@ -37,7 +38,7 @@ const DrawerItem: React.FC<DrawerItemProps> = ({ label, Icon, ...rest }) => {
         <>
           <View style={styles.iconContainer}>{Icon}</View>
           <Typography style={[styles.label, { color: secondaryContrast }]}>{label}</Typography>
-          {label === 'Carrinho' && products.length > 0 && (
+          {label === 'carrinho' && products.length > 0 && (
             <CartBadge>
               <Typography size={12} bold color="contrast">
                 {products.length}
