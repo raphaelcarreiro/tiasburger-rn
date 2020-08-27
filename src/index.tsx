@@ -6,6 +6,7 @@ import App from './App';
 import Theme from './hooks/theme';
 import MessageProvider from './hooks/message';
 import AuthProvider from './hooks/auth';
+import codePush from 'react-native-code-push';
 
 if (__DEV__) {
   import('./config/reactotron').then(() => console.log('Reactotron Configured'));
@@ -25,4 +26,4 @@ const Index: React.FC = () => {
   );
 };
 
-export default Index;
+export default codePush({ checkFrequency: codePush.CheckFrequency.ON_APP_RESUME })(Index);
