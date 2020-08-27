@@ -7,7 +7,7 @@ import Button from '../../components/bases/button/Button';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { RootDrawerParamList } from '../../routes/Routes';
 import Header from './Header';
-import Promotions from './Promotions';
+import Promotions from './promotions/Promotions';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { RestaurantStatus } from './styles';
 
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#fff',
     padding: 10,
-    borderColor: '#f5f5f5',
+    borderColor: '#fafafa',
     borderTopWidth: 1,
   },
   flatList: {
@@ -82,12 +82,19 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
                 <Typography variant="caption">{restaurant.configs.formattedOrderMinimumValue} mínimo</Typography>
               )}
             </View>
-            {promotions.length > 0 && <Promotions />}
-            <View style={styles.main}>
-              <Button color="primary" variant="text" onPress={() => navigation.navigate('Menu')}>
-                Acessar Cardápio
-              </Button>
-            </View>
+            {promotions.length > 0 ? (
+              <Promotions />
+            ) : (
+              <View style={styles.main}>
+                <Button
+                  color="primary"
+                  variant={promotions.length > 0 ? 'text' : 'contained'}
+                  onPress={() => navigation.navigate('Menu')}
+                >
+                  Acessar Cardápio
+                </Button>
+              </View>
+            )}
           </>
         )}
       </ScrollView>
@@ -95,7 +102,9 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
         {restaurant && (
           <View style={styles.status}>
             <RestaurantStatus status={restaurant.is_open} />
-            <Typography size={14}>{restaurant.is_open ? 'Aberto' : 'Fechado'}</Typography>
+            <Typography bold size={14}>
+              {restaurant.is_open ? 'Aberto' : 'Fechado'}
+            </Typography>
           </View>
         )}
         <Typography align="center" size={14} variant="caption">

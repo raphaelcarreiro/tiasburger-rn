@@ -28,7 +28,7 @@ const Contact: React.FC = () => {
 
   function handleOpenWhatsApp(phoneNumber: string) {
     Linking.canOpenURL('whatsapp://send/app').then(enabled => {
-      if (enabled) Linking.openURL(`whatsapp://send/${phoneNumber.replace(/\D/g, '')}`);
+      if (enabled) Linking.openURL(`https://wa.me/55${phoneNumber.replace(/\D/g, '')}`);
     });
   }
 

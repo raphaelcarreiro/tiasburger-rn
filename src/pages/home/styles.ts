@@ -7,11 +7,10 @@ interface RestaurantStatusProps {
 export const ListItem = styled.TouchableOpacity`
   padding: 10px;
   border-color: #eee;
-  border-width: 1px;
+  border-width: 0px;
   margin-right: 10px;
-  min-height: 80px;
-  border-radius: 0px;
-  background-color: #f5f5f5;
+  min-height: 60px;
+  background-color: #fff;
 `;
 
 export const RestaurantStatus = styled.View<RestaurantStatusProps>`

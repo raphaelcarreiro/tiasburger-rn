@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
-import Typography from '../../components/bases/typography/Text';
-import { useSelector } from '../../store/selector';
+import Typography from '../../../components/bases/typography/Text';
+import { useSelector } from '../../../store/selector';
 import PromotionItem from './PromotionItem';
 import PromotionView from './PromotionView';
-import { Promotion } from '../../@types/promotion';
+import { Promotion } from '../../../@types/promotion';
 
 const styles = StyleSheet.create({
   promotions: {

@@ -119,7 +119,7 @@ const Order: React.FC<OrderProps> = ({ route, navigation }) => {
   return (
     <>
       <AppBar
-        title={order ? `pedido ${order.formattedId}` : 'pedido'}
+        title={order ? `pedido ${order.formattedId}` : 'carregando...'}
         actions={<OrderActions loadOrder={refresh} loading={loading} />}
       />
       {loading ? (
