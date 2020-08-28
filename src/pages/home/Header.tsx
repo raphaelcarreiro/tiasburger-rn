@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from '../../store/selector';
 import { View, Image, Dimensions, StyleSheet } from 'react-native';
-import { RestaurantStatus } from './styles';
 import Typography from '../../components/bases/typography/Text';
 
 const imageHeight = Dimensions.get('screen').height * 0.4;

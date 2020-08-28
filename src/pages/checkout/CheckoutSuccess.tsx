@@ -37,7 +37,7 @@ const CheckoutSuccess: React.FC = () => {
     <View style={styles.container}>
       {order && (
         <>
-          <Icon name="check-circle" size={66} color="#3ac359" />
+          <Icon name="check" size={66} color="#3ac359" />
           <View style={styles.message}>
             <Typography align="center" size={26} gutterBottom>
               {user?.name}, recebemos seu pedido.
