@@ -133,7 +133,7 @@ const ProductSimple: React.FC = () => {
   }
 
   return (
-    <Modal open={isSimple} title="Alterar produto simples" handleClose={handleModalClose} style={styles.modal}>
+    <Modal open={isSimple} title="alterar produto" handleClose={handleModalClose} style={styles.modal}>
       {product && (
         <ScrollView contentContainerStyle={styles.scroll}>
           <ImagePreview

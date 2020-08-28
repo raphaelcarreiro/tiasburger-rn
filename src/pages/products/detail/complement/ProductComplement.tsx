@@ -227,7 +227,7 @@ const ProductComplement: React.FC = () => {
   }
 
   return (
-    <Modal open={isComplement} title="Adicionar ao carrinho" handleClose={handleModalClose} style={styles.modal}>
+    <Modal open={isComplement} title="adicionar ao carrinho" handleClose={handleModalClose} style={styles.modal}>
       {loading ? (
         <InsideLoading />
       ) : (

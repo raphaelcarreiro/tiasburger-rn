@@ -115,7 +115,7 @@ const AddressNew: React.FC<AddressEditProps> = ({ open, onExited }) => {
 
   return (
     <Modal
-      title="Adicionar endereço"
+      title="adicionar endereço"
       open={open}
       handleClose={handleModalClose}
       actions={<AddressFormActions saving={saving} handleSubmit={handleValidation} />}

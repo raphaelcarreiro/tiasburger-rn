@@ -100,7 +100,7 @@ const AddressEdit: React.FC<AddressEditProps> = ({ address, open, onExited }) =>
 
   return (
     <Modal
-      title="Alterar endereço"
+      title="alterar endereço"
       open={open}
       handleClose={handleModalClose}
       actions={<AddressFormActions saving={saving} handleSubmit={handleValidation} />}

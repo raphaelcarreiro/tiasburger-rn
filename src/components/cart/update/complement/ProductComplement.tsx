@@ -160,7 +160,7 @@ const ProductComplement: React.FC = () => {
   }
 
   return (
-    <Modal open={isComplement} title="Alterar produto" handleClose={handleModalClose} style={styles.modal}>
+    <Modal open={isComplement} title="alterar produto" handleClose={handleModalClose} style={styles.modal}>
       {product && (
         <ScrollView contentContainerStyle={styles.scroll}>
           <ImagePreview

@@ -307,7 +307,7 @@ const ProductPizza: React.FC = () => {
   }
 
   return (
-    <Modal open={isPizza} title="Alterar produto" handleClose={handleModalClose} style={styles.modal}>
+    <Modal open={isPizza} title="alterar produto" handleClose={handleModalClose} style={styles.modal}>
       {product && (
         <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
           <ImagePreview

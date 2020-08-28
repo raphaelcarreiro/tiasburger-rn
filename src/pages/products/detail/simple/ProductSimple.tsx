@@ -172,7 +172,7 @@ const ProductSimple: React.FC = () => {
   }
 
   return (
-    <Modal open={isSimple} title="Adicionar ao carrinho" handleClose={handleModalClose} style={styles.modal}>
+    <Modal open={isSimple} title="adicionar ao carrinho" handleClose={handleModalClose} style={styles.modal}>
       {loading ? (
         <InsideLoading />
       ) : (
