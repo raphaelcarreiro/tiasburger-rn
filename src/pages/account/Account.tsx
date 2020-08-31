@@ -13,7 +13,6 @@ import { setUser } from '../../store/modules/user/actions';
 import { useMessage } from '../../hooks/message';
 import * as yup from 'yup';
 import { cpfValidation } from '../../helpers/cpfValidation';
-import Loading from '../../components/loading/Loading';
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import { useApp } from '../../appContext';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
