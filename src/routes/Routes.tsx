@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import AuthRoutes from './AuthRoutes';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -38,12 +38,7 @@ const Drawer = createDrawerNavigator<RootDrawerParamList>();
 
 const Routes: React.FC = () => {
   const user = useSelector(state => state.user);
-  const [isInitialRender, setIsInitialRender] = useState(true);
   const auth = useAuth();
-
-  useEffect(() => {
-    setIsInitialRender(false);
-  }, []);
 
   return (
     <NavigationContainer linking={linking}>

@@ -13,7 +13,7 @@ const Message: React.FC<MessageProps> = ({ message, open, handleClose }) => {
 
   const hide = useCallback(() => {
     Animated.timing(slide, {
-      useNativeDriver: true,
+      useNativeDriver: false,
       toValue: 300,
       duration: 150,
     }).start();
@@ -21,7 +21,7 @@ const Message: React.FC<MessageProps> = ({ message, open, handleClose }) => {
 
   const show = useCallback(() => {
     Animated.timing(slide, {
-      useNativeDriver: true,
+      useNativeDriver: false,
       toValue: 0,
       duration: 150,
     }).start();

@@ -38,7 +38,7 @@ const App: React.FC = () => {
   const { handleSetTheme } = useThemeContext();
   const dispatch = useDispatch();
   const theme = useTheme();
-  const messaging = useMessage();
+  const { handleOpen } = useMessage();
   const restaurant = useSelector(state => state.restaurant);
   const user = useSelector(state => state.user);
 
@@ -79,11 +79,11 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const unsubscribe = firebaseMessaging().onMessage(async ({ notification }) => {
-      if (notification && notification.body) messaging.handleOpen(notification.body);
+      if (notification && notification.body) handleOpen(notification.body);
     });
 
     return unsubscribe;
-  }, [messaging]);
+  }, [handleOpen]);
 
   useEffect(() => {
     async function loadPromotions() {

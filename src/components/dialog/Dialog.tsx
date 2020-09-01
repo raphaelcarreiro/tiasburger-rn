@@ -47,7 +47,7 @@ const Dialog: React.FC<DialogProps> = ({ children, open, handleClose, ...rest })
 
   useEffect(() => {
     Animated.timing(slide, {
-      useNativeDriver: true,
+      useNativeDriver: false,
       toValue: 0,
       duration: 100,
       delay: 150,
@@ -56,7 +56,7 @@ const Dialog: React.FC<DialogProps> = ({ children, open, handleClose, ...rest })
 
   const handleCancelPress = useCallback(() => {
     Animated.timing(slide, {
-      useNativeDriver: true,
+      useNativeDriver: false,
       toValue: initialValue * -1,
       duration: 100,
     }).start();

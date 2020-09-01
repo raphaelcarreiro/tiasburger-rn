@@ -1,6 +1,6 @@
 import { Customer } from '../../../@types/customer';
 import { OrderShipment, CreditCart } from '../../../@types/order';
-import { PaymnentMethod } from '../../../@types/paymentMethod';
+import { PaymentMethod } from '../../../@types/paymentMethod';
 import { CartProduct } from '../../../@types/cart';
 import { Coupon } from '../../../@types/coupon';
 
@@ -37,7 +37,7 @@ interface SetShipmentMethodAction {
 
 interface SetPaymentMethodAction {
   type: typeof SET_PAYMENT_METHOD;
-  paymentMethod: PaymnentMethod;
+  paymentMethod: PaymentMethod | null;
 }
 
 interface SetProductsAction {

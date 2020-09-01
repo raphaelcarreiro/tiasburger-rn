@@ -45,7 +45,7 @@ const Options: React.FC<OptionsProps> = ({ children, open, handleClose, ...rest 
 
   useEffect(() => {
     Animated.timing(slide, {
-      useNativeDriver: true,
+      useNativeDriver: false,
       toValue: 0,
       duration: 200,
       delay: 100,
@@ -54,7 +54,7 @@ const Options: React.FC<OptionsProps> = ({ children, open, handleClose, ...rest 
 
   function handleCancelPress() {
     Animated.timing(slide, {
-      useNativeDriver: true,
+      useNativeDriver: false,
       toValue: 300,
       duration: 100,
     }).start();

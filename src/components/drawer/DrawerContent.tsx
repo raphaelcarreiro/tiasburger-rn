@@ -48,7 +48,6 @@ const Drawer: React.FC<DrawerContentComponentProps> = props => {
     <ScrollView {...props} style={{ backgroundColor: theme.secondary }}>
       <DrawerHeader>
         <DrawerHeaderText>{restaurant ? restaurant.name : 'Carregando'}</DrawerHeaderText>
-        {/* <RestaurantStatus status={restaurant ? restaurant.is_open : false} /> */}
       </DrawerHeader>
       <View style={styles.items}>
         <Item
