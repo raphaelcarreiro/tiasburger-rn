@@ -41,7 +41,7 @@ export interface Promotion {
   description: string;
   valid_at: string;
   formattedValidAt: string;
-  type: string;
+  type: 'safe' | 'get';
   activated: boolean;
   categories: PromotionCategory[];
   products: PromotionProduct[];

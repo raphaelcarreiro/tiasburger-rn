@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   footer: {
-    position: 'absolute',
+    position: 'relative',
     bottom: 0,
     left: 0,
     right: 0,

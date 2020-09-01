@@ -11,6 +11,8 @@ import { cpfValidation } from '../../../../../helpers/cpfValidation';
 import { cardBrandValidation } from '../../../../../helpers/cardBrandValidation';
 import { setCard } from '../../../../../store/modules/order/actions';
 import { CreditCart } from '../../../../../@types/order';
+import StandardMaskedInput from '../../../../../components/bases/input/masked/StandardMaskedInput';
+import TextInputMask from 'react-native-text-input-mask';
 
 type PaymentCreditCardProps = {
   open: boolean;
@@ -46,6 +48,7 @@ const styles = StyleSheet.create({
   scroll: {
     paddingLeft: 15,
     paddingRight: 15,
+    paddingBottom: 15,
   },
 });
 
@@ -69,16 +72,21 @@ const PaymentCreditCard: React.FC<PaymentCreditCardProps> = ({ open, handleClose
   const checkout = useCheckout();
 
   const inputs = {
-    number: useRef<TextInput>(null),
+    number: useRef<TextInputMask>(null),
     name: useRef<TextInput>(null),
-    expiration_date: useRef<TextInput>(null),
+    expiration_date: useRef<TextInputMask>(null),
     cvv: useRef<TextInput>(null),
-    cpf: useRef<TextInput>(null),
+    cpf: useRef<TextInputMask>(null),
   };
 
   useEffect(() => {
     const [key] = Object.keys(validation) as Array<keyof typeof validation>;
     if (!key) return;
+
+    if (key === 'number' || key === 'expiration_date' || key === 'cpf') {
+      inputs[key].current?.input.focus();
+      return;
+    }
 
     inputs[key].current?.focus();
   }, [validation]); //eslint-disable-line
@@ -148,64 +156,61 @@ const PaymentCreditCard: React.FC<PaymentCreditCardProps> = ({ open, handleClose
       style={styles.modal}
     >
       <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
-        <Input
+        <StandardMaskedInput
           error={!!validation.number}
           helperText={validation.number}
           ref={inputs.number}
-          variant="standard"
           placeholder="Número do cartão"
           label="Número do cartão"
           autoFocus
           keyboardType="numeric"
           value={number}
-          onChange={e => setNumber(e.nativeEvent.text)}
+          onChangeText={formatted => setNumber(formatted)}
           onSubmitEditing={() => inputs.name.current?.focus()}
           blurOnSubmit={false}
           returnKeyType="next"
           autoCorrect={false}
           textContentType="creditCardNumber"
-          required
           autoCompleteType="cc-number"
+          mask="[0000] [0000] [0000] [0000]"
         />
         <Input
           error={!!validation.name}
-          helperText={validation.name}
+          helperText={validation.name ? validation.name : 'Assim como está escrito no cartão'}
           ref={inputs.name}
           variant="standard"
-          placeholder="Nome"
+          placeholder="Nome e sobrenome"
           label="Nome e sobrenome"
           keyboardType="default"
-          onSubmitEditing={() => inputs.expiration_date.current?.focus()}
+          onSubmitEditing={() => inputs.expiration_date.current?.input.focus()}
           blurOnSubmit={false}
           returnKeyType="next"
           value={name}
           onChange={e => setName(e.nativeEvent.text)}
           autoCapitalize="words"
-          required
           autoCorrect={true}
         />
         <View style={styles.row}>
-          <Input
+          <StandardMaskedInput
             error={!!validation.expiration_date}
-            helperText={validation.expiration_date}
+            helperText={validation.expiration_date ? validation.expiration_date : 'MM/AA'}
             ref={inputs.expiration_date}
-            variant="standard"
-            placeholder="Validadade"
-            label="Validade do cartão"
+            placeholder="00/00"
+            label="Validade"
             keyboardType="numeric"
             value={expirationDate}
-            onChange={e => setExpirationDate(e.nativeEvent.text)}
+            onChangeText={formatted => setExpirationDate(formatted)}
             onSubmitEditing={() => inputs.cvv.current?.focus()}
             blurOnSubmit={false}
             returnKeyType="next"
             autoCorrect={false}
             mainContainerStyle={styles.expirationDateInput}
-            required
             containerStyle={{ flex: 1 }}
+            mask="[00]/[00]"
           />
           <Input
             error={!!validation.cvv}
-            helperText={validation.cvv}
+            helperText={validation.cvv ? validation.cvv : 'Últimos três números no verso no cartão'}
             ref={inputs.cvv}
             variant="standard"
             placeholder="Código"
@@ -213,29 +218,27 @@ const PaymentCreditCard: React.FC<PaymentCreditCardProps> = ({ open, handleClose
             keyboardType="numeric"
             value={cvv}
             onChange={e => setCvv(e.nativeEvent.text)}
-            onSubmitEditing={() => inputs.cpf.current?.focus()}
+            onSubmitEditing={() => inputs.cpf.current?.input.focus()}
             blurOnSubmit={false}
             returnKeyType="next"
             autoCorrect={false}
             mainContainerStyle={styles.cvvInput}
-            required
             containerStyle={{ flex: 1 }}
           />
         </View>
-        <Input
+        <StandardMaskedInput
           error={!!validation.cpf}
-          helperText={validation.cpf}
+          helperText={validation.cpf ? validation.cpf : 'CPF do titular do cartão'}
           ref={inputs.cpf}
-          variant="standard"
-          placeholder="CPF do títular do cartão"
+          placeholder="CPF"
           label="CPF"
           keyboardType="numeric"
           returnKeyType="send"
           value={cpf}
-          onChange={e => setCpf(e.nativeEvent.text)}
+          onChangeText={formatted => setCpf(formatted)}
           autoCorrect={false}
-          required
           onSubmitEditing={handleCardValidation}
+          mask="[000].[000].[000]-[00]"
         />
       </ScrollView>
     </Modal>

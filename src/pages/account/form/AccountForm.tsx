@@ -2,12 +2,14 @@ import React, { useRef, useEffect } from 'react';
 import Input from '../../../components/bases/input/Input';
 import { StyleSheet, Image, TextInput } from 'react-native';
 import { userChange } from '../../../context-api/user-customer/actions';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native';
 import { ImageContainer, ImageWrapper } from './styles';
 import { useAccount, AccountValidation } from '../context/account';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MCIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from 'styled-components';
+import StandardMaskedInput from '../../../components/bases/input/masked/StandardMaskedInput';
+import TextInputMask from 'react-native-text-input-mask';
 
 const styles = StyleSheet.create({
   container: {
@@ -43,13 +45,18 @@ const AccountForm: React.FC = () => {
   const inputs = {
     name: useRef<TextInput>(null),
     phone: useRef<TextInput>(null),
-    cpf: useRef<TextInput>(null),
+    cpf: useRef<TextInputMask>(null),
   };
 
   useEffect(() => {
     const [key] = Object.keys(validation) as [keyof typeof inputs];
 
     if (!key) return;
+
+    if (key === 'cpf') {
+      inputs.cpf.current?.input.focus();
+      return;
+    }
 
     inputs[key].current?.focus();
   }, [validation, inputs]);
@@ -116,10 +123,10 @@ const AccountForm: React.FC = () => {
             value={userCustomer.phone}
             onChange={text => handleChange('phone', text.nativeEvent.text)}
             returnKeyType="next"
-            onSubmitEditing={() => inputs.cpf.current?.focus()}
+            onSubmitEditing={() => inputs.cpf.current?.input.focus()}
             blurOnSubmit={false}
           />
-          <Input
+          <StandardMaskedInput
             ref={inputs.cpf}
             error={!!validation.cpf}
             helperText={validation.cpf}
@@ -127,11 +134,11 @@ const AccountForm: React.FC = () => {
             placeholder="Digite seu CPF"
             keyboardType="numeric"
             autoCorrect={false}
-            variant="standard"
             value={userCustomer.cpf ? userCustomer.cpf : ''}
-            onChange={text => handleChange('cpf', text.nativeEvent.text)}
+            onChangeText={formatted => handleChange('cpf', formatted)}
             returnKeyType="send"
             onSubmitEditing={handleValidation}
+            mask="[000].[000].[000]-[00]"
           />
         </>
       )}

@@ -1,6 +1,6 @@
 import React, { useState, useCallback, ReactElement, forwardRef, useEffect } from 'react';
 import { Input as StyledInput, Container, IconContainer, HelperText, InputContainer, TextLabel } from './styles';
-import { TextInputProps, StyleProp, ViewStyle } from 'react-native';
+import { TextInputProps, StyleProp, ViewStyle, TextInput } from 'react-native';
 
 interface InputProps extends TextInputProps {
   fullWidth?: boolean;
@@ -13,11 +13,7 @@ interface InputProps extends TextInputProps {
   mainContainerStyle?: StyleProp<ViewStyle>;
 }
 
-interface InputRef {
-  focus(): void;
-}
-
-const InputOutlined: React.ForwardRefRenderFunction<InputRef, InputProps> = (
+const InputOutlined: React.ForwardRefRenderFunction<TextInput, InputProps> = (
   {
     fullWidth,
     value,
@@ -48,7 +44,7 @@ const InputOutlined: React.ForwardRefRenderFunction<InputRef, InputProps> = (
     setIsFocused(false);
 
     setIsFilled(!!value);
-  }, []);
+  }, [value]);
 
   return (
     <Container style={mainContainerStyle}>

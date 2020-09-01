@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Content } from './styles';
-import { Image, StyleSheet, View, Keyboard } from 'react-native';
+import { Image, StyleSheet, View, Keyboard, ScrollView } from 'react-native';
 import { useSelector } from '../../store/selector';
 import Title from '../../components/bases/typography/Text';
 import Button from '../../components/bases/button/Button';
@@ -11,7 +11,6 @@ import * as yup from 'yup';
 import { useMessage } from '../../hooks/message';
 import { useAuth } from '../../hooks/auth';
 import { CompositeNavigationProp, RouteProp } from '@react-navigation/native';
-import { ScrollView } from 'react-native-gesture-handler';
 import { useApp } from '../../appContext';
 import { RootDrawerParamList } from '../../routes/Routes';
 import { StackNavigationProp } from '@react-navigation/stack';

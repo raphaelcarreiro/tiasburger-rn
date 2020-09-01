@@ -1,9 +1,10 @@
-import React, { useState, useCallback, ReactElement, useEffect, forwardRef, useRef, RefObject } from 'react';
+import React, { useState, useCallback, ReactElement, useEffect, forwardRef, useRef } from 'react';
 import { Input as StyledInput, Container, IconContainer, HelperText, InputContainer, TextLabel } from './styles';
-import { TextInputProps, StyleProp, ViewStyle, Animated, TextInput } from 'react-native';
+import { StyleProp, ViewStyle, Animated } from 'react-native';
 import { useTheme } from 'styled-components';
+import TextInputMask, { TextInputMaskProps } from 'react-native-text-input-mask';
 
-interface InputProps extends TextInputProps {
+interface InputProps extends TextInputMaskProps {
   fullWidth?: boolean;
   Icon?: ReactElement;
   error?: boolean;
@@ -14,7 +15,7 @@ interface InputProps extends TextInputProps {
   mainContainerStyle?: StyleProp<ViewStyle>;
 }
 
-const InputStandard: React.ForwardRefRenderFunction<TextInput, InputProps> = (
+const StandardMaskedInput: React.ForwardRefRenderFunction<TextInputMask, InputProps> = (
   {
     fullWidth,
     value,
@@ -114,9 +115,9 @@ const InputStandard: React.ForwardRefRenderFunction<TextInput, InputProps> = (
           ref={ref}
           value={value}
           placeholder={isFocused ? placeholder : placeholderFocused}
-          {...rest}
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
+          {...rest}
         />
         {Icon && <IconContainer>{Icon}</IconContainer>}
       </InputContainer>
@@ -125,4 +126,4 @@ const InputStandard: React.ForwardRefRenderFunction<TextInput, InputProps> = (
   );
 };
 
-export default forwardRef(InputStandard);
+export default forwardRef(StandardMaskedInput);

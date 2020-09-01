@@ -11,9 +11,8 @@ import Loading from '../../../../components/loading/Loading';
 import * as yup from 'yup';
 import { useSelector } from '../../../../store/selector';
 import { ViaCepResponse } from '../../../../services/postalCodeSearch';
-import { ScrollView } from 'react-native-gesture-handler';
 import { Address } from '../../../../@types/address';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 
 interface AddressEditProps {
   open: boolean;

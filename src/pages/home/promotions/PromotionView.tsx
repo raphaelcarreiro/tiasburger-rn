@@ -4,6 +4,8 @@ import { Promotion } from '../../../@types/promotion';
 import Typography from '../../../components/bases/typography/Text';
 import { StyleSheet, View } from 'react-native';
 import Button from '../../../components/bases/button/Button';
+import ListItem from '../../../components/list-item/ListItem';
+import ProductList from '../../products/ProductList';
 
 type PromotionViewProps = {
   promotion: Promotion | null;

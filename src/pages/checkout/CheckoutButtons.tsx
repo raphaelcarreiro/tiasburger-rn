@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import Typography from '../../components/bases/typography/Text';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useCheckout } from './checkoutContext';
@@ -19,10 +18,17 @@ const styles = StyleSheet.create({
     borderColor: '#eee',
     backgroundColor: '#fff',
   },
-  button: {
+  prior: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
+    padding: 10,
+    flex: 1,
+  },
+  next: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
     padding: 10,
     flex: 1,
   },
@@ -38,12 +44,12 @@ const CheckoutButtons: React.FC<CheckoutButtonsProps> = ({ currentStep, stepsAmo
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={handleStepPrior}>
+      <TouchableOpacity style={styles.prior} onPress={handleStepPrior}>
         <Icon name="chevron-left" size={20} />
         <Typography>Anterior</Typography>
       </TouchableOpacity>
       {currentStep && currentStep.order < stepsAmount - 1 && (
-        <TouchableOpacity style={styles.button} onPress={handleStepNext}>
+        <TouchableOpacity style={styles.next} onPress={handleStepNext}>
           <Typography>Próximo</Typography>
           <Icon name="chevron-right" size={20} />
         </TouchableOpacity>

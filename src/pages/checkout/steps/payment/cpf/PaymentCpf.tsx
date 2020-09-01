@@ -118,6 +118,7 @@ const PaymentCpf: React.FC<PaymentCpfProps> = ({ open, handleClose }) => {
           autoFocus
           onSubmitEditing={handleValidation}
           blurOnSubmit={false}
+          maxLength={11}
         />
       </View>
     </Modal>

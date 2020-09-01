@@ -7,7 +7,7 @@ const baseURL = 'https://api2.topnfe.com.br/api/client/';
 const api = axios.create({
   baseURL,
   headers: {
-    RestaurantId: 20,
+    RestaurantId: 1,
   },
 });
 
