@@ -58,7 +58,9 @@ const Header: React.FC = () => {
     <>
       {restaurant && (
         <View style={styles.imageContainer}>
-          <Image blurRadius={0.7} style={styles.image} source={{ uri: restaurant.cover.imageUrl }} />
+          {restaurant.cover && (
+            <Image blurRadius={0.7} style={styles.image} source={{ uri: restaurant.cover.imageUrl }} />
+          )}
           <View style={styles.imageWrapper} />
           <View style={styles.description}>
             <Typography size={30} style={styles.descriptionColor}>
