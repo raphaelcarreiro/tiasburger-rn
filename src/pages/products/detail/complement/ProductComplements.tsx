@@ -54,9 +54,11 @@ const ProductComplements: React.FC<ProductComplementsProps> = ({
         >
           <View>
             <Typography>{complement.name}</Typography>
-            <Typography size={14} variant="caption">
-              {complement.description}
-            </Typography>
+            {complement.description && (
+              <Typography size={14} variant="caption">
+                {complement.description}
+              </Typography>
+            )}
             {complement.price && (
               <Typography bold color="primary">
                 + {complement.formattedPrice}
