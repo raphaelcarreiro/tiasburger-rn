@@ -78,7 +78,7 @@ export interface Product {
   name: string;
   url: string;
   activated: boolean;
-  description: boolean;
+  description: string;
   price: number;
   formattedPrice: string;
   special_price: number | null;

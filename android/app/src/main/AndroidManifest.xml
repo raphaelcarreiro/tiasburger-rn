@@ -38,13 +38,13 @@
           <action android:name="android.intent.action.VIEW" />
           <category android:name="android.intent.category.DEFAULT" />
           <category android:name="android.intent.category.BROWSABLE" />
-          <data android:scheme="https" android:host="delivery.topnfe.com.br" />
+          <data android:scheme="https" android:host="topezeira.sgrande.app" />
         </intent-filter>
         <intent-filter>
           <action android:name="android.intent.action.VIEW" />
           <category android:name="android.intent.category.DEFAULT" />
           <category android:name="android.intent.category.BROWSABLE" />
-          <data android:scheme="deliveryTopnfe" />
+          <data android:scheme="topezeira" />
         </intent-filter>
       </activity>
 
