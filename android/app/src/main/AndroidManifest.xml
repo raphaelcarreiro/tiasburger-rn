@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.deliveryclient">
+  package="com.tiasburger">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -38,13 +38,13 @@
           <action android:name="android.intent.action.VIEW" />
           <category android:name="android.intent.category.DEFAULT" />
           <category android:name="android.intent.category.BROWSABLE" />
-          <data android:scheme="https" android:host="topezeira.sgrande.app" />
+          <data android:scheme="https" android:host="tiasburger.com.br" />
         </intent-filter>
         <intent-filter>
           <action android:name="android.intent.action.VIEW" />
           <category android:name="android.intent.category.DEFAULT" />
           <category android:name="android.intent.category.BROWSABLE" />
-          <data android:scheme="topezeira" />
+          <data android:scheme="tiasburger" />
         </intent-filter>
       </activity>
 
