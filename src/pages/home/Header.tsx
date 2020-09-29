@@ -43,7 +43,8 @@ const styles = StyleSheet.create({
     color: '#fff',
     position: 'absolute',
     zIndex: 10,
-    left: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
     top: '10%',
   },
   descriptionColor: {

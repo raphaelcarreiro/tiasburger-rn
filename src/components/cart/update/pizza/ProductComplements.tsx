@@ -44,6 +44,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#eee',
     overflow: 'hidden',
   },
+  productData: {
+    flex: 1,
+  },
 });
 
 const ProductComplements: React.FC<ProductComplementsProps> = ({
@@ -79,11 +82,13 @@ const ProductComplements: React.FC<ProductComplementsProps> = ({
               />
             </View>
           )}
-          <View>
+          <View style={styles.productData}>
             <Typography>{complement.name}</Typography>
-            <Typography size={14} variant="caption" gutterBottom>
-              {complement.description}
-            </Typography>
+            {complement.description && (
+              <Typography size={14} variant="caption" gutterBottom>
+                {complement.description}
+              </Typography>
+            )}
             {complement.prices.map(
               price =>
                 price.selected &&
