@@ -24,7 +24,7 @@ export const InputContainer = styled.View<InputProps>`
   min-width: ${props => (props.fullWidth ? '100%' : '100px')};
   border-color: #0000003b;
   border-width: 1px;
-  border-radius: 4px;
+  border-radius: 0px;
   flex-direction: row;
   align-items: center;
 

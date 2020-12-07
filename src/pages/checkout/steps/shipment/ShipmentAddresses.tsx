@@ -5,7 +5,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import IconButton from '../../../../components/bases/icon-button/IconButton';
 import Options from '../../../../components/options/Options';
 import { StyleSheet, Alert, View } from 'react-native';
-import Button from '../../../../components/bases/button/Button';
 import { useSelector } from '../../../../store/selector';
 import { ListItemStyled } from '../style';
 import McIcon from 'react-native-vector-icons/MaterialCommunityIcons';

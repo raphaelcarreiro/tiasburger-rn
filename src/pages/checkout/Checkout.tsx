@@ -12,7 +12,6 @@ import { steps as defaultSteps, StepIdTypes, StepOrderTypes, StepType } from './
 import {
   setTax,
   setDiscount,
-  setShipmentAddress,
   setCustomer,
   setPaymentMethod,
   setProducts,
@@ -20,7 +19,7 @@ import {
   setChange,
   clearCard,
 } from '../../store/modules/order/actions';
-import { OrderShipment, CreatedOrder } from '../../@types/order';
+import { CreatedOrder } from '../../@types/order';
 import api from '../../services/api';
 import { PaymentMethod } from '../../@types/paymentMethod';
 import Loading from '../../components/loading/Loading';
@@ -31,7 +30,6 @@ import CheckoutHeader from './CheckoutHeader';
 import { CheckoutContext } from './checkoutContext';
 import ShipmentMethod from './steps/shipment-method/ShipmentMethod';
 import Shipment from './steps/shipment/Shipment';
-import { Address } from '../../@types/address';
 import Payment from './steps/payment/Payment';
 import Confirm from './steps/confirm/Confirm';
 import { clearCart } from '../../store/modules/cart/actions';
@@ -104,7 +102,8 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
     setCartVisiblity(!cartVisibility);
   }, [cartVisibility]);
 
-  const loadPaymentMethods = useCallback(() => {
+  useEffect(() => {
+    if (!user) return;
     api
       .get('/order/paymentMethods')
       .then(response => {
@@ -116,7 +115,7 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
       .catch(err => {
         if (err.response) console.log('checkout loading order payments', err.response.data.error);
       });
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   useEffect(() => {
     if (!user && isFocused) {
@@ -126,14 +125,8 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
   }, [user, isFocused, navigation, app]);
 
   useEffect(() => {
-    const onFocus = () => {
-      if (!user) return;
-      loadPaymentMethods();
-    };
-
-    navigation.addListener('focus', onFocus);
     navigation.addListener('blur', () => setStep(1));
-  }, [navigation, loadPaymentMethods, app, user]);
+  }, [navigation]);
 
   useEffect(() => {
     if (!restaurant) return;
@@ -185,55 +178,10 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
   }, [restaurant, cart.subtotal, cart.products, currentStep, navigation, messaging]);
 
   useEffect(() => {
-    function setAddress(address: Address) {
-      if (restaurant?.configs.tax_mode === 'district') {
-        if (address && address.area_region)
-          dispatch(
-            setShipmentAddress({
-              ...address,
-              complement: address.address_complement,
-              shipment_method: 'delivery',
-              scheduled_at: null,
-              formattedScheduledAt: null,
-            }),
-          );
-        else dispatch(setShipmentAddress({} as OrderShipment));
-        return;
-      } else if (restaurant?.delivery_max_distance && address) {
-        if (address && address.distance && address.distance <= restaurant?.delivery_max_distance)
-          dispatch(
-            setShipmentAddress({
-              ...address,
-              complement: address.address_complement,
-              shipment_method: 'delivery',
-              scheduled_at: null,
-              formattedScheduledAt: null,
-            }),
-          );
-        else dispatch(setShipmentAddress({} as OrderShipment));
-        return;
-      }
+    if (!user) return;
+    const customer = user.customer;
 
-      if (address)
-        dispatch(
-          setShipmentAddress({
-            ...address,
-            complement: address.address_complement,
-            shipment_method: 'delivery',
-            scheduled_at: null,
-            formattedScheduledAt: null,
-          }),
-        );
-      else dispatch({} as OrderShipment);
-    }
-
-    if (user) {
-      const customer = user.customer;
-      const address = customer.addresses.find(address => address.is_main);
-
-      dispatch(setCustomer(customer));
-      if (address) setAddress(address);
-    }
+    dispatch(setCustomer(customer));
   }, [dispatch, restaurant, user]);
 
   function handleSubmitOrder() {
@@ -307,7 +255,7 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
 
   return (
     <>
-      <AppBar title="Finalizar pedido" actions={<CheckoutActions handleCartVisilibity={handleCartVisibility} />} />
+      <AppBar title="finalizar pedido" actions={<CheckoutActions handleCartVisilibity={handleCartVisibility} />} />
       {cartVisibility && (
         <Modal style={styles.modal} open={cartVisibility} handleClose={handleCartVisibility} title="Carrinho">
           <Cart />

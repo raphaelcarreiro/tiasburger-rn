@@ -8,23 +8,15 @@ import { useMessage } from '../../../../hooks/message';
 import { useDispatch } from 'react-redux';
 import { addCustomerAddress } from '../../../../store/modules/user/actions';
 import Loading from '../../../../components/loading/Loading';
-import * as yup from 'yup';
-import { useSelector } from '../../../../store/selector';
 import { ViaCepResponse } from '../../../../services/postalCodeSearch';
 import { Address } from '../../../../@types/address';
 import { StyleSheet, ScrollView } from 'react-native';
+import { AddressValidation, useAdressValidation } from '../validation/addressValidation';
+import { useSelector } from '../../../../store/selector';
 
 interface AddressEditProps {
   open: boolean;
   onExited(): void;
-}
-
-export interface AddressValidation {
-  cep?: string;
-  address?: string;
-  number?: string;
-  complement?: string;
-  district?: string;
 }
 
 const styles = StyleSheet.create({
@@ -43,41 +35,31 @@ const styles = StyleSheet.create({
 const AddressNew: React.FC<AddressEditProps> = ({ open, onExited }) => {
   const [editedAddress, addressDispatch] = useReducer(addressReducer, {} as Address);
   const [saving, setSaving] = useState(false);
-  const [validation, setValidation] = useState<AddressValidation>({} as AddressValidation);
-  const restaurant = useSelector(state => state.restaurant);
+  const [validation, setValidation, validate] = useAdressValidation();
   const message = useMessage();
   const dispatch = useDispatch();
+  const restaurant = useSelector(state => state.restaurant);
 
   useEffect(() => {
     addressDispatch(setAddress({} as Address));
   }, [open]);
+
+  useEffect(() => {
+    if (!restaurant) return;
+    if (!restaurant.configs.use_postalcode) handleAddressChange('postal_code', '00000000');
+  }, [restaurant]);
 
   function handleAddressChange(index: string, value: string): void {
     addressDispatch(addressChange(index, value));
   }
 
   function handleValidation() {
-    const schema = yup.object().shape({
-      complement: yup.string().nullable(),
-      district: yup.string().test('check_config', 'Bairro é obrigatório', value => {
-        if (restaurant?.configs.tax_mode !== 'district') {
-          return !!value;
-        } else return true;
-      }),
-      number: yup.string().required('O número é obrigatório'),
-      address: yup.string().required('O endereço é obrigatório'),
-    });
-
-    schema
-      .validate(editedAddress)
+    validate(editedAddress)
       .then(() => {
         handleSubmit();
-        setValidation({} as AddressValidation);
       })
-      .catch(err => {
-        setValidation({
-          [err.path]: err.message,
-        });
+      .catch(() => {
+        //
       });
   }
 
@@ -127,7 +109,6 @@ const AddressNew: React.FC<AddressEditProps> = ({ open, onExited }) => {
           handleAddressChange={handleAddressChange}
           validation={validation}
           handleValidation={handleValidation}
-          setValidation={setValidation}
           handleSetAddress={handleSetAddress}
         />
       </ScrollView>

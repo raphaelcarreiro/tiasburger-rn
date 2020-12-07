@@ -54,7 +54,7 @@ export default function cart(state = INITIAL_STATE, action: CartTypeActions): Ca
     const tastePrices: number[] = [];
 
     state.product.additional.forEach(additional => {
-      if (additional.selected) additionalPrice += additional.price;
+      if (additional.selected) additionalPrice += additional.price * additional.amount;
     });
 
     // soma os preços dos complementos de pizza
@@ -194,7 +194,7 @@ export default function cart(state = INITIAL_STATE, action: CartTypeActions): Ca
       const tastePrices: number[] = [];
 
       action.product.additional.forEach(additional => {
-        if (additional.selected) additionalPrice += additional.price;
+        if (additional.selected) additionalPrice += additional.price * additional.amount;
       });
 
       // soma os preços dos complementos de pizza

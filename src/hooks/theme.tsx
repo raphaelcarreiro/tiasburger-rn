@@ -23,6 +23,9 @@ export function createTheme(primary: string, secondary: string): DefaultTheme {
     error: '#dc3545',
     primaryDark: primaryColor.darken(0.1).hex(),
     primaryLight: primaryColor.alpha(0.05).rgb().string(),
+    shape: {
+      borderRadius: 0,
+    },
   };
 }
 

@@ -22,15 +22,13 @@ const styles = StyleSheet.create({
 const CartItemAdditional: React.FC<CartItemAdditionalProps> = ({ additional }) => {
   return (
     <View style={styles.container}>
-      {additional.some(_additional => _additional.selected) &&
-        additional.map(
-          _additional =>
-            _additional.selected && (
-              <Typography key={String(_additional.id)} style={styles.additionalName} size={14}>
-                + {_additional.name}
-              </Typography>
-            ),
-        )}
+      {additional
+        .filter(a => a.selected)
+        .map(_additional => (
+          <Typography key={String(_additional.id)} style={styles.additionalName} size={14}>
+            c/ {_additional.amount}x {_additional.name}
+          </Typography>
+        ))}
     </View>
   );
 };

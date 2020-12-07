@@ -61,6 +61,7 @@ export default function addressReducer(state = addressInitialState, action: Addr
         ...state,
         address: action.address.logradouro,
         address_complement: action.address.complemento,
+        district: action.address.bairro,
         city: action.address.localidade,
         region: action.address.uf,
       };

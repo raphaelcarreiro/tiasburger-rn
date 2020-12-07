@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
   },
   productData: {
     alignItems: 'center',
+    flex: 1,
   },
   oldPrice: {
     color: '#888',

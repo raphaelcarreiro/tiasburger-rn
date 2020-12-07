@@ -21,15 +21,13 @@ const styles = StyleSheet.create({
 const CartItemIngredients: React.FC<CartItemIngredientsProps> = ({ ingredients }) => {
   return (
     <View style={styles.container}>
-      {ingredients.some(ingredient => !ingredient.selected) &&
-        ingredients.map(
-          ingredient =>
-            !ingredient.selected && (
-              <Typography key={String(ingredient.id)} style={styles.ingredientName} size={14}>
-                - {ingredient.name}
-              </Typography>
-            ),
-        )}
+      {ingredients
+        .filter(ingredient => !ingredient.selected)
+        .map(ingredient => (
+          <Typography key={String(ingredient.id)} style={styles.ingredientName} size={14}>
+            s/ {ingredient.name}
+          </Typography>
+        ))}
     </View>
   );
 };

@@ -26,7 +26,7 @@ const OrderProductIngredients: React.FC<OrderProductIngredientsProps> = ({ ingre
           ingredient =>
             !ingredient.selected && (
               <Typography key={String(ingredient.id)} style={styles.ingredientName} size={12}>
-                - {ingredient.name}
+                s/ {ingredient.name}
               </Typography>
             ),
         )}

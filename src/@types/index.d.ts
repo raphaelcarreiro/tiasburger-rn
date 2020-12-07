@@ -11,5 +11,8 @@ declare module 'styled-components' {
     error: string;
     primaryDark: string;
     primaryLight: string;
+    shape: {
+      borderRadius: number;
+    };
   }
 }

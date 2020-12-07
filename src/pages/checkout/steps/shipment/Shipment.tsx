@@ -35,25 +35,6 @@ const Shipment: React.FC = () => {
   const checkout = useCheckout();
 
   useEffect(() => {
-    if (!customer) return;
-    if (!order.shipment.id)
-      if (customer.addresses.length > 0) {
-        const shipmentAddress = customer.addresses.find(address => address.is_main);
-        if (restaurant?.configs.tax_mode === 'district')
-          if (shipmentAddress?.area_region)
-            dispatch(
-              setShipmentAddress({
-                ...shipmentAddress,
-                complement: shipmentAddress.address_complement,
-                shipment_method: 'delivery',
-                scheduled_at: null,
-                formattedScheduledAt: null,
-              }),
-            );
-      }
-  }, [customer, dispatch, order, restaurant]);
-
-  useEffect(() => {
     if (customer)
       if (customer.addresses)
         if (customer.addresses.length === 0) {
@@ -93,7 +74,7 @@ const Shipment: React.FC = () => {
     }
 
     if (restaurant.delivery_max_distance) {
-      if (!address.distance) {
+      if (address.distance === null) {
         messaging.handleOpen('Não é possível entregar nesse endereço');
         return;
       }
@@ -143,26 +124,6 @@ const Shipment: React.FC = () => {
             </ButtonNewAddress>
           </>
         )}
-        {/* customer && (
-          <FlatList
-            ListFooterComponent={
-              <ButtonNewAddress onPress={() => setModalNewAddress(true)}>
-                <Typography>Adicionar endereço</Typography>
-              </ButtonNewAddress>
-            }
-            data={customer.addresses}
-            keyExtractor={address => String(address.id)}
-            renderItem={({ item: address }) => (
-              <ShipmentAddresses
-                address={address}
-                setSelectedAddress={(address: Address) => setSelectedAddress(address)}
-                openModalEditAddress={() => setModalEditAddress(true)}
-                handleConfirmDelete={handleConfirmDelete}
-                handleSelectAddress={handleSelectAddress}
-              />
-            )}
-          />
-            ) */}
       </View>
     </>
   );

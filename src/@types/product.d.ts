@@ -8,6 +8,7 @@ export interface Additional {
   price: number;
   formattedPrice: string;
   selected: boolean;
+  amount: number;
 }
 
 export interface Ingredient {

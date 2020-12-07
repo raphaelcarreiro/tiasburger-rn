@@ -22,15 +22,11 @@ const styles = StyleSheet.create({
 const OrderProductAdditional: React.FC<OrderProductAdditionalProps> = ({ additional }) => {
   return (
     <View style={styles.container}>
-      {additional.some(_additional => _additional.selected) &&
-        additional.map(
-          _additional =>
-            _additional.selected && (
-              <Typography key={String(_additional.id)} style={styles.additionalName} size={12}>
-                + {_additional.name}
-              </Typography>
-            ),
-        )}
+      {additional.map(_additional => (
+        <Typography key={String(_additional.id)} style={styles.additionalName} size={12}>
+          c/ {_additional.amount}x {_additional.name}
+        </Typography>
+      ))}
     </View>
   );
 };

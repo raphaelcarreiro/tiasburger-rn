@@ -93,6 +93,7 @@ const AccountAddressesItem: React.FC<AccountAddressesItemProps> = ({
         <Text>
           {address.city}, {address.region}
         </Text>
+        {address.postal_code !== '00000000' && <Text>{address.postal_code}</Text>}
         <IconButton
           style={styles.iconButton}
           onPress={() => handleMorePress(address.id)}

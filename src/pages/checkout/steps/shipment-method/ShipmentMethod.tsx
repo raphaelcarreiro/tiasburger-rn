@@ -56,7 +56,7 @@ const ShipmentMethod: React.FC = () => {
         )}
       </ListItem>
       <ListItem style={styles.button} onPress={handleSetDelivery}>
-        <Typography size={20}>Quero receber em casa</Typography>
+        <Typography size={20}>Quero receber</Typography>
       </ListItem>
     </View>
   );

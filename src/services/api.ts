@@ -1,13 +1,12 @@
 import axios, { CancelTokenSource } from 'axios';
 import storage from '@react-native-community/async-storage';
-
-const baseURL = 'https://api.sgrande.delivery/api/client/';
-// const baseURL = 'http://10.0.2.2:8000/api/client/';
+import { API_URL } from '../constants/constants';
+import { RESTAURANT_ID } from '../../restaurantConfig';
 
 const api = axios.create({
-  baseURL,
+  baseURL: API_URL,
   headers: {
-    RestaurantId: 10,
+    RestaurantId: RESTAURANT_ID,
   },
 });
 

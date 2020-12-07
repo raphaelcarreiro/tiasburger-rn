@@ -16,11 +16,11 @@ const backgroundColors = {
 
 export const OrderStatusBadge = styled.View<OrderStatusBadgeProps>`
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 0;
+  right: 0;
   background-color: ${props => backgroundColors[props.status]};
   padding: 5px;
-  border-radius: 4px;
+  border-radius: ${props => props.theme.shape.borderRadius};
   min-width: 80px;
   align-items: center;
 `;

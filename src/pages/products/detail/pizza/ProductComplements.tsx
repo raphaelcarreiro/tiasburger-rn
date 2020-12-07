@@ -84,7 +84,7 @@ const ProductComplements: React.FC<ProductComplementsProps> = ({
           )}
           <View style={styles.productData}>
             <Typography>{complement.name}</Typography>
-            {complement.description && (
+            {!!complement.description && (
               <Typography size={14} variant="caption" gutterBottom>
                 {complement.description}
               </Typography>

@@ -126,7 +126,10 @@ const ProductSimple: React.FC = () => {
   useEffect(() => {
     if (product) {
       setAdditionalPrice(
-        product.additional.reduce((value, additional) => (additional.selected ? value + additional.price : value), 0),
+        product.additional.reduce(
+          (value, additional) => (additional.selected ? value + additional.price * additional.amount : value),
+          0,
+        ),
       );
     }
   }, [product, amount]);
@@ -152,12 +155,15 @@ const ProductSimple: React.FC = () => {
       });
   }
 
-  function handleClickAdditional(additionalId: number) {
+  function handleClickAdditional(additionalId: number, amount: number) {
     if (product)
       setProduct({
         ...product,
         additional: product.additional.map(additional => {
-          if (additional.id === additionalId) additional.selected = !additional.selected;
+          if (additional.id === additionalId) {
+            additional.selected = amount > 0;
+            additional.amount = amount;
+          }
           return additional;
         }),
       });

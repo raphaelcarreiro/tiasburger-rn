@@ -4,7 +4,6 @@ import { StyleSheet, View } from 'react-native';
 import { useSelector } from '../../../../store/selector';
 import { useCheckout } from '../../checkoutContext';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { useTheme } from 'styled-components';
 import IconButton from '../../../../components/bases/icon-button/IconButton';
 
 const styles = StyleSheet.create({
@@ -23,7 +22,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     alignItems: 'flex-end',
     position: 'absolute',
-    top: 0,
+    bottom: 0,
     right: 0,
   },
 });

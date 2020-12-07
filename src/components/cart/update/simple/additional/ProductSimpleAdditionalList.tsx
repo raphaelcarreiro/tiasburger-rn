@@ -2,12 +2,11 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Additional } from '../../../../../@types/product';
 import Typography from '../../../../bases/typography/Text';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useTheme } from 'styled-components';
 import { ListItemStyled } from '../../style';
+import ProductSimpleAdditionalAmountControl from './ProductSimpleAdditionalAmountControl';
 
 type AdditionalListProps = {
-  handleClick(additionalId: number): void;
+  handleClick(additionalId: number, amount: number): void;
   additional: Additional;
 };
 
@@ -29,21 +28,21 @@ const styles = StyleSheet.create({
 });
 
 const ProductSimpleAdditionalList: React.FC<AdditionalListProps> = ({ additional, handleClick }) => {
-  const theme = useTheme();
-
   return (
-    <ListItemStyled selected={additional.selected} style={styles.listItem} onPress={() => handleClick(additional.id)}>
-      <Typography gutterBottom>{additional.name}</Typography>
-      {additional.price > 0 && (
-        <Typography bold color="primary">
-          + {additional.formattedPrice}
-        </Typography>
-      )}
-      {additional.selected && (
-        <View style={styles.iconContainer}>
-          <Icon name="check-circle" color={theme.primary} size={26} />
-        </View>
-      )}
+    <ListItemStyled selected={additional.selected} style={styles.listItem}>
+      <View>
+        <Typography gutterBottom>{additional.name}</Typography>
+        {additional.price > 0 && (
+          <Typography bold color="primary">
+            + {additional.formattedPrice}
+          </Typography>
+        )}
+      </View>
+      <ProductSimpleAdditionalAmountControl
+        selectedAmount={additional.amount}
+        additionalId={additional.id}
+        handleClickAdditional={handleClick}
+      />
     </ListItemStyled>
   );
 };

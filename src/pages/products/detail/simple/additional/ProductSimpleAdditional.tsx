@@ -6,7 +6,7 @@ import AdditionalList from './ProductSimpleAdditionalList';
 
 type ProductDetailAdditionalProps = {
   additional: Additional[];
-  handleClickAdditional(additionalId: number): void;
+  handleClickAdditional(additionalId: number, amount: number): void;
 };
 
 const styles = StyleSheet.create({

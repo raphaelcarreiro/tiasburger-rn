@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     alignItems: 'flex-end',
     position: 'absolute',
-    top: 0,
+    bottom: 0,
     right: 0,
   },
   button: {
