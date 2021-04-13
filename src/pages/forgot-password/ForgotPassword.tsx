@@ -44,7 +44,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ route }) => {
     setValidation({ email: [] });
 
     const schema = yup.object().shape({
-      email: yup.string().email('Uma conta de e-mail deve ser informada').required('O e-mail é obrigatório'),
+      email: yup.string().required('E-mail ou telefone obrigatório'),
     });
 
     schema
@@ -62,7 +62,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ route }) => {
     api
       .post('password/email', { email })
       .then(() => {
-        messaging.handleOpen('1 minutinho e um link será enviado para o e-mail informado');
+        messaging.handleOpen('Enviamos uma mensagem para seu e-mail');
       })
       .catch(err => {
         if (err.response) {
@@ -90,8 +90,8 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ route }) => {
         error={!!validation}
         helperText={validation ? validation.email[0] : ''}
         variant="outlined"
-        label="E-mail"
-        placeholder="Digite seu e-mail"
+        label="E-mail ou telefone"
+        placeholder="Digite seu e-mail ou telefone"
         value={email}
         onChange={e => setEmail(e.nativeEvent.text)}
         editable={!loading}

@@ -16,6 +16,13 @@ api.interceptors.request.use(
     if (token) config.headers.Authorization = `Bearer ${token}`;
     return config;
   },
+  err => {
+    return Promise.reject(err);
+  },
+);
+
+api.interceptors.response.use(
+  config => config,
   async err => {
     if (err.response && err.response.status === 401) {
       await storage.removeItem('token');

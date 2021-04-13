@@ -18,9 +18,12 @@ export default function checkPromotion(store: MiddlewareAPI<Dispatch, RootState>
   const cart = store.getState().cart;
   const order = store.getState().order;
 
-  if (promotions.length > 0) {
+  if (promotions) {
     store.dispatch(inactivePromotionRemoveFromCart(promotions));
+    store.dispatch(setDiscount('value', 0));
+
     promotions.forEach(promotion => {
+      store.dispatch(promotionRemoveFromCart(promotion.id));
       let checked = false;
       if (promotion.categories.length > 0) {
         // promoção com regras de categorias
@@ -51,16 +54,7 @@ export default function checkPromotion(store: MiddlewareAPI<Dispatch, RootState>
             break;
           }
         }
-      // remove do carrinho itens promocionais e desconto
-      else
-        promotion.type === 'safe'
-          ? store.dispatch(setDiscount('value', 0))
-          : store.dispatch(promotionRemoveFromCart(promotion.id));
-
       store.dispatch(updateTotal(order.shipment.shipment_method || 'delivery'));
     });
-  } else {
-    store.dispatch(setDiscount('value', 0));
-    store.dispatch(updateTotal(order.shipment.shipment_method || 'delivery'));
   }
 }

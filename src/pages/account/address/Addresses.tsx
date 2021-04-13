@@ -86,7 +86,6 @@ const AccountAddresses: React.FC = () => {
       .put(`customer/addresses/main/${selectedIdAddress}`)
       .then(() => {
         dispatch(setMainCustomerAddress(selectedIdAddress));
-        messaging.handleOpen('Atualizado');
       })
       .catch(err => {
         if (err.response) messaging.handleOpen(err.response.data.error);

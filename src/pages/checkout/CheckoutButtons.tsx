@@ -46,11 +46,11 @@ const CheckoutButtons: React.FC<CheckoutButtonsProps> = ({ currentStep, stepsAmo
     <View style={styles.container}>
       <TouchableOpacity style={styles.prior} onPress={handleStepPrior}>
         <Icon name="chevron-left" size={20} />
-        <Typography>Anterior</Typography>
+        <Typography>anterior</Typography>
       </TouchableOpacity>
       {currentStep && currentStep.order < stepsAmount - 1 && (
         <TouchableOpacity style={styles.next} onPress={handleStepNext}>
-          <Typography>Próximo</Typography>
+          <Typography>próximo</Typography>
           <Icon name="chevron-right" size={20} />
         </TouchableOpacity>
       )}

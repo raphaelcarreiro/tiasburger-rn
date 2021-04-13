@@ -27,7 +27,7 @@ export interface OrderShipment {
   city: string;
   region: string;
   shipment_method: 'delivery' | 'customer_collect';
-  scheduled_at: string | null;
+  scheduled_at: string | null | Date;
   formattedScheduledAt: string | null;
   area_region: AreaRegion | null;
   distance: number | null;
@@ -56,6 +56,13 @@ export interface Order {
   discount: number;
   formattedChange: string;
   formattedTax: string;
+  origin: OrderOrigin;
+}
+
+export interface OrderOrigin {
+  version: string | null;
+  app_name: string | null;
+  platform: 'admin' | 'web-app' | 'native-app' | null;
 }
 
 export type OrderStatusOptions = 'p' | 'o' | 'a' | 'd' | 'c' | 'x';
@@ -63,6 +70,16 @@ export type OrderStatusOptions = 'p' | 'o' | 'a' | 'd' | 'c' | 'x';
 interface PicPayPayment {
   payment_url: string;
 }
+
+interface PixPayment {
+  order_id: number;
+  qr_code: string;
+  qr_code_base64: string;
+  expires_at: string;
+  paid_at: string;
+  created_at: string;
+}
+
 export interface CreatedOrder {
   id: number;
   formattedId: string;
@@ -90,5 +107,6 @@ export interface CreatedOrder {
   order_status: OrderStatus[];
   status: OrderStatusOptions;
   statusName: string;
-  picpay_payment: PicPayPayment;
+  picpay_payment?: PicPayPayment | null;
+  pix_payment?: PixPayment | null;
 }

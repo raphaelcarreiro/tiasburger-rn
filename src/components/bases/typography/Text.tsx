@@ -22,6 +22,7 @@ const Typography: React.FC<TypographyProps> = ({
   style,
   align,
   italic,
+  ...rest
 }) => {
   return (
     <StyledText
@@ -33,6 +34,7 @@ const Typography: React.FC<TypographyProps> = ({
       variant={variant}
       gutterBottom={gutterBottom}
       color={color}
+      {...rest}
     >
       {children}
     </StyledText>

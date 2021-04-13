@@ -90,7 +90,7 @@ interface UpdateTotalAction {
   shipmentMethod: 'delivery' | 'customer_collect';
 }
 
-export type CartTypeActions =
+export type CartActions =
   | SetCartAction
   | PrepareProductAction
   | AddProductAction

@@ -1,25 +1,6 @@
 import { moneyFormat } from '../../../helpers/numberFormat';
-import { Cart, CartRestaurantConfigs, CartProduct } from '../../../@types/cart';
-import {
-  CartTypeActions,
-  SET_CART,
-  PREPARE_PRODUCT,
-  ADD_PRODUCT,
-  PROMOTION_ADD_PRODUCT,
-  REMOVE_PRODUCT,
-  PROMOTION_REMOVE_PRODUCT,
-  INACTIVE_PROMOTION_REMOVE_PRODUCT,
-  UPDATE_PRODUCT,
-  RESTORE_CART,
-  CREATE_HISTORY,
-  CLEAR_CART,
-  SET_CONFIGS,
-  SET_COUPON,
-  REMOVE_COUPON,
-  SET_DISCOUNT,
-  SET_TAX,
-  UPDATE_TOTAL,
-} from './types';
+import { Cart, CartProduct } from '../../../@types/cart';
+import { CartActions } from './types';
 import Storage from '@react-native-community/async-storage';
 
 export const INITIAL_STATE: Cart = {
@@ -27,18 +8,27 @@ export const INITIAL_STATE: Cart = {
   product: null,
   total: 0,
   history: [],
-  configs: {} as CartRestaurantConfigs,
+  configs: {
+    cart_accumulate_discount: false,
+    order_minimum_products_amount: 1,
+    order_minimum_value: 0,
+    pizza_calculate: 'average_value',
+    tax_mode: 'no_tax',
+    tax_value: 0,
+  },
   coupon: null,
   discount: 0,
   subtotal: 0,
   tax: 0,
-  formattedTax: 'R$ 0,00',
-  formattedDiscount: 'R$ 0,00',
-  formattedSubtotal: 'R$ 0,00',
-  formattedTotal: 'R$ 0,00',
+  productsAmount: 0,
+  promotionDiscount: 0,
+  formattedTax: moneyFormat(0),
+  formattedDiscount: moneyFormat(0),
+  formattedSubtotal: moneyFormat(0),
+  formattedTotal: moneyFormat(0),
 };
 
-export default function cart(state = INITIAL_STATE, action: CartTypeActions): Cart {
+export default function cart(state = INITIAL_STATE, action: CartActions): Cart {
   function addToCart(promotion: { id: number; name: string } | null = null): Cart {
     if (!state.product) return state;
     const price =
@@ -128,11 +118,11 @@ export default function cart(state = INITIAL_STATE, action: CartTypeActions): Ca
   }
 
   switch (action.type) {
-    case SET_CART: {
+    case '@cart/SET_CART': {
       return action.cart;
     }
 
-    case PREPARE_PRODUCT: {
+    case '@cart/PREPARE_PRODUCT': {
       return {
         ...state,
         product: {
@@ -142,15 +132,15 @@ export default function cart(state = INITIAL_STATE, action: CartTypeActions): Ca
       };
     }
 
-    case ADD_PRODUCT: {
+    case '@cart/ADD_PRODUCT': {
       return addToCart();
     }
 
-    case PROMOTION_ADD_PRODUCT: {
+    case '@cart/PROMOTION_ADD_PRODUCT': {
       return addToCart({ id: action.promotionId, name: action.promotionName });
     }
 
-    case REMOVE_PRODUCT: {
+    case '@cart/REMOVE_PRODUCT': {
       const products = state.products.filter(product => product.uid !== action.productUid);
 
       return {
@@ -159,7 +149,7 @@ export default function cart(state = INITIAL_STATE, action: CartTypeActions): Ca
       };
     }
 
-    case PROMOTION_REMOVE_PRODUCT: {
+    case '@cart/PROMOTION_REMOVE_PRODUCT': {
       const products = state.products.filter(product => {
         if (!product.promotion) return true;
         else return product.promotion.id !== action.promotionId;
@@ -171,7 +161,7 @@ export default function cart(state = INITIAL_STATE, action: CartTypeActions): Ca
       };
     }
 
-    case INACTIVE_PROMOTION_REMOVE_PRODUCT: {
+    case '@cart/INACTIVE_PROMOTION_REMOVE_PRODUCT': {
       const products = state.products.filter(product => {
         if (!product.promotion) return true;
         else return action.promotions.some(promotion => promotion.id === product.promotion?.id);
@@ -183,7 +173,7 @@ export default function cart(state = INITIAL_STATE, action: CartTypeActions): Ca
       };
     }
 
-    case UPDATE_PRODUCT: {
+    case '@cart/UPDATE_PRODUCT': {
       const price = action.product.product_price;
       let additionalPrice = 0;
       let finalPrice = 0;
@@ -269,21 +259,21 @@ export default function cart(state = INITIAL_STATE, action: CartTypeActions): Ca
       };
     }
 
-    case RESTORE_CART: {
+    case '@cart/RESTORE_CART': {
       return {
         ...state,
         products: state.history,
       };
     }
 
-    case CREATE_HISTORY: {
+    case '@cart/CREATE_HISTORY': {
       return {
         ...state,
         history: action.products,
       };
     }
 
-    case CLEAR_CART: {
+    case '@cart/CLEAR_CART': {
       Storage.removeItem('cart');
       return {
         ...INITIAL_STATE,
@@ -293,7 +283,7 @@ export default function cart(state = INITIAL_STATE, action: CartTypeActions): Ca
       };
     }
 
-    case SET_CONFIGS: {
+    case '@cart/SET_CONFIGS': {
       return {
         ...state,
         configs: {
@@ -303,14 +293,14 @@ export default function cart(state = INITIAL_STATE, action: CartTypeActions): Ca
       };
     }
 
-    case SET_COUPON: {
+    case '@cart/SET_COUPON': {
       return {
         ...state,
         coupon: action.coupon,
       };
     }
 
-    case REMOVE_COUPON: {
+    case '@cart/REMOVE_COUPON': {
       return {
         ...state,
         coupon: null,
@@ -318,7 +308,7 @@ export default function cart(state = INITIAL_STATE, action: CartTypeActions): Ca
       };
     }
 
-    case SET_TAX: {
+    case '@cart/SET_TAX': {
       return {
         ...state,
         tax: action.tax,
@@ -326,45 +316,63 @@ export default function cart(state = INITIAL_STATE, action: CartTypeActions): Ca
       };
     }
 
-    case SET_DISCOUNT: {
+    case '@cart/SET_DISCOUNT': {
+      if (action.discount === 0)
+        return {
+          ...state,
+          promotionDiscount: 0,
+        };
+
       const subtotal = state.products.reduce((sum, value) => sum + value.final_price, 0);
+
+      let promotionDiscount = action.discountType === 'percent' ? subtotal * (action.discount / 100) : action.discount;
+
+      if (state.configs.cart_accumulate_discount) promotionDiscount = state.promotionDiscount + promotionDiscount;
+      else
+        promotionDiscount = state.promotionDiscount > promotionDiscount ? state.promotionDiscount : promotionDiscount;
 
       return {
         ...state,
-        discount: action.discountType === 'percent' ? subtotal * (action.discount / 100) : action.discount,
+        promotionDiscount,
       };
     }
 
-    case UPDATE_TOTAL: {
+    case '@cart/UPDATE_TOTAL': {
       const { configs } = state;
       const { coupon } = state;
+      const promotionDiscount = state.promotionDiscount;
+
       let tax = state.tax;
+      let discount = 0;
       let total = 0;
-      let discount = 0 || state.discount;
+      let couponDiscount = 0;
+
       const subtotal = state.products.reduce((sum, value) => sum + value.final_price, 0);
+      const productsAmount = state.products.reduce((carry, product) => carry + product.amount, 0);
+      const hasProductNoTax = state.products.some(product => product.no_tax);
 
-      if (coupon) {
-        discount = coupon.discount_type === 'percent' ? subtotal * (coupon.discount / 100) : coupon.discount;
+      if (coupon)
+        couponDiscount = coupon.discount_type === 'percent' ? subtotal * (coupon.discount / 100) : coupon.discount;
+
+      if (configs.cart_accumulate_discount) discount = promotionDiscount + couponDiscount;
+      else discount = couponDiscount > promotionDiscount ? couponDiscount : promotionDiscount;
+
+      if (action.shipmentMethod === 'delivery') {
+        switch (configs.tax_mode) {
+          case 'order_value': {
+            tax = configs.tax_value > 0 && subtotal < configs.order_minimum_value ? configs.tax_value : 0;
+            break;
+          }
+
+          case 'products_amount': {
+            tax = productsAmount <= configs.order_minimum_products_amount ? configs.tax_value : 0;
+          }
+        }
       }
 
-      if (configs.tax_mode === 'order_value') {
-        if (action.shipmentMethod === 'delivery') {
-          tax = configs.tax_value > 0 && subtotal < configs.order_minimum_value ? configs.tax_value : 0;
-          total = subtotal < configs.order_minimum_value ? subtotal - discount + tax : subtotal - discount;
-        } else {
-          tax = 0;
-          total = subtotal - discount;
-        }
-      } else if (configs.tax_mode === 'district' || configs.tax_mode === 'distance') {
-        if (action.shipmentMethod === 'delivery') total = subtotal - discount + tax;
-        else {
-          tax = 0;
-          total = subtotal - discount;
-        }
-      } else {
-        tax = 0;
-        total = subtotal - discount;
-      }
+      if (action.shipmentMethod !== 'delivery' || hasProductNoTax) tax = 0;
+
+      total = subtotal - discount + tax;
 
       total = total < 0 ? 0 : total;
 
@@ -378,6 +386,7 @@ export default function cart(state = INITIAL_STATE, action: CartTypeActions): Ca
         formattedDiscount: moneyFormat(discount),
         formattedTax: moneyFormat(tax),
         formattedTotal: moneyFormat(total),
+        productsAmount,
       };
     }
 

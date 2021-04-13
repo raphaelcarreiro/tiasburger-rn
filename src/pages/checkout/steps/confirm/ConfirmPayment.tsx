@@ -35,7 +35,7 @@ const ConfirmPayment: React.FC = () => {
     <>
       <View style={styles.section}>
         <Typography size={20} bold>
-          Forma de pagamento
+          forma de pagamento
         </Typography>
         {order.paymentMethod?.mode === 'online' ? (
           <Typography>Pagamento on-line</Typography>

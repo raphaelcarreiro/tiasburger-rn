@@ -3,7 +3,7 @@ import { FlatList, StyleSheet, View } from 'react-native';
 import { Product } from '../../@types/product';
 import AppBar from '../../components/appbar/Appbar';
 import ProductItem from './ProductItem';
-import { ProductContext } from './productContext';
+import { ProductContext } from './useProducts';
 import ProductSimple from './detail/simple/ProductSimple';
 import { useDispatch } from 'react-redux';
 import ProductComplement from './detail/complement/ProductComplement';
@@ -144,7 +144,7 @@ const ProductList: React.FC<ProductsProps> = ({ products, refresh, loading, titl
             <View style={styles.empty}>
               {!loading && (
                 <Typography variant="caption" size={20}>
-                  Nenhum produto
+                  nenhum produto
                 </Typography>
               )}
             </View>

@@ -1,16 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import api from '../../services/api';
 import { Product } from '../../@types/product';
-import { RootDrawerParamList } from '../../routes/Routes';
 import { moneyFormat } from '../../helpers/numberFormat';
-import { DrawerNavigationProp } from '@react-navigation/drawer';
 import ProductList from '../products/ProductList';
 
-type ProductsProps = {
-  navigation: DrawerNavigationProp<RootDrawerParamList>;
-};
-
-const Offers: React.FC<ProductsProps> = ({ navigation }) => {
+const Offers: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 

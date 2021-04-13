@@ -126,6 +126,7 @@ const AddressForm: React.FC<AccountFormEditProps> = ({
           variant="standard"
           autoFocus
           editable={!loading}
+          maxLength={8}
         />
       )}
       {!postalCodeValidation.error && postalCodeValidation.hasData && (

@@ -1,18 +1,11 @@
 import React from 'react';
-import { Complement } from '../../../../@types/product';
+import { ComplementCategory } from '../../../../@types/product';
 import { View, StyleSheet, Image } from 'react-native';
 import Typography from '../../../../components/bases/typography/Text';
-import { useProduct } from '../../productContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from 'styled-components';
 import { ListItemStyled } from '../style';
-
-type ProductComplementsProps = {
-  complements: Complement[];
-  complementCategoryId: number;
-  isPizzaTaste: boolean;
-  handleComplementClick(productId: number, complementCategoryId: number, complementId: number): void;
-};
+import { useProductPizza } from '../hooks/useProductPizza';
 
 const styles = StyleSheet.create({
   listItem: {
@@ -49,23 +42,20 @@ const styles = StyleSheet.create({
   },
 });
 
-const ProductComplements: React.FC<ProductComplementsProps> = ({
-  complements,
-  handleComplementClick,
-  complementCategoryId,
-  isPizzaTaste,
-}) => {
-  const { selectedProduct } = useProduct();
+type ProductComplementsProps = {
+  category: ComplementCategory;
+};
+
+const ProductComplements: React.FC<ProductComplementsProps> = ({ category }) => {
+  const { handleClickPizzaComplements } = useProductPizza();
   const theme = useTheme();
 
   function handleClick(complementId: number) {
-    if (!selectedProduct) return;
-
-    handleComplementClick(selectedProduct.id, complementCategoryId, complementId);
+    handleClickPizzaComplements(category.id, complementId);
   }
   return (
     <>
-      {complements.map(complement => (
+      {category.complements.map(complement => (
         <ListItemStyled
           selected={complement.selected}
           key={String(complement.id)}
@@ -94,7 +84,7 @@ const ProductComplements: React.FC<ProductComplementsProps> = ({
                 price.selected &&
                 !!price.price && (
                   <Typography key={String(price.id)} bold color="primary">
-                    {!isPizzaTaste && '+ '}
+                    {!category.is_pizza_taste && '+ '}
                     {price.formattedPrice}
                   </Typography>
                 ),

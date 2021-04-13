@@ -1,6 +1,6 @@
 import React from 'react';
 import { DrawerContentComponentProps } from '@react-navigation/drawer';
-import { StyleSheet, ScrollView, View, Image } from 'react-native';
+import { StyleSheet, ScrollView, View, Image, Linking } from 'react-native';
 import { useTheme } from 'styled-components';
 import { DrawerHeader, DrawerHeaderText } from './styles';
 import { useSelector } from '../../store/selector';
@@ -44,10 +44,14 @@ const Drawer: React.FC<DrawerContentComponentProps> = props => {
     });
   }
 
+  function handleOpenLink() {
+    Linking.openURL('https://www.sgrande.delivery');
+  }
+
   return (
     <ScrollView {...props} style={{ backgroundColor: theme.secondary }}>
       <DrawerHeader>
-        <DrawerHeaderText>{restaurant ? restaurant.name : 'Carregando'}</DrawerHeaderText>
+        <DrawerHeaderText>{restaurant ? restaurant.name : 'carregando'}</DrawerHeaderText>
       </DrawerHeader>
       <View style={styles.items}>
         <Item
@@ -114,10 +118,10 @@ const Drawer: React.FC<DrawerContentComponentProps> = props => {
       </View>
       <View style={{ paddingTop: 30, paddingLeft: 15, alignItems: 'flex-start' }}>
         <Typography color="contrast" size={14}>
-          Quer ter um app como esse?
+          quer ter um app como esse?
         </Typography>
-        <Button disableUpperCase disablePadding variant="text" color="primary">
-          Entrar em contato
+        <Button onPress={handleOpenLink} disableUpperCase disablePadding variant="text" color="primary">
+          entrar em contato
         </Button>
       </View>
     </ScrollView>

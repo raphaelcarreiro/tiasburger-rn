@@ -13,10 +13,10 @@ import Checkout from '../pages/checkout/Checkout';
 import Orders from '../pages/orders/Orders';
 import Order from '../pages/orders/order/Order';
 import Products from '../pages/products/Products';
-import { linking } from './linking';
 import { useAuth } from '../hooks/auth';
 import InsideLoading from '../components/loading/InsideLoading';
 import Contact from '../pages/contact/Contact';
+import { useLinking } from '../hooks/useLinking';
 
 type SignRouteOptions = 'Initial' | 'LoginEmail' | 'Register' | 'ForgotPassword';
 
@@ -39,6 +39,7 @@ const Drawer = createDrawerNavigator<RootDrawerParamList>();
 const Routes: React.FC = () => {
   const user = useSelector(state => state.user);
   const auth = useAuth();
+  const linking = useLinking();
 
   return (
     <NavigationContainer linking={linking}>

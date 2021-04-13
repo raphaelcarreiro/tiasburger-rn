@@ -1,50 +1,48 @@
 import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import ProductAmountControl from './ProductAmountControl';
+import ProductAddButton from './ProductAddButton';
 import { Product } from '../../../@types/product';
-import Button from '../../../components/bases/button/Button';
-import { StyleSheet } from 'react-native';
-import Typography from '../../../components/bases/typography/Text';
-import { useProduct } from '../productContext';
-import { useNavigation } from '@react-navigation/native';
-import { RootDrawerParamList } from '../../../routes/Routes';
-import { DrawerNavigationProp } from '@react-navigation/drawer';
-
-type ProductAddProps = {
-  total: string | number;
-  product: Product;
-};
 
 const styles = StyleSheet.create({
-  addButton: {
-    minWidth: 190,
-    paddingLeft: 15,
-    paddingRight: 15,
+  footerActions: {
+    position: 'absolute',
+    bottom: 0,
+    height: 80,
+    left: 0,
+    right: 0,
+    padding: 15,
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    alignItems: 'center',
+    elevation: 1,
+    justifyContent: 'flex-end',
   },
 });
 
-const ProductAdd: React.FC<ProductAddProps> = ({ total, product }) => {
-  const { handleAddProductToCart, handleSelectProduct } = useProduct();
-  const navigation = useNavigation<DrawerNavigationProp<RootDrawerParamList>>();
+type ProductAddProps = {
+  handleAmountDown(): void;
+  handleAmountUp(): void;
+  amount: number;
+  product: Product;
+  total: string;
+  redirect?: boolean;
+  buttonText?: string;
+};
 
-  function handleConfirm() {
-    if (!product.ready) return;
-    handleAddProductToCart();
-    handleSelectProduct(null); // close modal
-    navigation.navigate('Cart');
-  }
-
+const ProductAdd: React.FC<ProductAddProps> = ({
+  product,
+  amount,
+  total,
+  handleAmountDown,
+  handleAmountUp,
+  buttonText = 'Adicionar',
+}) => {
   return (
-    <Button
-      disabled={!product.ready}
-      variant="contained"
-      color="primary"
-      style={styles.addButton}
-      onPress={handleConfirm}
-    >
-      <Typography bold>
-        <Typography>Adicionar </Typography>
-        {total}
-      </Typography>
-    </Button>
+    <View style={styles.footerActions}>
+      <ProductAmountControl handleAmountDown={handleAmountDown} handleAmountUp={handleAmountUp} amount={amount} />
+      <ProductAddButton product={product} total={total} buttonText={buttonText} />
+    </View>
   );
 };
 

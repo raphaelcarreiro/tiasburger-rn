@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Image, View } from 'react-native';
 import { Category } from '../../../@types/category';
 import Text from '../../../components/bases/typography/Text';
-import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import ListItem from '../../../components/list-item/ListItem';
 import { RootDrawerParamList } from '../../../routes/Routes';
 import { DrawerNavigationProp } from '@react-navigation/drawer';

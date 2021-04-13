@@ -4,7 +4,7 @@ import ListItem from '../../components/list-item/ListItem';
 import { Product } from '../../@types/product';
 import Text from '../../components/bases/typography/Text';
 import { useTheme } from 'styled-components';
-import { useProduct } from './productContext';
+import { useProducts } from './useProducts';
 
 const styles = StyleSheet.create({
   listItem: {
@@ -45,7 +45,7 @@ interface ProductItemProps {
 
 const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
   const theme = useTheme();
-  const { handleSelectProduct } = useProduct();
+  const { handleSelectProduct } = useProducts();
 
   return (
     <ListItem style={styles.listItem} onPress={() => handleSelectProduct(product)}>
@@ -60,11 +60,13 @@ const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
           <View style={styles.priceContent}>
             <Text
               size={product.special_price ? 16 : 20}
-              style={product.special_price ? styles.oldPrice : { color: theme.primary }}
+              style={
+                product.promotion_activated && !!product.special_price ? styles.oldPrice : { color: theme.primary }
+              }
             >
               {product.formattedPrice}
             </Text>
-            {!!product.special_price && (
+            {product.promotion_activated && !!product.special_price && (
               <Text color="primary" size={20}>
                 {product.formattedSpecialPrice}
               </Text>

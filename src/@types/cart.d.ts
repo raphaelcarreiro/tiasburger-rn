@@ -1,11 +1,14 @@
 import { Product } from './product';
 import { Coupon } from './coupon';
+import { RestaurantConfigTaxMode, RestaurantConfigPizzaCalculate } from './restaurant';
 
 export type CartRestaurantConfigs = {
-  pizza_calculate: 'higher_value' | 'average_value';
-  tax_mode: 'district' | 'distance' | 'no_tax' | 'order_value';
+  pizza_calculate: RestaurantConfigPizzaCalculate;
+  tax_mode: RestaurantConfigTaxMode;
   tax_value: number;
   order_minimum_value: number;
+  order_minimum_products_amount: number;
+  cart_accumulate_discount: boolean;
 };
 
 export interface CartProduct extends CartPrepareProduct {
@@ -33,6 +36,8 @@ export interface Cart {
   discount: number;
   subtotal: number;
   tax: number;
+  productsAmount: number;
+  promotionDiscount: number;
   formattedTax: string;
   formattedSubtotal: string;
   formattedDiscount: string;

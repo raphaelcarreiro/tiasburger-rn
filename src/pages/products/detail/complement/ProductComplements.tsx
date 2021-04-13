@@ -1,16 +1,14 @@
 import React from 'react';
-import { Complement } from '../../../../@types/product';
+import { ComplementCategory } from '../../../../@types/product';
 import { View, StyleSheet } from 'react-native';
 import Typography from '../../../../components/bases/typography/Text';
-import { useProduct } from '../../productContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from 'styled-components';
 import { ListItemStyled } from '../style';
+import { useProductComplement } from '../hooks/useProductComplement';
 
 type ProductComplementsProps = {
-  complements: Complement[];
-  complementCategoryId: number;
-  handleComplementClick(productId: number, complementCategoryId: number, complementId: number): void;
+  category: ComplementCategory;
 };
 
 const styles = StyleSheet.create({
@@ -30,22 +28,16 @@ const styles = StyleSheet.create({
   },
 });
 
-const ProductComplements: React.FC<ProductComplementsProps> = ({
-  complements,
-  handleComplementClick,
-  complementCategoryId,
-}) => {
-  const { selectedProduct } = useProduct();
+const ProductComplements: React.FC<ProductComplementsProps> = ({ category }) => {
+  const { handleClickComplements } = useProductComplement();
   const theme = useTheme();
 
   function handleClick(complementId: number) {
-    if (!selectedProduct) return;
-
-    handleComplementClick(selectedProduct.id, complementCategoryId, complementId);
+    handleClickComplements(category.id, complementId);
   }
   return (
     <>
-      {complements.map(complement => (
+      {category.complements.map(complement => (
         <ListItemStyled
           selected={complement.selected}
           key={String(complement.id)}

@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Additional } from '../../../../../@types/product';
 import Typography from '../../../../../components/bases/typography/Text';
-import { useTheme } from 'styled-components';
 import { ListItemStyled } from '../../style';
 import ProductSimpleAdditionalAmountControl from './ProductSimpleAdditionalAmountControl';
 
@@ -29,8 +28,6 @@ const styles = StyleSheet.create({
 });
 
 const ProductSimpleAdditionalList: React.FC<AdditionalListProps> = ({ additional, handleClick }) => {
-  const theme = useTheme();
-
   return (
     <ListItemStyled selected={additional.selected} style={styles.listItem}>
       <View>
@@ -41,7 +38,11 @@ const ProductSimpleAdditionalList: React.FC<AdditionalListProps> = ({ additional
           </Typography>
         )}
       </View>
-      <ProductSimpleAdditionalAmountControl additionalId={additional.id} handleClickAdditional={handleClick} />
+      <ProductSimpleAdditionalAmountControl
+        selectedAmount={additional.amount}
+        additionalId={additional.id}
+        handleClickAdditional={handleClick}
+      />
     </ListItemStyled>
   );
 };

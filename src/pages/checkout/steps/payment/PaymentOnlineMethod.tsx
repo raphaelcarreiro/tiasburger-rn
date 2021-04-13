@@ -55,7 +55,7 @@ const PaymentOnlineMethod: React.FC<PaymentOnlineMethodProps> = ({ paymentMethod
   function handlePress(paymentMethod: PaymentMethod) {
     dispatch(setPaymentMethod(paymentMethod));
 
-    if (paymentMethod.kind === 'picpay') {
+    if (paymentMethod.kind === 'picpay' || paymentMethod.kind === 'pix') {
       if (!user?.customer.cpf) {
         openModalCpf();
         return;
@@ -77,6 +77,7 @@ const PaymentOnlineMethod: React.FC<PaymentOnlineMethodProps> = ({ paymentMethod
       <View style={[styles.avatar, { borderColor: theme.primary }]}>
         {paymentMethod.kind === 'card' && <Icon color={theme.primary} name="credit-card" size={20} />}
         {paymentMethod.kind === 'picpay' && <McIcon color={theme.primary} name="cellphone-android" size={20} />}
+        {paymentMethod.kind === 'pix' && <McIcon color={theme.primary} name="cellphone-android" size={20} />}
       </View>
       <Typography>{paymentMethod.method}</Typography>
       {paymentMethod.id === orderPaymentMethod?.id && (

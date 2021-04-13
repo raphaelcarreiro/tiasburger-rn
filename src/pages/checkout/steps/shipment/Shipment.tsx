@@ -120,7 +120,7 @@ const Shipment: React.FC = () => {
               />
             ))}
             <ButtonNewAddress onPress={() => setModalNewAddress(true)}>
-              <Typography>Adicionar endereço</Typography>
+              <Typography>adicionar endereço</Typography>
             </ButtonNewAddress>
           </>
         )}

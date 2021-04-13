@@ -19,6 +19,7 @@ import {
   SET_SCHEDULE,
 } from './types';
 import { moneyFormat } from '../../../helpers/numberFormat';
+import { version, name } from '../../../../package.json';
 
 const INITIAL_STATE: Order = {
   shipment: {} as OrderShipment,
@@ -39,6 +40,11 @@ const INITIAL_STATE: Order = {
   discount: 0,
   formattedTax: 'R$ 0,00',
   formattedChange: 'R$ 0,00',
+  origin: {
+    version,
+    app_name: name,
+    platform: 'native-app',
+  },
 };
 
 export default function order(state = INITIAL_STATE, action: OrderTypeActions): Order {

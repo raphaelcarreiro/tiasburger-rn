@@ -1,14 +1,8 @@
 import { createHistory, setConfigs, updateTotal, setTax } from './actions';
-import Storage from '@react-native-community/async-storage';
 
 import checkPromotion from './promotion/checkPromotion';
-import { Cart } from '../../../@types/cart';
 import { Middleware } from 'redux';
 import { RootState } from '../../selector';
-
-const saveCartAtLocalStorage = async (cart: Cart) => {
-  await Storage.setItem('cart', JSON.stringify(cart));
-};
 
 export const cartMiddlware: Middleware<any, RootState> = store => next => action => {
   // actions para atualizar total e salvar carrinho em local storage
@@ -87,6 +81,8 @@ export const cartMiddlware: Middleware<any, RootState> = store => next => action
         tax_mode: configs.tax_mode,
         tax_value: configs.tax_value,
         order_minimum_value: configs.order_minimum_value,
+        order_minimum_products_amount: configs.order_minimum_products_amount,
+        cart_accumulate_discount: configs.cart_accumulate_discount,
       }),
     );
   }
@@ -103,18 +99,5 @@ export const cartMiddlware: Middleware<any, RootState> = store => next => action
    */
   if (actionsToSaveCart.includes(action.type)) {
     checkPromotion(store);
-  }
-
-  // salva o carrinho em local storage
-  if (actionsToSaveCart.includes(action.type)) {
-    const restaurant = store.getState().restaurant;
-
-    if (!restaurant) return;
-
-    const { configs } = restaurant;
-
-    const cart = store.getState().cart;
-
-    if (configs.preserve_cart) saveCartAtLocalStorage(cart);
   }
 };

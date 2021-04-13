@@ -23,7 +23,7 @@ import { CreatedOrder } from '../../@types/order';
 import api from '../../services/api';
 import { PaymentMethod } from '../../@types/paymentMethod';
 import Loading from '../../components/loading/Loading';
-import CheckoutSuccess from './CheckoutSuccess';
+import CheckoutSuccess from './steps/success/CheckoutSuccess';
 import CheckoutEmptyCart from './CheckoutEmptyCart';
 import CheckoutButtons from './CheckoutButtons';
 import CheckoutHeader from './CheckoutHeader';
@@ -166,16 +166,27 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
   useEffect(() => {
     if (!restaurant) return;
 
-    if (
-      cart.subtotal < restaurant.configs.order_minimum_value &&
-      restaurant.configs.tax_mode !== 'order_value' &&
-      currentStep?.id !== 'STEP_SUCCESS' &&
-      cart.products.length > 0
-    ) {
+    if (cart.products.length === 0) return;
+
+    if (cart.subtotal < restaurant.configs.order_minimum_value && restaurant.configs.tax_mode !== 'order_value') {
       messaging.handleOpen(`Valor mínimo do pedido deve ser ${restaurant.configs.formattedOrderMinimumValue}`);
       navigation.navigate('Menu');
     }
   }, [restaurant, cart.subtotal, cart.products, currentStep, navigation, messaging]);
+
+  useEffect(() => {
+    if (!restaurant) return;
+
+    if (cart.products.length === 0) return;
+
+    if (
+      cart.productsAmount < restaurant.configs.order_minimum_products_amount &&
+      restaurant.configs.tax_mode !== 'products_amount'
+    ) {
+      messaging.handleOpen(`A quantidade mínima de produtos é ${restaurant.configs.order_minimum_products_amount}`);
+      navigation.navigate('Menu');
+    }
+  }, [cart, restaurant, navigation, messaging]);
 
   useEffect(() => {
     if (!user) return;
@@ -254,10 +265,10 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
   }
 
   return (
-    <>
+    <CheckoutContext.Provider value={checkoutContextValue}>
       <AppBar title="finalizar pedido" actions={<CheckoutActions handleCartVisilibity={handleCartVisibility} />} />
       {cartVisibility && (
-        <Modal style={styles.modal} open={cartVisibility} handleClose={handleCartVisibility} title="Carrinho">
+        <Modal style={styles.modal} open={cartVisibility} handleClose={handleCartVisibility} title="carrinho">
           <Cart />
         </Modal>
       )}
@@ -267,38 +278,34 @@ const Checkout: React.FC<CheckoutProps> = ({ navigation }) => {
         </Dialog>
       )}
       {currentStep?.id === 'STEP_SUCCESS' ? (
-        <CheckoutContext.Provider value={checkoutContextValue}>
-          <CheckoutSuccess />
-        </CheckoutContext.Provider>
+        <CheckoutSuccess />
       ) : cart.products.length === 0 ? (
         <CheckoutEmptyCart />
       ) : (
-        <CheckoutContext.Provider value={checkoutContextValue}>
-          <View style={styles.container}>
-            <ScrollView
-              style={styles.scroll}
-              keyboardShouldPersistTaps="handled"
-              contentContainerStyle={stylesForShipmentMethodStep()}
-            >
-              <CheckoutHeader currentStep={currentStep} />
-              {currentStep?.id === 'STEP_SHIPMENT_METHOD' ? (
-                <ShipmentMethod />
-              ) : currentStep?.id === 'STEP_SHIPMENT' ? (
-                <Shipment />
-              ) : currentStep?.id === 'STEP_PAYMENT' ? (
-                <Payment />
-              ) : (
-                currentStep?.id === 'STEP_CONFIRM' && <Confirm />
-              )}
-            </ScrollView>
-            {currentStep?.id !== 'STEP_SHIPMENT_METHOD' && (
-              <CheckoutButtons currentStep={currentStep} stepsAmount={steps.length} />
+        <View style={styles.container}>
+          <ScrollView
+            style={styles.scroll}
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={stylesForShipmentMethodStep()}
+          >
+            <CheckoutHeader currentStep={currentStep} />
+            {currentStep?.id === 'STEP_SHIPMENT_METHOD' ? (
+              <ShipmentMethod />
+            ) : currentStep?.id === 'STEP_SHIPMENT' ? (
+              <Shipment />
+            ) : currentStep?.id === 'STEP_PAYMENT' ? (
+              <Payment />
+            ) : (
+              currentStep?.id === 'STEP_CONFIRM' && <Confirm />
             )}
-          </View>
-        </CheckoutContext.Provider>
+          </ScrollView>
+          {currentStep?.id !== 'STEP_SHIPMENT_METHOD' && (
+            <CheckoutButtons currentStep={currentStep} stepsAmount={steps.length} />
+          )}
+        </View>
       )}
       {saving && <Loading />}
-    </>
+    </CheckoutContext.Provider>
   );
 };
 

@@ -78,11 +78,11 @@ const AccountAddressesItem: React.FC<AccountAddressesItemProps> = ({
     <>
       {optionsShown && (
         <Options open={true} handleClose={() => setOptionsShown(!optionsShown)}>
-          <OptionsButton title="Alterar" onPress={handleEditPress} />
+          <OptionsButton title="alterar" onPress={handleEditPress} />
           {selectedAddress && !selectedAddress.is_main && (
-            <OptionsButton title="Marcar como principal" onPress={handleMainAddressPress} />
+            <OptionsButton title="marcar como principal" onPress={handleMainAddressPress} />
           )}
-          <OptionsButton color="error" title="Excluir" onPress={handleDelete} />
+          <OptionsButton color="error" title="excluir" onPress={handleDelete} />
         </Options>
       )}
       <TouchableOpacity style={styles.listItem} onPress={() => handlePress(address.id)}>

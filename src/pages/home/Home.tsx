@@ -1,15 +1,13 @@
-import React from 'react';
-import AppBar from '../../components/appbar/Appbar';
-import Typography from '../../components/bases/typography/Text';
-import { useSelector } from '../../store/selector';
+import React, { Fragment } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
-import Button from '../../components/bases/button/Button';
-import { DrawerNavigationProp } from '@react-navigation/drawer';
-import { RootDrawerParamList } from '../../routes/Routes';
-import Header from './Header';
+import AppBar from '../../components/appbar/Appbar';
+import { useSelector } from '../../store/selector';
+import Cover from './Cover';
 import Promotions from './promotions/Promotions';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { RestaurantStatus } from './styles';
+import Categories from './categories/Categories';
+import Info from './Info';
+import Offers from './offers/Offers';
+import Footer from '../../components/footer/Footer';
 
 const styles = StyleSheet.create({
   info: {
@@ -27,7 +25,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: '#fafafa',
     flex: 1,
   },
   promotions: {
@@ -57,60 +55,23 @@ const styles = StyleSheet.create({
   },
 });
 
-type HomeProps = {
-  navigation: DrawerNavigationProp<RootDrawerParamList>;
-};
-
-const Home: React.FC<HomeProps> = ({ navigation }) => {
+const Home: React.FC = () => {
   const restaurant = useSelector(state => state.restaurant);
   const promotions = useSelector(state => state.promotions);
+
+  if (!restaurant) return <Fragment />;
 
   return (
     <View style={styles.container}>
       <AppBar title="início" />
-      <ScrollView contentContainerStyle={{ flex: promotions.length > 0 ? 0 : 1 }}>
-        <Header />
-        {restaurant && (
-          <>
-            <View style={styles.info}>
-              {restaurant.configs.delivery_time > 0 && (
-                <Typography variant="caption" size={18}>
-                  <Icon name="clock" size={16} /> {restaurant.configs.delivery_time} minutos
-                </Typography>
-              )}
-              {restaurant.configs.order_minimum_value > 0 && restaurant.configs.tax_mode !== 'order_value' && (
-                <Typography variant="caption">{restaurant.configs.formattedOrderMinimumValue} mínimo</Typography>
-              )}
-            </View>
-            {promotions.length > 0 ? (
-              <Promotions />
-            ) : (
-              <View style={styles.main}>
-                <Button
-                  color="primary"
-                  variant={promotions.length > 0 ? 'text' : 'contained'}
-                  onPress={() => navigation.navigate('Menu')}
-                >
-                  Acessar Cardápio
-                </Button>
-              </View>
-            )}
-          </>
-        )}
+      <ScrollView>
+        <Cover />
+        <Info restaurant={restaurant} />
+        <Categories />
+        <Offers />
+        {promotions.length > 0 && <Promotions />}
+        <Footer />
       </ScrollView>
-      <View style={styles.footer}>
-        {restaurant && (
-          <View style={styles.status}>
-            <RestaurantStatus status={restaurant.is_open} />
-            <Typography bold size={14}>
-              {restaurant.is_open ? 'Aberto' : 'Fechado'}
-            </Typography>
-          </View>
-        )}
-        <Typography align="center" size={14} variant="caption">
-          {restaurant?.working_hours}
-        </Typography>
-      </View>
     </View>
   );
 };

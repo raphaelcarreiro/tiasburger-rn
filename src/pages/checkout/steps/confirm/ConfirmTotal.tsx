@@ -24,7 +24,7 @@ const ConfirmTotal: React.FC = () => {
   return (
     <View style={styles.section}>
       <Typography size={20} bold gutterBottom>
-        Total à pagar
+        total à pagar
       </Typography>
       <Typography size={18} gutterBottom>
         {cart.formattedTotal}

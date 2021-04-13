@@ -40,7 +40,7 @@ const OrderProducts: React.FC<OrderProductsProps> = ({ products }) => {
   return (
     <View style={styles.container}>
       <Typography bold size={18}>
-        Itens
+        itens
       </Typography>
       {products.map(product => (
         <ListItem style={styles.listItem} key={String(product.id)}>

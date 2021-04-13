@@ -26,19 +26,19 @@ const OrderTotal: React.FC<OrderTotalProps> = ({ order }) => {
     <>
       <View style={styles.section}>
         <View style={styles.row}>
-          <Typography>Subtotal</Typography>
+          <Typography>subtotal</Typography>
           <Typography>{order.formattedSubtotal}</Typography>
         </View>
         <View style={styles.row}>
-          <Typography>Desconto</Typography>
+          <Typography>desconto</Typography>
           <Typography>{order.formattedDiscount}</Typography>
         </View>
         <View style={styles.row}>
-          <Typography>Taxa de entrega</Typography>
+          <Typography>taxa de entrega</Typography>
           <Typography>{order.formattedTax}</Typography>
         </View>
         <View style={[styles.row, styles.total]}>
-          <Typography>Total</Typography>
+          <Typography>total</Typography>
           <Typography bold size={22}>
             {order.formattedTotal}
           </Typography>

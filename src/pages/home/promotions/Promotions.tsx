@@ -11,8 +11,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   flatList: {
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingLeft: 15,
+    margin: 0,
+  },
+  header: {
+    marginLeft: 15,
+    marginBottom: 10,
   },
 });
 
@@ -30,9 +34,11 @@ const Promotions: React.FC = () => {
         />
       )}
       <View style={styles.promotions}>
-        <Typography size={16} bold gutterBottom align="center">
-          Promoções
-        </Typography>
+        <View style={styles.header}>
+          <Typography size={24} gutterBottom>
+            promoções
+          </Typography>
+        </View>
         <FlatList
           horizontal
           data={promotions}

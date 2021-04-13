@@ -6,6 +6,7 @@ import { Category } from '../../@types/category';
 import { FlatList, StyleSheet } from 'react-native';
 import CategoryList from './categories/CategoryList';
 import MenuActions from './categories/MenuActions';
+import Footer from '../../components/footer/Footer';
 
 const styles = StyleSheet.create({
   flatList: {
@@ -23,12 +24,12 @@ const Menu: React.FC = () => {
     const source = getCancelTokenSource();
 
     api
-      .get('/categories', { cancelToken: source.token })
+      .get<Category[]>('/categories', { cancelToken: source.token })
       .then(response => {
         setProductsAmount(
           response.data.reduce((sum: number, category: Category) => sum + category.available_products_amount, 0),
         );
-        if (request) setCategories(response.data);
+        if (request) setCategories(response.data.filter(category => category.activated));
       })
       .catch(err => {
         if (err.response) console.log('Menu categories loading', err.response.data.error);

@@ -1,12 +1,15 @@
 import { Image } from './image';
 
+export type RestaurantConfigTaxMode = 'district' | 'distance' | 'no_tax' | 'order_value' | 'products_amount';
+export type RestaurantConfigPizzaCalculate = 'higher_value' | 'average_value';
+
 export interface RestaurantConfig {
   id: number;
   restaurant_id: number;
-  pizza_calculate: 'higher_value' | 'average_value';
+  pizza_calculate: RestaurantConfigPizzaCalculate;
   require_login: boolean;
   customer_collect: boolean;
-  tax_mode: 'district' | 'distance' | 'no_tax' | 'order_value';
+  tax_mode: RestaurantConfigTaxMode;
   tax_value: number;
   formattedTax: string;
   delivery_time: number;
@@ -20,6 +23,8 @@ export interface RestaurantConfig {
   google_analytics_id: string;
   facebook_pixel_id: string;
   google_login: boolean;
+  order_minimum_products_amount: number;
+  cart_accumulate_discount: boolean;
 }
 
 interface RestaurantAddress {
@@ -30,6 +35,7 @@ interface RestaurantAddress {
   postal_code: string;
   city: string;
   is_main: boolean;
+  region: string;
 }
 
 interface RestaurantPhones {
@@ -65,4 +71,5 @@ export interface Restaurant {
   delivery_max_distance: number;
   addresses: RestaurantAddress[];
   phones: RestaurantPhones[];
+  payment_gateway: string;
 }

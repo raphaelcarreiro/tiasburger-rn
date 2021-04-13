@@ -1,15 +1,10 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { ComplementCategory } from '../../../../@types/product';
 import ListItem from '../../../../components/list-item/ListItem';
 import Typography from '../../../../components/bases/typography/Text';
 import { useTheme } from 'styled-components';
 import ProductComplements from './ProductComplements';
-
-type ProductComplementCategoriesProps = {
-  complementCategories: ComplementCategory[];
-  handleComplementClick(productId: number, complementCategoryId: number, complementId: number): void;
-};
+import { useProductComplement } from '../hooks/useProductComplement';
 
 const styles = StyleSheet.create({
   list: {
@@ -37,15 +32,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const ProductComplementCateogories: React.FC<ProductComplementCategoriesProps> = ({
-  complementCategories,
-  handleComplementClick,
-}) => {
+const ProductComplementCategories: React.FC = () => {
   const theme = useTheme();
+  const { product } = useProductComplement();
 
   return (
     <View style={styles.list}>
-      {complementCategories.map(category => (
+      {product?.complement_categories.map(category => (
         <View key={String(category.id)} style={styles.category}>
           <ListItem style={styles.listItem}>
             <View>
@@ -70,15 +63,11 @@ const ProductComplementCateogories: React.FC<ProductComplementCategoriesProps> =
               </View>
             )}
           </ListItem>
-          <ProductComplements
-            complements={category.complements}
-            handleComplementClick={handleComplementClick}
-            complementCategoryId={category.id}
-          />
+          <ProductComplements category={category} />
         </View>
       ))}
     </View>
   );
 };
 
-export default ProductComplementCateogories;
+export default ProductComplementCategories;

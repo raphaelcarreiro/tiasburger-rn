@@ -50,13 +50,15 @@ const ShipmentMethod: React.FC = () => {
     <View style={styles.container}>
       {modalCollectSchedule && <ShipmentCollectSchedule handleClose={handleModalClose} open={modalCollectSchedule} />}
       <ListItem style={styles.button} onPress={handleSetCustomerCollect}>
-        <Typography size={20}>Quero retirar</Typography>
+        <Typography size={20}>retirar</Typography>
+        <Typography variant="caption">você retira conosco</Typography>
         {order.shipment.scheduled_at && (
           <Typography variant="caption">Agendado para as {order.shipment.formattedScheduledAt}</Typography>
         )}
       </ListItem>
       <ListItem style={styles.button} onPress={handleSetDelivery}>
-        <Typography size={20}>Quero receber</Typography>
+        <Typography size={20}>receber</Typography>
+        <Typography variant="caption">nós levamos até você</Typography>
       </ListItem>
     </View>
   );

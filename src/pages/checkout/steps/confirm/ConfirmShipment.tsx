@@ -46,7 +46,7 @@ const ConfirmShipment: React.FC = () => {
       {order.shipment.shipment_method === 'delivery' ? (
         <View style={styles.section}>
           <Typography bold size={18} gutterBottom>
-            Endereço de entrega
+            endereço de entrega
           </Typography>
 
           <Typography>

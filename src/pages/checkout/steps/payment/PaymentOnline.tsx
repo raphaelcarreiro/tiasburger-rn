@@ -14,6 +14,7 @@ const PaymentOnline: React.FC = () => {
   const dispatch = useDispatch();
   const [isCardValid, setIsCardValid] = useState(false);
   const user = useSelector(state => state.user);
+  const restaurant = useSelector(state => state.restaurant);
 
   const onlineMethods = useMemo(() => {
     return checkout.paymentMethods.filter(payment => payment.mode === 'online');
@@ -39,14 +40,19 @@ const PaymentOnline: React.FC = () => {
         />
       )}
       {modalCpf && <PaymentCpf open={modalCpf} handleClose={handleModalCpfClose} />}
-      {onlineMethods.map(paymentMethod => (
-        <PaymentOnlineMethod
-          key={String(paymentMethod.id)}
-          paymentMethod={paymentMethod}
-          openModalCard={() => setModalCard(true)}
-          openModalCpf={() => setModalCpf(true)}
-        />
-      ))}
+      {onlineMethods
+        .filter(
+          method =>
+            !(method.mode === 'online' && method.kind === 'card' && restaurant?.payment_gateway === 'mercadopago'),
+        )
+        .map(paymentMethod => (
+          <PaymentOnlineMethod
+            key={String(paymentMethod.id)}
+            paymentMethod={paymentMethod}
+            openModalCard={() => setModalCard(true)}
+            openModalCpf={() => setModalCpf(true)}
+          />
+        ))}
     </>
   );
 };

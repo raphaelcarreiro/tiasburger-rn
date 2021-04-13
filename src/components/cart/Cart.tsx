@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { StyleSheet, View, ScrollView, Alert } from 'react-native';
 import { useSelector } from '../../store/selector';
-import CartItem from './CartItem';
+import CartItem from './products/CartItem';
 import Typography from '../../components/bases/typography/Text';
 import Button from '../../components/bases/button/Button';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -16,9 +16,9 @@ import { CartProduct } from '../../@types/cart';
 import { CartContext } from './cartContext';
 import { updateProductFromCart } from '../../store/modules/cart/actions';
 import { useDispatch } from 'react-redux';
-import ProductSimple from './update/simple/ProductSimple';
-import ProductPizza from './update/pizza/ProductPizza';
-import ProductComplement from './update/complement/ProductComplement';
+import ProductSimple from './products/detail/simple/ProductSimple';
+import ProductComplement from './products/detail/ProductComplement';
+import ProductPizza from './products/detail/ProductPizza';
 
 const styles = StyleSheet.create({
   container: {
@@ -80,6 +80,14 @@ const Cart: React.FC = () => {
 
     if (restaurant.configs.order_minimum_value > cart.subtotal && restaurant.configs.tax_mode !== 'order_value') {
       messaging.handleOpen(`O valor mínimo do pedido é ${restaurant.configs.formattedOrderMinimumValue}`);
+      return;
+    }
+
+    if (
+      restaurant.configs.tax_mode !== 'products_amount' &&
+      restaurant.configs.order_minimum_products_amount > cart.productsAmount
+    ) {
+      messaging.handleOpen(`A quantidade mínima de produtos é ${restaurant.configs.order_minimum_products_amount}`);
       return;
     }
 
@@ -155,7 +163,7 @@ const Cart: React.FC = () => {
         ) : (
           <View style={styles.emptyContainer}>
             <Typography variant="caption" size={20}>
-              Carrinho vazio
+              carrinho vazio
             </Typography>
           </View>
         )}

@@ -210,7 +210,7 @@ const PaymentCreditCard: React.FC<PaymentCreditCardProps> = ({ open, handleClose
           />
           <Input
             error={!!validation.cvv}
-            helperText={validation.cvv ? validation.cvv : 'Últimos três números no verso no cartão'}
+            helperText={validation.cvv ? validation.cvv : 'Código de segurança'}
             ref={inputs.cvv}
             variant="standard"
             placeholder="Código"

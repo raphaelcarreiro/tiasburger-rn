@@ -22,7 +22,7 @@ const OrderShipment: React.FC<OrderShipmentProps> = ({ shipment }) => {
     <>
       <View style={styles.section}>
         <Typography bold size={18} gutterBottom>
-          Endereço de entrega
+          endereço de entrega
         </Typography>
 
         <Typography>

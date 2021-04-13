@@ -72,29 +72,32 @@ const Order: React.FC<OrderProps> = ({ route, navigation }) => {
       navigation.navigate('Login');
       app.setRedirect('Order');
     }
+
+    if (!isFocused) setLoading(true);
   }, [user, isFocused, navigation, app]);
 
   useEffect(() => {
     const socket = io.connect(socketBaseUrl + '/client');
-    if (order) {
+
+    if (!order) return;
+
+    socket.emit('register', order.id);
+    socket.on('reconnect', () => {
       socket.emit('register', order.id);
-      socket.on('reconnect', () => {
-        socket.emit('register', order.id);
+    });
+    socket.on('orderStatusChange', (payload: Payload) => {
+      const statusOrder = payload.orderStatus.reverse().map(status => {
+        const statusDate = parseISO(status.created_at);
+        status.formattedDate = format(statusDate, "PP 'às' p", { locale: ptBR });
+        status.statusName = orderStatusName(order.shipment.shipment_method, status.status);
+        return status;
       });
-      socket.on('orderStatusChange', (payload: Payload) => {
-        const statusOrder = payload.orderStatus.reverse().map(status => {
-          const statusDate = parseISO(status.created_at);
-          status.formattedDate = format(statusDate, "PP 'às' p", { locale: ptBR });
-          status.statusName = orderStatusName(order.shipment.shipment_method, status.status);
-          return status;
-        });
-        setOrder(oldOrder =>
-          oldOrder && oldOrder.id === payload.orderId
-            ? { ...oldOrder, order_status: statusOrder, status: payload.status }
-            : oldOrder,
-        );
-      });
-    }
+      setOrder(oldOrder =>
+        oldOrder && oldOrder.id === payload.orderId
+          ? { ...oldOrder, order_status: statusOrder, status: payload.status }
+          : oldOrder,
+      );
+    });
 
     return () => {
       socket.disconnect();
@@ -121,6 +124,8 @@ const Order: React.FC<OrderProps> = ({ route, navigation }) => {
       <AppBar
         title={order ? `pedido ${order.formattedId}` : 'carregando...'}
         actions={<OrderActions loadOrder={refresh} loading={loading} />}
+        showBackAction
+        backAction={() => navigation.navigate('Orders')}
       />
       {loading ? (
         <InsideLoading />

@@ -21,13 +21,15 @@ const styles = StyleSheet.create({
 type ProductSimpleAdditionalAmountControlProps = {
   handleClickAdditional(additionalId: number, amount: number): void;
   additionalId: number;
+  selectedAmount?: number;
 };
 
 const ProductSimpleAdditionalAmountControl: React.FC<ProductSimpleAdditionalAmountControlProps> = ({
   handleClickAdditional,
   additionalId,
+  selectedAmount = 0,
 }) => {
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(selectedAmount);
   const theme = useTheme();
 
   useEffect(() => {

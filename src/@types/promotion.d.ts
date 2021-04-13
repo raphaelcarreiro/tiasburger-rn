@@ -1,4 +1,5 @@
 import { Category } from './category';
+import { Image } from './image';
 import { Product } from './product';
 
 export interface PromotionCategory extends Category {
@@ -48,4 +49,5 @@ export interface Promotion {
   order_value: PromotionOrderValue | null;
   offered_products: PromotionOfferedProduct[];
   safe: PromotionSafe;
+  image: null | Image;
 }

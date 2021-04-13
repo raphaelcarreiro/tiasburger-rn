@@ -3,6 +3,7 @@ import { StyleSheet, View, Linking } from 'react-native';
 import Typography from '../../../components/bases/typography/Text';
 import { CreatedOrder } from '../../../@types/order';
 import Button from '../../../components/bases/button/Button';
+import CheckoutSucessPix from '../../checkout/steps/success/CheckoutSuccessPix';
 
 const styles = StyleSheet.create({
   section: {
@@ -19,8 +20,10 @@ type OrderPaymentProps = {
 
 const OrderPayment: React.FC<OrderPaymentProps> = ({ order }) => {
   function handleOpenPicPay() {
+    if (!order.picpay_payment) return;
+
     Linking.canOpenURL(order.picpay_payment.payment_url).then(supported => {
-      if (supported) Linking.openURL(order.picpay_payment.payment_url);
+      if (supported && order.picpay_payment) Linking.openURL(order.picpay_payment.payment_url);
       else console.log('It is not possible open url');
     });
   }
@@ -28,12 +31,12 @@ const OrderPayment: React.FC<OrderPaymentProps> = ({ order }) => {
     <>
       <View style={styles.section}>
         <Typography size={18} bold gutterBottom>
-          Forma de pagamento
+          forma de pagamento
         </Typography>
         {order.payment_method.mode === 'online' ? (
-          <Typography>Pagamento online </Typography>
+          <Typography>pagamento online </Typography>
         ) : (
-          <Typography>Pagamento na entrega</Typography>
+          <Typography>pagamento na entrega</Typography>
         )}
         <Typography>
           {order.payment_method.method}
@@ -44,9 +47,11 @@ const OrderPayment: React.FC<OrderPaymentProps> = ({ order }) => {
 
         {order.picpay_payment && order.status === 'p' && (
           <Button color="primary" variant="text" onPress={handleOpenPicPay}>
-            Fazer pagamento
+            fazer pagamento
           </Button>
         )}
+
+        {order.pix_payment && order.status === 'p' && <CheckoutSucessPix order={order} />}
       </View>
     </>
   );

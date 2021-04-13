@@ -91,8 +91,8 @@ const ShipmentAddresses: React.FC<ShipmentAddressesProps> = ({
     <>
       {optionsShown && (
         <Options open={true} handleClose={handleOptionsToggle}>
-          <OptionsButton title="Alterar" onPress={handleEditPress} />
-          <OptionsButton color="error" title="Excluir" onPress={handleDeletePress} />
+          <OptionsButton title="alterar" onPress={handleEditPress} />
+          <OptionsButton color="error" title="excluir" onPress={handleDeletePress} />
         </Options>
       )}
       <ListItemStyled
@@ -111,12 +111,12 @@ const ShipmentAddresses: React.FC<ShipmentAddressesProps> = ({
         {address.postal_code !== '00000000' && <Typography variant="caption">{address.postal_code}</Typography>}
         {restaurant?.configs.tax_mode === 'district' && address.area_region && address.area_region.tax > 0 && (
           <Typography variant="caption" style={styles.tax} size={14}>
-            Taxa de entrega de {address.area_region.formattedTax}
+            taxa de entrega de {address.area_region.formattedTax}
           </Typography>
         )}
         {restaurant?.configs.tax_mode === 'distance' && !!address.distance_tax && address.distance_tax > 0 && (
           <Typography variant="caption" style={styles.tax} size={14}>
-            Taxa de entrega de {address.formattedDistanceTax}
+            taxa de entrega de {address.formattedDistanceTax}
           </Typography>
         )}
         <IconButton

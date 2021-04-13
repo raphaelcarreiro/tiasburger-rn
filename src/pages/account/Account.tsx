@@ -137,7 +137,7 @@ const Account: React.FC<AccountProps> = ({ navigation }) => {
       }}
     >
       <AppBar
-        title={userCustomer.isImageSelected ? 'Foto' : 'Minha Conta'}
+        title={userCustomer.isImageSelected ? 'foto' : 'minha conta'}
         backAction={appBarGoBack}
         showBackAction={userCustomer.isImageSelected}
         actions={<AccountActions handleSubmit={handleValidation} />}

@@ -31,6 +31,7 @@ const Button: React.FC<ButtonProps> = ({
       fullWidth={fullWidth}
       variant={variant}
       disabled={disabled}
+      activeOpacity={0.8}
     >
       <ButtonText fontSize={fontSize} disableUpperCase={disableUpperCase} color={color} variant={variant}>
         {children}
